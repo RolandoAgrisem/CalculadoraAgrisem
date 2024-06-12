@@ -1,0 +1,34 @@
+{
+    "MaizBlanco" : {
+        "PrecioSacoSemilla" : "5200",
+        "PrecioTonelada" : "4500",
+        "CostoTrabajos" : "500",
+        "AplicacionAvion" : "600",
+        "RendimientoHectarea" : "11.5",
+        "DiasDeRiesgo" : "190"
+    },
+    "Sorgo" : {
+        "PrecioSacoSemilla" : "2200",
+        "PrecioTonelada" : "3700",
+        "CostoTrabajos" : "800",
+        "AplicacionAvion" : "450",
+        "RendimientoHectarea" : "8",
+        "DiasDeRiesgo" : "190"
+    },
+    "Garbanzo" : {
+        "PrecioSacoSemilla" : "25",
+        "PrecioTonelada" : "16500",
+        "CostoTrabajos" : "800",
+        "AplicacionAvion" : "450",
+        "RendimientoHectarea" : "2.5",
+        "DiasDeRiesgo" : "120"
+    },
+    "Frijol" : {
+        "PrecioSacoSemilla" : "45",
+        "PrecioTonelada" : "21000",
+        "CostoTrabajos" : "800",
+        "AplicacionAvion" : "450",
+        "RendimientoHectarea" : "2.3",
+        "DiasDeRiesgo" : "120"
+    }
+}

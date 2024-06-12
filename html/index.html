@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Last-Modified" content="0" />
+    <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <link rel="stylesheet" href="./Contenido/PluginScripts/Compilacion/styles/adminlte.css" />
+    <link rel="stylesheet" href="./Contenido/PluginScripts/fontawesome-free/css/all.min.css" />
+    <link rel="stylesheet" href="./Contenido/PluginScripts/Lato/Lato.css?d=1" />
+    <link rel="stylesheet" href="./Contenido/PluginScripts/CSS-Personalizado/personalizados.css" />
+    <link rel="stylesheet" href="./Contenido/PluginScripts/Animated_v4/animate_4-1-1.css">
+    <link rel="stylesheet" href="./Contenido/PluginScripts/SweetAlert2/sweetalert2.css" />
+    <title>Calculadora | Agrisem</title>
+    <style>
+        .card-tabs-mobil{
+            height: calc(100vh - 88px);
+        }
+
+        .card-tabs{
+            background-color: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+<body class="text-sm">
+    <div id="app">
+        <div class="container">
+            <div class="content-header animate__animated animate__fadeInDown">
+                <div class="row mb-2">
+                    <div class="col-12 mb-2 mb-sm-0">
+                        <div class="d-flex flex-wrap">
+                            <img src="./Contenido/Imagenes/LOGO_AGRISEM.jpg" 
+                                alt="" 
+                                class="elevation-3" 
+                                style="border-radius: 50%; width: 35px; height: 35px;">
+                            <h1 class="ml-2 text-dark">Calculadora de Utilidad</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+              <div class="card card-tabs"
+                    :class="isMobil ? 'card-tabs-mobil' : null">
+                <div class="card-body p-0">
+                  <div class="tab-content" id="custom-tabs-two-tabContent">
+                    <div 
+                        class="tab-pane fade show active" 
+                        id="custom-tabs-maiz-blanco" 
+                        role="tabpanel" 
+                        aria-labelledby="custom-tabs-maiz-blanco-tab">
+                            <div class="row">
+                                <div class="col-6 col-md-4">
+                                    <div class="callout callout-success">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-dollar-sign mr-1"></i>
+                                            {{FormatoNumero(oValor?.MaizBlanco?.PrecioSacoSemilla)}}
+                                        </h5>
+                                        <p class="text-muted">Saco de Semilla</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <div class="callout callout-success">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-dollar-sign mr-1"></i>
+                                            {{FormatoNumero(oValor?.MaizBlanco?.PrecioTonelada)}}
+                                        </h5>
+                                        <p class="text-muted">Precio Tonelada</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <div class="callout callout-success">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-dollar-sign mr-1"></i>
+                                            {{FormatoNumero(oValor?.MaizBlanco?.CostoTrabajos)}}
+                                        </h5>
+                                        <p class="text-muted">Costo Trabajos</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <div class="callout callout-success">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-dollar-sign mr-1"></i>
+                                            {{FormatoNumero(oValor?.MaizBlanco?.AplicacionAvion)}}
+                                        </h5>
+                                        <p class="text-muted">Aplicaci&oacute;n de Avi&oacute;n</p>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <!-- #region TABLA DE CONTENIDO -->
+                            <div class="table-responsive shadow-sm" style="max-height: 350px; overflow: auto;">
+                                <table class="table bg-light text-nowrap table-sm mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Actividad</th>
+                                        <th>Unidad</th>
+                                        <th>Costo</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Semilla</td>
+                                        <td>
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input 
+                                                    :type="isMobil ? 'number' : 'text'" 
+                                                    id="txtSemillaUnidad" 
+                                                    placeholder="unidad" 
+                                                    maxlength="10" 
+                                                    autocomplete="off" 
+                                                    class="form-control form-control-sm">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            $ 4,269.33
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- #endregion -->
+                    </div>
+                    <div 
+                        class="tab-pane fade" 
+                        id="custom-tabs-sorgo" 
+                        role="tabpanel" 
+                        aria-labelledby="custom-tabs-sorgo-tab">
+                      sorgo
+                    </div>
+                    <div 
+                        class="tab-pane fade" 
+                        id="custom-tabs-garbanzo" 
+                        role="tabpanel" 
+                        aria-labelledby="custom-tabs-garbanzo-tab">
+                      Garbanzo
+                    </div>
+                    <div 
+                        class="tab-pane fade" 
+                        id="custom-tabs-frijol" 
+                        role="tabpanel" 
+                        aria-labelledby="custom-tabs-frijol-tab">
+                      Frijol
+                    </div>
+                    <div 
+                        class="tab-pane fade" 
+                        id="resumen" 
+                        role="tabpanel" 
+                        aria-labelledby="resumen-tab">
+                      Resumen
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card -->
+                <div class="card-footer">
+                  <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" 
+                            id="custom-tabs-maiz-blanco-tab" 
+                            data-toggle="pill" 
+                            href="#custom-tabs-maiz-blanco" 
+                            role="tab" 
+                            aria-controls="custom-tabs-maiz-blanco" 
+                            aria-selected="true">
+                            Ma&iacute;z Blanco
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                            id="custom-tabs-sorgo-tab" 
+                            data-toggle="pill" 
+                            href="#custom-tabs-sorgo" 
+                            role="tab" 
+                            aria-controls="custom-tabs-sorgo" 
+                            aria-selected="false">
+                            Sorgo
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                            id="custom-tabs-garbanzo-tab" 
+                            data-toggle="pill" 
+                            href="#custom-tabs-garbanzo" 
+                            role="tab" 
+                            aria-controls="custom-tabs-garbanzo" 
+                            aria-selected="false">
+                            Garbanzo
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                            id="custom-tabs-frijol-tab" 
+                            data-toggle="pill" 
+                            href="#custom-tabs-frijol" 
+                            role="tab" 
+                            aria-controls="custom-tabs-frijol" 
+                            aria-selected="false">
+                            Frijol
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                            id="tab-resumen" 
+                            data-toggle="pill" 
+                            href="#resumen" 
+                            role="tab" 
+                            aria-controls="resumen" 
+                            aria-selected="false">
+                            Resumen
+                        </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div><!-- /.container-fluid -->
+          </section>
+
+    </div>
+    <script src="./Contenido/PluginScripts/Vendor/jquery/jquery.min.js"></script>
+    <script src="./Contenido/PluginScripts/Vendor/Boostrap/bootstrap.bundle.min.js"></script>
+    <script src="./Contenido/PluginScripts/Compilacion/Script/adminlte.js"></script>
+    <script src="./Contenido/PluginScripts/SweetAlert2/sweetalert2.min.js"></script>
+    <script src="./Contenido/PluginScripts/VueJs/vue.min.js"></script>
+    <script src="./Contenido/PluginScripts/Axios/Axios_min.js"></script>
+    <script src="./Contenido/utilerias.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
