@@ -57,6 +57,24 @@ function esNumeroMayorQueCero(numero) {
     }
     return Okay;
 }
+
+function esNumero(valor) {
+    // Verifica si el valor es un número o una cadena que representa un número
+    if (typeof valor === 'number') {
+      return true;
+    }
+  
+    if (typeof valor === 'string') {
+      // Intenta convertir la cadena a un número
+      const num = parseFloat(valor);
+      // Verifica si la cadena convertida es un número válido y no es NaN
+      return !isNaN(num) && isFinite(num);
+    }
+  
+    // Si no es ni número ni cadena
+    return false;
+}
+
 /**
  * Convierte una cadena a un número si es mayor que cero, de lo contrario retorna 0.
  * @param {string} strValor - La cadena a convertir.

@@ -24,6 +24,12 @@
             border: 0 !important;
             box-shadow: none !important;
         }
+
+        .form-control-xs{
+            padding: 0 5px;
+            font-size: 14px;
+            height: 26px;
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed text-sm">
@@ -80,25 +86,25 @@
                                     <div class="col-6 col-md-3">
                                         <div class="callout callout-success">
                                             <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.MaizBlanco?.CostoTrabajos)}}
+                                                {{FormatoNumero(oValor?.MaizBlanco?.RendimientoHectarea)}}
                                             </h5>
-                                            <p class="text-muted">Costo Trabajos</p>
+                                            <p class="text-muted">Rendimiento por Ha.</p>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <div class="callout callout-success">
                                             <h5 class="mb-0">
                                                 <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.MaizBlanco?.AplicacionAvion)}}
+                                                {{FormatoNumero(oValor?.MaizBlanco.IngresoPorHectarea)}}
                                             </h5>
-                                            <p class="text-muted">Aplicaci&oacute;n de Avi&oacute;n</p>
+                                            <p class="text-muted">Ingreso por Ha.</p>
                                         </div>
                                     </div>
                                 </div>
                             
                                 <!-- #region TABLA DE CONTENIDO -->
-                                <div class="table-responsive shadow-sm" style="max-height: 350px; overflow: auto;">
+                                <div class="table-responsive shadow-sm" 
+                                    :style="isMobil ? 'max-height: 350px; overflow: auto;' : null">
                                     <table class="table bg-light table-sm mb-0">
                                         <thead>
                                         <tr>
@@ -108,33 +114,45 @@
                                         </tr>
                                         </thead>
                                         <tbody>                                            
-                                            <tr v-for="item in aMaiz">
+                                            <tr v-for="(item, index) in aMaiz">
                                                 <td>{{item.Actividad}}</td>
                                                 <td>
-                                                    <div class="input-group input-group-sm">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                                <i class="fas fa-pencil-alt"></i>
-                                                            </span>
-                                                        </div>
-                                                        <input 
-                                                            :type="isMobil ? 'number' : 'text'" 
-                                                            :id="'txtUnidad_'+ item.Id"
-                                                            class="form-control"
-                                                            placeholder="Unidad"
-                                                            @keypress="SoloDecimales($event, decimales)"
-                                                            @keyup.enter="event.target.blur()"
-                                                            @blur="ValidarTxtUnidad(item.Id)"
-                                                            @focus="event.target.select()"
-                                                            autocomplete="off"
-                                                            maxlength="10">
-                                                    </div>
-                                                    <span 
-                                                        class="text-danger" 
-                                                        v-if="Maiz.Semilla.Unidad.Error">
-                                                        {{Maiz.Semilla.Unidad.Error}}
-                                                    </span>
+                                                    <input 
+                                                        :type="isMobil ? 'number' : 'text'" 
+                                                        :id="'txt_Unidad_Maiz_'+ item.Id"
+                                                        class="form-control unidadMaiz"
+                                                        :class="isMobil ? 'form-control-sm' : null"
+                                                        placeholder="Unidad"
+                                                        @keypress="SoloDecimales($event, decimales)"
+                                                        @keyup.enter="setFocusNextElement('unidadMaiz', index)"
+                                                        @blur="ValidarTxtUnidadMaiz(item.Id)"
+                                                        autocomplete="off"
+                                                        maxlength="10"
+                                                        :data-index="'unidadMaiz_' + index">
                                                 </td>
+                                                <td>
+                                                    <input 
+                                                        :type="isMobil ? 'number' : 'text'" 
+                                                        :id="'txtCosto_Maiz_'+ item.Id"
+                                                        class="form-control costoMaiz"
+                                                        :class="isMobil ? 'form-control-sm' : null"
+                                                        placeholder="Costo"
+                                                        @keypress="SoloDecimales($event, decimales)"
+                                                        @keyup.enter="setFocusNextElement('costoMaiz', index)"
+                                                        @blur="CalculaTotalesMaiz()"
+                                                        autocomplete="off"
+                                                        maxlength="10"
+                                                        :disabled="item.readOnly === 'true'"
+                                                        :data-index="'costoMaiz_' + index">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2">COSTOS DE PRODUCCION</th>
+                                                <th>$ {{FormatoNumero(Maiz.CostoProduccion.toFixed(decimales))}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2">COSTO FINANCIERO</th>
+                                                <th>$ {{FormatoNumero(Maiz.CostoFinanciero.toFixed(decimales))}}</th>
                                             </tr>
                                             <!--<tr>
                                                 <td>Semilla</td>
@@ -212,6 +230,7 @@
                                 Ma&iacute;z Blanco
                             </a>
                         </li>
+                        <!--
                         <li class="nav-item">
                             <a class="nav-link" 
                                 id="custom-tabs-sorgo-tab" 
@@ -260,6 +279,7 @@
                                 Resumen
                             </a>
                         </li>
+                    -->
                       </ul>
                     </div>
                   </div>

@@ -6,6 +6,10 @@ const app = new Vue({
         isMobil: IS_MOBILE(),
         oValor: null,
         aMaiz: [],
+        Maiz:{
+            CostoProduccion : 0,
+            CostoFinanciero: 0
+        }
     },
     methods: {
         focusElement: function(element){
@@ -67,7 +71,8 @@ const app = new Vue({
                                     : 2;
                     console.log(x.oValor);
                     
-                    x.llenarDatosMaiz();
+                    await x.llenarDatosMaiz();
+                    await x.CalculaIngresoPorHaMaiz();
 
                     setTimeout(() => { CerrarBloqueo() }, 300);
                 })
@@ -85,34 +90,108 @@ const app = new Vue({
         },
         llenarDatosMaiz: async function(){
             const x = this;
+            x.aMaiz = [];
             try {
                 const existePropiedad = 'MaizBlanco' in x.oValor;
                 if(!existePropiedad){throw 'No existe propiedad MaizBlanco'}
+
+                x.aMaiz = x.oValor.MaizBlanco.Lista.map(item => {
+                    item["Id"] = generaIdUnico();
+                    return item
+                });
             } catch (error) {
-                
+                console.log(`llenarDatosMaiz => ${error}`)
             }
         },
-        ValidarUnidadSemillaMaiz: function(){
+        CalculaIngresoPorHaMaiz: async function(){
             const x = this;
             try {
-                x.Maiz.Semilla.Unidad.Error = '';
-                let value = x.Maiz.Semilla.Unidad.Valor;
-                if(value === ""){
-                    x.Maiz.Semilla.Unidad.Valor = 0;
-                } else if(isNaN(value)){
-                    x.Maiz.Semilla.Unidad.Error = 'Solo números.'
-                } else {
-                    if(!ValidarDecimales(value, x.decimales)){
-                        //Si hay mas decimales
-                        value = Number(value);
-                        x.Maiz.Semilla.Unidad.Valor = value.toFixed(x.decimales);
-                    }
+                x.oValor.MaizBlanco.IngresoPorHectarea = 0;
+                if('MaizBlanco' in x.oValor){
+                    const PrecioTonMaiz = x.oValor?.MaizBlanco?.PrecioTonelada ? convertStringToNumber(x.oValor?.MaizBlanco?.PrecioTonelada) : 0;
+                    const RendimientoHaMaiz = x.oValor?.MaizBlanco?.RendimientoHectarea ? convertStringToNumber(x.oValor?.MaizBlanco?.RendimientoHectarea) : 0;
+                    const calculo = PrecioTonMaiz * RendimientoHaMaiz
+                    x.oValor.MaizBlanco.IngresoPorHectarea = Number(calculo.toFixed(x.decimales));
                 }
             } catch (error) {
-                console.error(`ValidarUnidadSemillaMaiz => ${error}`);
-                x.Maiz.Semilla.Unidad.Error = 'Error al validar.'
+                console.log(`CalculaIngresoPorHaMaiz => ${error}`);
             }
         },
+        ValidarTxtUnidadMaiz: function(idItemMaiz){
+            const x = this;
+            try {
+                if(!idItemMaiz){throw 'El Id del Item Maiz no exite.'}
+                const oData = x.aMaiz.find(l => l.Id === idItemMaiz);
+                if(!oData){throw 'No se pudo encontrar el item por el id.'}
+                let costoCalculado = 0;
+                const txtUnidad = $(`#txt_Unidad_Maiz_${idItemMaiz}`);
+                if(txtUnidad.length !== 1){throw 'No hay ningun elemento unidad Maiz con el id:' + idItemMaiz}
+                const txtCostoMaiz = $(`#txtCosto_Maiz_${idItemMaiz}`);
+                if(txtCostoMaiz.length !== 1){throw 'No hay ningun elemento Costo Maiz con el id:' + idItemMaiz}
+
+                if(!IsNullOrEmpty(oData.calcularCon)){
+                    const Split = oData.calcularCon.split('|');
+                    const valor3 = Split[2];
+                    if(esNumero(valor3)){
+                        const valorUnidad = esNumeroMayorQueCero(txtUnidad.val()) ? Number(txtUnidad.val()) : 0;
+                        if(oData.unidad === "%"){
+                            costoCalculado = (valorUnidad * Number(valor3)) / 100;
+                        } else {
+                            costoCalculado = valorUnidad * Number(valor3);
+                        }
+                    } else {
+                        const valorUnidad = esNumeroMayorQueCero(txtUnidad.val()) ? Number(txtUnidad.val()) : 0;
+                        const propiedad = esNumeroMayorQueCero(x.oValor.MaizBlanco[valor3]) ? Number(x.oValor.MaizBlanco[valor3]) : 0;
+                        if(oData.unidad === "%"){
+                            costoCalculado = (valorUnidad * Number(propiedad)) / 100;
+                        } else {
+                            costoCalculado = valorUnidad * Number(propiedad);
+                        }
+                    }
+                }
+                txtCostoMaiz.val(costoCalculado.toFixed(x.decimales));
+                x.CalculaTotalesMaiz()
+            } catch (error) {
+                console.error(`ValidarTxtUnidadMaiz => ${error}`);
+            }
+        },
+        CalculaTotalesMaiz: function(){
+            const x = this;
+            try {
+                x.Maiz.CostoProduccion = 0;
+                x.Maiz.CostoFinanciero = 0;
+
+                $('.costoMaiz').each(function() {
+                    // Obtener el valor del input y convertirlo a número
+                    const valor = parseFloat($(this).val());
+          
+                    // Sumar el valor si es un número válido
+                    if (!isNaN(valor)) {
+                        x.Maiz.CostoProduccion += valor;
+                    }
+                });
+
+                if(x.Maiz.CostoProduccion > 0){
+                    x.Maiz.CostoFinanciero = (x.Maiz.CostoProduccion * 0.7) * 0.16;
+                }
+            } catch (error) {
+                console.log(`CalculaTotalesMaiz => ${error}`);
+            }
+        },
+        setFocusNextElement: function(nameElement, index){
+            try {
+                //const elemento = $('[data-index="unidad_1"]');
+                const nameDataindex = `${nameElement}_${index + 1}`;
+                const elemento = $(`[data-index="${nameDataindex}"]`);
+                if(elemento.length === 1 && !elemento.is(':disabled')){
+                    elemento.focus()
+                } else {
+                    $(`[data-index="${nameElement}_${index}"]`).blur();
+                }
+            } catch (error) {
+                console.log(`setFocusNextElement => ${error}`)
+            }
+        }
     },
     computed: {
         MaizSemillaCosto: function(){
@@ -127,6 +206,17 @@ const app = new Vue({
             } catch (error) {
                 console.log(`MaizSemillaCosto => ${error}`);
                 return 0
+            }
+        },
+        IngresoPorHectareaMaiz: function(){
+            const x = this;
+            try {
+                const PrecioTonMaiz = x.oValor?.MaizBlanco?.PrecioTonelada ? convertStringToNumber(x.oValor?.MaizBlanco?.PrecioTonelada) : 0;
+                const RendimientoHaMaiz = x.oValor?.MaizBlanco?.RendimientoHectarea ? convertStringToNumber(x.oValor?.MaizBlanco?.RendimientoHectarea) : 0;
+                return PrecioTonMaiz * RendimientoHaMaiz;
+            } catch (error) {
+                console.log(`IngresoPorHectareaMaiz => ${error}`)
+                return 0;
             }
         }
     },
