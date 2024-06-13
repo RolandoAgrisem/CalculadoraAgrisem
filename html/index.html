@@ -67,36 +67,52 @@
                                 <div class="row">
                                     <div class="col-6 col-md-3">
                                         <div class="callout callout-success">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.MaizBlanco?.PrecioSacoSemilla)}}
-                                            </h5>
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="mb-0">
+                                                    <i class="fas fa-dollar-sign mr-1"></i>
+                                                    {{FormatoNumero(oValor?.MaizBlanco?.PrecioSacoSemilla)}}
+                                                </h5>
+                                                <i class="fas fa-pencil-alt text-muted pinter"
+                                                    @click="editarValorGeneral('PrecioSacoSemilla')"></i>
+                                            </div>
                                             <p class="text-muted">Saco de Semilla</p>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <div class="callout callout-success">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.MaizBlanco?.PrecioTonelada)}}
-                                            </h5>
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="mb-0">
+                                                    <i class="fas fa-dollar-sign mr-1"></i>
+                                                    {{FormatoNumero(oValor?.MaizBlanco?.PrecioTonelada)}}
+                                                </h5>
+                                                <i class="fas fa-pencil-alt text-muted pinter"
+                                                    @click="editarPrecioTonelada('MaizBlanco')"></i>
+                                            </div>
                                             <p class="text-muted">Precio Tonelada</p>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <div class="callout callout-success">
-                                            <h5 class="mb-0">
-                                                {{FormatoNumero(oValor?.MaizBlanco?.RendimientoHectarea)}}
-                                            </h5>
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="mb-0">
+                                                    {{FormatoNumero(oValor?.MaizBlanco?.RendimientoHectarea)}}
+                                                </h5>
+                                                <i class="fas fa-pencil-alt text-muted pinter"
+                                                    @click="editarValorGeneral('RendimientoHectarea')"></i>
+                                            </div>
                                             <p class="text-muted">Rendimiento por Ha.</p>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <div class="callout callout-success">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.MaizBlanco.IngresoPorHectarea)}}
-                                            </h5>
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="mb-0">
+                                                    <i class="fas fa-dollar-sign mr-1"></i>
+                                                    {{FormatoNumero(oValor?.MaizBlanco?.IngresoPorHectarea)}}
+                                                </h5>
+                                                <i class="fas fa-pencil-alt text-muted pinter"
+                                                    @click="editarValorGeneral('IngresoPorHectarea')"></i>
+                                            </div>
                                             <p class="text-muted">Ingreso por Ha.</p>
                                         </div>
                                     </div>
@@ -147,12 +163,28 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th colspan="2">COSTOS DE PRODUCCION</th>
-                                                <th>$ {{FormatoNumero(Maiz.CostoProduccion.toFixed(decimales))}}</th>
+                                                <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
+                                                <th class="text-primary">$ {{FormatoNumero(Maiz.CostoProduccion.toFixed(decimales))}}</th>
                                             </tr>
                                             <tr>
-                                                <th colspan="2">COSTO FINANCIERO</th>
-                                                <th>$ {{FormatoNumero(Maiz.CostoFinanciero.toFixed(decimales))}}</th>
+                                                <th colspan="2" class="text-muted">COSTO FINANCIERO</th>
+                                                <th class="text-indigo">$ {{FormatoNumero(Maiz.CostoFinanciero.toFixed(decimales))}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-muted">COSTOS POR HA</th>
+                                                <th class="text-primary">$ {{FormatoNumero(Maiz.CostoPorHa.toFixed(decimales))}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
+                                                <th class="text-olive">$ {{FormatoNumero(Maiz.UtilidadPorHa.toFixed(decimales))}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-muted">COSTO TONELADA</th>
+                                                <th class="text-primary">$ {{FormatoNumero(CostoToneladaMaiz.toFixed(decimales))}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-muted">RENTABILIDAD</th>
+                                                <th class="text-orange">{{RentabilidadMaiz.toFixed(0)}}%</th>
                                             </tr>
                                             <!--<tr>
                                                 <td>Semilla</td>
