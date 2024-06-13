@@ -26,205 +26,343 @@
         }
     </style>
 </head>
-<body class="text-sm">
-    <div id="app">
-        <div class="container">
-            <div class="content-header animate__animated animate__fadeInDown">
-                <div class="row mb-2">
-                    <div class="col-12 mb-2 mb-sm-0">
-                        <div class="d-flex flex-wrap">
-                            <img src="./Contenido/Imagenes/LOGO_AGRISEM.jpg" 
-                                alt="" 
-                                class="elevation-3" 
-                                style="border-radius: 50%; width: 35px; height: 35px;">
-                            <h1 class="ml-2 text-dark">Calculadora de Utilidad</h1>
-                        </div>
-                    </div>
-                </div>
+<body class="hold-transition sidebar-mini layout-navbar-fixed text-sm">
+    <div class="wrapper" id="app">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light fixed-top">
+            <!-- Left navbar links -->
+            <div class="container">
+                <ul class="navbar-nav">
+                <li class="nav-item">
+                    <img src="./Contenido/Imagenes/LOGO_AGRISEM.jpg" 
+                        alt="" 
+                        class="elevation-3" 
+                        style="border-radius: 50%; width: 30px; height: 30px;">
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link px-2 font-weight-bold" style="font-size: 1rem;">
+                        C&aacute;lculo de Utilidad "{{tabSelected}}"
+                    </span>
+                </li>
+                </ul>
             </div>
-        </div>
-
-        <section class="content">
-            <div class="container-fluid">
-              <div class="card card-tabs"
-                    :class="isMobil ? 'card-tabs-mobil' : null">
-                <div class="card-body p-0">
-                  <div class="tab-content" id="custom-tabs-two-tabContent">
-                    <div 
-                        class="tab-pane fade show active" 
-                        id="custom-tabs-maiz-blanco" 
-                        role="tabpanel" 
-                        aria-labelledby="custom-tabs-maiz-blanco-tab">
-                            <div class="row">
-                                <div class="col-6 col-md-4">
-                                    <div class="callout callout-success">
-                                        <h5 class="mb-0">
-                                            <i class="fas fa-dollar-sign mr-1"></i>
-                                            {{FormatoNumero(oValor?.MaizBlanco?.PrecioSacoSemilla)}}
-                                        </h5>
-                                        <p class="text-muted">Saco de Semilla</p>
+        </nav>
+        <div class="container">
+            <section class="content" style="margin-top: 60px;">
+                <div class="container-fluid">
+                  <div class="card card-tabs"
+                        :class="isMobil ? 'card-tabs-mobil' : null">
+                    <div class="card-body p-0">
+                      <div class="tab-content" id="custom-tabs-two-tabContent">
+                        <div 
+                            class="tab-pane fade show active" 
+                            id="custom-tabs-maiz-blanco" 
+                            role="tabpanel" 
+                            aria-labelledby="custom-tabs-maiz-blanco-tab">
+                                <div class="row">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.MaizBlanco?.PrecioSacoSemilla)}}
+                                            </h5>
+                                            <p class="text-muted">Saco de Semilla</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.MaizBlanco?.PrecioTonelada)}}
+                                            </h5>
+                                            <p class="text-muted">Precio Tonelada</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.MaizBlanco?.CostoTrabajos)}}
+                                            </h5>
+                                            <p class="text-muted">Costo Trabajos</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.MaizBlanco?.AplicacionAvion)}}
+                                            </h5>
+                                            <p class="text-muted">Aplicaci&oacute;n de Avi&oacute;n</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-md-4">
-                                    <div class="callout callout-success">
-                                        <h5 class="mb-0">
-                                            <i class="fas fa-dollar-sign mr-1"></i>
-                                            {{FormatoNumero(oValor?.MaizBlanco?.PrecioTonelada)}}
-                                        </h5>
-                                        <p class="text-muted">Precio Tonelada</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4">
-                                    <div class="callout callout-success">
-                                        <h5 class="mb-0">
-                                            <i class="fas fa-dollar-sign mr-1"></i>
-                                            {{FormatoNumero(oValor?.MaizBlanco?.CostoTrabajos)}}
-                                        </h5>
-                                        <p class="text-muted">Costo Trabajos</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4">
-                                    <div class="callout callout-success">
-                                        <h5 class="mb-0">
-                                            <i class="fas fa-dollar-sign mr-1"></i>
-                                            {{FormatoNumero(oValor?.MaizBlanco?.AplicacionAvion)}}
-                                        </h5>
-                                        <p class="text-muted">Aplicaci&oacute;n de Avi&oacute;n</p>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            <!-- #region TABLA DE CONTENIDO -->
-                            <div class="table-responsive shadow-sm" style="max-height: 350px; overflow: auto;">
-                                <table class="table bg-light text-nowrap table-sm mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Actividad</th>
-                                        <th>Unidad</th>
-                                        <th>Costo</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>Semilla</td>
-                                        <td>
-                                            <div class="input-group input-group-sm">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="fas fa-dollar-sign"></i>
+                            
+                                <!-- #region TABLA DE CONTENIDO -->
+                                <div class="table-responsive shadow-sm" style="max-height: 350px; overflow: auto;">
+                                    <table class="table bg-light table-sm mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Actividad</th>
+                                            <th>Unidad</th>
+                                            <th>Costo</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>                                            
+                                            <!--<tr v-for="item in aMaiz">
+                                                <td>{{item.Actividad}}</td>
+                                                <td>
+                                                    <div class="input-group input-group-sm">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                            </span>
+                                                        </div>
+                                                        <input 
+                                                            :type="isMobil ? 'number' : 'text'" 
+                                                            :id="'txtUnidad_'+ item.Id"
+                                                            class="form-control"
+                                                            placeholder="Unidad"
+                                                            @keypress="SoloDecimales($event, decimales)"
+                                                            @keyup.enter="event.target.blur()"
+                                                            @blur="ValidarTxtUnidad(item.Id)"
+                                                            @focus="event.target.select()"
+                                                            autocomplete="off"
+                                                            maxlength="10">
+                                                    </div>
+                                                    <span 
+                                                        class="text-danger" 
+                                                        v-if="Maiz.Semilla.Unidad.Error">
+                                                        {{Maiz.Semilla.Unidad.Error}}
                                                     </span>
-                                                </div>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    id="txtSemillaUnidad" 
-                                                    placeholder="unidad" 
-                                                    maxlength="10" 
-                                                    autocomplete="off" 
-                                                    class="form-control form-control-sm">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            $ 4,269.33
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- #endregion -->
+                                                </td>
+                                            </tr>-->
+                                            <tr>
+                                                <td>Semilla</td>
+                                                <td>
+                                                    <input 
+                                                        :type="isMobil ? 'number' : 'text'" 
+                                                        id="txtTotal"
+                                                        class="form-control"
+                                                        :class="Maiz.Semilla.Unidad.Error ? 'is-invalid' : null"
+                                                        placeholder="Unidad"
+                                                        v-model.trim="Maiz.Semilla.Unidad.Valor"
+                                                        @keypress="SoloDecimales($event, decimales)"
+                                                        @keyup.enter="focusElement('#txtCostoFertilizante')"
+                                                        @blur="ValidarUnidadSemillaMaiz()"
+                                                        @focus="event.target.select()"
+                                                        autocomplete="off"
+                                                        maxlength="10">
+                                                    <span 
+                                                        class="text-danger" 
+                                                        v-if="Maiz.Semilla.Unidad.Error">
+                                                        {{Maiz.Semilla.Unidad.Error}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    $ {{FormatoNumero(MaizSemillaCosto.toFixed(decimales))}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fertilizante</td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    <input 
+                                                        :type="isMobil ? 'number' : 'text'" 
+                                                        id="txtCostoFertilizante"
+                                                        class="form-control"
+                                                        :class="Maiz.Fertilizante.Costo.Error ? 'is-invalid' : null"
+                                                        placeholder="Costo"
+                                                        v-model.trim="Maiz.Fertilizante.Costo.Valor"
+                                                        @keypress="SoloDecimales($event, decimales)"
+                                                        @keyup.enter="focusElement('#txtSeguroAgricolaMaiz')"
+                                                        @blur="ValidarCostoFertilizanteMaiz()"
+                                                        @focus="event.target.select()"
+                                                        autocomplete="off"
+                                                        maxlength="10">
+                                                    <span 
+                                                        class="text-danger" 
+                                                        v-if="Maiz.Fertilizante.Costo.Error">
+                                                        {{Maiz.Fertilizante.Costo.Error}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Seguro Agricola</td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    <input 
+                                                        :type="isMobil ? 'number' : 'text'" 
+                                                        id="txtSeguroAgricolaMaiz"
+                                                        class="form-control"
+                                                        :class="Maiz.SeguroAgricola.Costo.Error ? 'is-invalid' : null"
+                                                        placeholder="Costo"
+                                                        v-model.trim="Maiz.SeguroAgricola.Costo.Valor"
+                                                        @keypress="SoloDecimales($event, decimales)"
+                                                        @keyup.enter="focusElement('#txtPagoAguaMaiz')"
+                                                        @blur="ValidarCostoSeguroAgricolaMaiz()"
+                                                        @focus="event.target.select()"
+                                                        autocomplete="off"
+                                                        maxlength="10">
+                                                    <span 
+                                                        class="text-danger" 
+                                                        v-if="Maiz.SeguroAgricola.Costo.Error">
+                                                        {{Maiz.SeguroAgricola.Costo.Error}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pago Agua</td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    <input 
+                                                        :type="isMobil ? 'number' : 'text'" 
+                                                        id="txtPagoAguaMaiz"
+                                                        class="form-control"
+                                                        :class="Maiz.PagoAgua.Costo.Error ? 'is-invalid' : null"
+                                                        placeholder="Costo"
+                                                        v-model.trim="Maiz.PagoAgua.Costo.Valor"
+                                                        @keypress="SoloDecimales($event, decimales)"
+                                                        @keyup.enter="focusElement('#txtPagoAguaMaiz')"
+                                                        @blur="ValidarCostoPagoAguaMaiz()"
+                                                        @focus="event.target.select()"
+                                                        autocomplete="off"
+                                                        maxlength="10">
+                                                    <span 
+                                                        class="text-danger" 
+                                                        v-if="Maiz.PagoAgua.Costo.Error">
+                                                        {{Maiz.PagoAgua.Costo.Error}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>PermisoSiembra</td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    <input 
+                                                        :type="isMobil ? 'number' : 'text'" 
+                                                        id="txtPagoAguaMaiz"
+                                                        class="form-control"
+                                                        :class="Maiz.PagoAgua.Costo.Error ? 'is-invalid' : null"
+                                                        placeholder="Costo"
+                                                        v-model.trim="Maiz.PagoAgua.Costo.Valor"
+                                                        @keypress="SoloDecimales($event, decimales)"
+                                                        @keyup.enter="focusElement('')"
+                                                        @blur="ValidarCostoPagoAguaMaiz()"
+                                                        @focus="event.target.select()"
+                                                        autocomplete="off"
+                                                        maxlength="10">
+                                                    <span 
+                                                        class="text-danger" 
+                                                        v-if="Maiz.PagoAgua.Costo.Error">
+                                                        {{Maiz.PagoAgua.Costo.Error}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- #endregion -->
+                        </div>
+                        <div 
+                            class="tab-pane fade" 
+                            id="custom-tabs-sorgo" 
+                            role="tabpanel" 
+                            aria-labelledby="custom-tabs-sorgo-tab">
+                          sorgo
+                        </div>
+                        <div 
+                            class="tab-pane fade" 
+                            id="custom-tabs-garbanzo" 
+                            role="tabpanel" 
+                            aria-labelledby="custom-tabs-garbanzo-tab">
+                          Garbanzo
+                        </div>
+                        <div 
+                            class="tab-pane fade" 
+                            id="custom-tabs-frijol" 
+                            role="tabpanel" 
+                            aria-labelledby="custom-tabs-frijol-tab">
+                          Frijol
+                        </div>
+                        <div 
+                            class="tab-pane fade" 
+                            id="resumen" 
+                            role="tabpanel" 
+                            aria-labelledby="resumen-tab">
+                          Resumen
+                        </div>
+                      </div>
                     </div>
-                    <div 
-                        class="tab-pane fade" 
-                        id="custom-tabs-sorgo" 
-                        role="tabpanel" 
-                        aria-labelledby="custom-tabs-sorgo-tab">
-                      sorgo
-                    </div>
-                    <div 
-                        class="tab-pane fade" 
-                        id="custom-tabs-garbanzo" 
-                        role="tabpanel" 
-                        aria-labelledby="custom-tabs-garbanzo-tab">
-                      Garbanzo
-                    </div>
-                    <div 
-                        class="tab-pane fade" 
-                        id="custom-tabs-frijol" 
-                        role="tabpanel" 
-                        aria-labelledby="custom-tabs-frijol-tab">
-                      Frijol
-                    </div>
-                    <div 
-                        class="tab-pane fade" 
-                        id="resumen" 
-                        role="tabpanel" 
-                        aria-labelledby="resumen-tab">
-                      Resumen
+                    <!-- /.card -->
+                    <div class="card-footer">
+                      <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" 
+                                id="custom-tabs-maiz-blanco-tab" 
+                                data-toggle="pill" 
+                                href="#custom-tabs-maiz-blanco" 
+                                role="tab" 
+                                aria-controls="custom-tabs-maiz-blanco" 
+                                aria-selected="true"
+                                @click="tabSelected = 'Maíz Blanco'">
+                                Ma&iacute;z Blanco
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" 
+                                id="custom-tabs-sorgo-tab" 
+                                data-toggle="pill" 
+                                href="#custom-tabs-sorgo" 
+                                role="tab" 
+                                aria-controls="custom-tabs-sorgo" 
+                                aria-selected="false"
+                                @click="tabSelected = 'Sorgo'">
+                                Sorgo
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" 
+                                id="custom-tabs-garbanzo-tab" 
+                                data-toggle="pill" 
+                                href="#custom-tabs-garbanzo" 
+                                role="tab" 
+                                aria-controls="custom-tabs-garbanzo" 
+                                aria-selected="false"
+                                @click="tabSelected = 'Garbanzo'">
+                                Garbanzo
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" 
+                                id="custom-tabs-frijol-tab" 
+                                data-toggle="pill" 
+                                href="#custom-tabs-frijol" 
+                                role="tab" 
+                                aria-controls="custom-tabs-frijol" 
+                                aria-selected="false"
+                                @click="tabSelected = 'Frijol'">
+                                Frijol
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" 
+                                id="tab-resumen" 
+                                data-toggle="pill" 
+                                href="#resumen" 
+                                role="tab" 
+                                aria-controls="resumen" 
+                                aria-selected="false"
+                                @click="tabSelected = 'Resumen'">
+                                Resumen
+                            </a>
+                        </li>
+                      </ul>
                     </div>
                   </div>
-                </div>
-                <!-- /.card -->
-                <div class="card-footer">
-                  <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" 
-                            id="custom-tabs-maiz-blanco-tab" 
-                            data-toggle="pill" 
-                            href="#custom-tabs-maiz-blanco" 
-                            role="tab" 
-                            aria-controls="custom-tabs-maiz-blanco" 
-                            aria-selected="true">
-                            Ma&iacute;z Blanco
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                            id="custom-tabs-sorgo-tab" 
-                            data-toggle="pill" 
-                            href="#custom-tabs-sorgo" 
-                            role="tab" 
-                            aria-controls="custom-tabs-sorgo" 
-                            aria-selected="false">
-                            Sorgo
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                            id="custom-tabs-garbanzo-tab" 
-                            data-toggle="pill" 
-                            href="#custom-tabs-garbanzo" 
-                            role="tab" 
-                            aria-controls="custom-tabs-garbanzo" 
-                            aria-selected="false">
-                            Garbanzo
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                            id="custom-tabs-frijol-tab" 
-                            data-toggle="pill" 
-                            href="#custom-tabs-frijol" 
-                            role="tab" 
-                            aria-controls="custom-tabs-frijol" 
-                            aria-selected="false">
-                            Frijol
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                            id="tab-resumen" 
-                            data-toggle="pill" 
-                            href="#resumen" 
-                            role="tab" 
-                            aria-controls="resumen" 
-                            aria-selected="false">
-                            Resumen
-                        </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div><!-- /.container-fluid -->
-          </section>
+                </div><!-- /.container-fluid -->
+              </section>
+
+        </div>
 
     </div>
     <script src="./Contenido/PluginScripts/Vendor/jquery/jquery.min.js"></script>
