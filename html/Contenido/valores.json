@@ -8,7 +8,7 @@
         "DiasDeRiesgo" : "190",
         "IngresoPorHectarea" : "0",
         "Lista": [
-            {"Actividad": "Semilla", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "PrecioSacoSemilla"},
+            {"Actividad": "Semilla", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "unidad|*|PrecioSacoSemilla"},
             {"Actividad": "Fertilizante", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
             {"Actividad": "Seguro agricola", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
             {"Actividad": "Pago de agua", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
@@ -20,9 +20,9 @@
             {"Actividad": "Riegos", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "unidad"},
             {"Actividad": "Trabajos", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
             {"Actividad": "Trilla", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
-            {"Actividad": "Flete", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "unidad|RendimientoHectarea"},
-            {"Actividad": "Predial", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "unidad|IngresoPorHectarea"},
-            {"Actividad": "Secado", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "unidad|RendimientoHectarea"},
+            {"Actividad": "Flete", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "unidad|*|RendimientoHectarea"},
+            {"Actividad": "Predial", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "unidad|*|IngresoPorHectarea"},
+            {"Actividad": "Secado", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "unidad|*|RendimientoHectarea"},
             {"Actividad": "Costo de administración", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""}
         ]
     },
