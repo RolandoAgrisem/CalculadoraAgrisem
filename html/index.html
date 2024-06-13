@@ -108,7 +108,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>                                            
-                                            <!--<tr v-for="item in aMaiz">
+                                            <tr v-for="item in aMaiz">
                                                 <td>{{item.Actividad}}</td>
                                                 <td>
                                                     <div class="input-group input-group-sm">
@@ -135,8 +135,8 @@
                                                         {{Maiz.Semilla.Unidad.Error}}
                                                     </span>
                                                 </td>
-                                            </tr>-->
-                                            <tr>
+                                            </tr>
+                                            <!--<tr>
                                                 <td>Semilla</td>
                                                 <td>
                                                     <input 
@@ -161,103 +161,7 @@
                                                 <td>
                                                     $ {{FormatoNumero(MaizSemillaCosto.toFixed(decimales))}}
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fertilizante</td>
-                                                <td>&nbsp;</td>
-                                                <td>
-                                                    <input 
-                                                        :type="isMobil ? 'number' : 'text'" 
-                                                        id="txtCostoFertilizante"
-                                                        class="form-control"
-                                                        :class="Maiz.Fertilizante.Costo.Error ? 'is-invalid' : null"
-                                                        placeholder="Costo"
-                                                        v-model.trim="Maiz.Fertilizante.Costo.Valor"
-                                                        @keypress="SoloDecimales($event, decimales)"
-                                                        @keyup.enter="focusElement('#txtSeguroAgricolaMaiz')"
-                                                        @blur="ValidarCostoFertilizanteMaiz()"
-                                                        @focus="event.target.select()"
-                                                        autocomplete="off"
-                                                        maxlength="10">
-                                                    <span 
-                                                        class="text-danger" 
-                                                        v-if="Maiz.Fertilizante.Costo.Error">
-                                                        {{Maiz.Fertilizante.Costo.Error}}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Seguro Agricola</td>
-                                                <td>&nbsp;</td>
-                                                <td>
-                                                    <input 
-                                                        :type="isMobil ? 'number' : 'text'" 
-                                                        id="txtSeguroAgricolaMaiz"
-                                                        class="form-control"
-                                                        :class="Maiz.SeguroAgricola.Costo.Error ? 'is-invalid' : null"
-                                                        placeholder="Costo"
-                                                        v-model.trim="Maiz.SeguroAgricola.Costo.Valor"
-                                                        @keypress="SoloDecimales($event, decimales)"
-                                                        @keyup.enter="focusElement('#txtPagoAguaMaiz')"
-                                                        @blur="ValidarCostoSeguroAgricolaMaiz()"
-                                                        @focus="event.target.select()"
-                                                        autocomplete="off"
-                                                        maxlength="10">
-                                                    <span 
-                                                        class="text-danger" 
-                                                        v-if="Maiz.SeguroAgricola.Costo.Error">
-                                                        {{Maiz.SeguroAgricola.Costo.Error}}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Pago Agua</td>
-                                                <td>&nbsp;</td>
-                                                <td>
-                                                    <input 
-                                                        :type="isMobil ? 'number' : 'text'" 
-                                                        id="txtPagoAguaMaiz"
-                                                        class="form-control"
-                                                        :class="Maiz.PagoAgua.Costo.Error ? 'is-invalid' : null"
-                                                        placeholder="Costo"
-                                                        v-model.trim="Maiz.PagoAgua.Costo.Valor"
-                                                        @keypress="SoloDecimales($event, decimales)"
-                                                        @keyup.enter="focusElement('#txtPagoAguaMaiz')"
-                                                        @blur="ValidarCostoPagoAguaMaiz()"
-                                                        @focus="event.target.select()"
-                                                        autocomplete="off"
-                                                        maxlength="10">
-                                                    <span 
-                                                        class="text-danger" 
-                                                        v-if="Maiz.PagoAgua.Costo.Error">
-                                                        {{Maiz.PagoAgua.Costo.Error}}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>PermisoSiembra</td>
-                                                <td>&nbsp;</td>
-                                                <td>
-                                                    <input 
-                                                        :type="isMobil ? 'number' : 'text'" 
-                                                        id="txtPagoAguaMaiz"
-                                                        class="form-control"
-                                                        :class="Maiz.PagoAgua.Costo.Error ? 'is-invalid' : null"
-                                                        placeholder="Costo"
-                                                        v-model.trim="Maiz.PagoAgua.Costo.Valor"
-                                                        @keypress="SoloDecimales($event, decimales)"
-                                                        @keyup.enter="focusElement('')"
-                                                        @blur="ValidarCostoPagoAguaMaiz()"
-                                                        @focus="event.target.select()"
-                                                        autocomplete="off"
-                                                        maxlength="10">
-                                                    <span 
-                                                        class="text-danger" 
-                                                        v-if="Maiz.PagoAgua.Costo.Error">
-                                                        {{Maiz.PagoAgua.Costo.Error}}
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                            </tr>-->
                                         </tbody>
                                     </table>
                                 </div>

@@ -5,32 +5,7 @@ const app = new Vue({
         tabSelected: 'Maíz Blanco',
         isMobil: IS_MOBILE(),
         oValor: null,
-        Maiz: {
-            Semilla:{
-                Unidad: {
-                    Valor: '',
-                    Error: ''
-                }
-            },
-            Fertilizante: {
-                Costo:{
-                    Valor: "",
-                    Error: ""
-                }
-            },
-            SeguroAgricola: {
-                Costo:{
-                    Valor: "",
-                    Error: ""
-                }
-            },
-            PagoAgua: {
-                Costo:{
-                    Valor: "",
-                    Error: ""
-                }
-            },
-        }
+        aMaiz: [],
     },
     methods: {
         focusElement: function(element){
@@ -77,22 +52,24 @@ const app = new Vue({
             }
         },
         ObtenerCantidadesFile: async function(){
+            const x = this;
             try {
                 MostrarBLoqueo();
                 const pathFileJson = "./Contenido/valores.json";
-                fetch(pathFileJson)
+                await fetch(pathFileJson)
                 .then(response => response.json())
-                .then(data => {
+                .then(async data => {
                     const oValoresFromFileJson = data;
                     if(!oValoresFromFileJson || typeof(oValoresFromFileJson) !== 'object'){throw 'Los valores son incorrectos.'}
-                    this.oValor = $.extend(true, {}, oValoresFromFileJson);
-                    this.decimales = esNumeroMayorQueCero(oValoresFromFileJson?.DecimalesAdmitidos) 
+                    x.oValor = $.extend(true, {}, oValoresFromFileJson);
+                    x.decimales = esNumeroMayorQueCero(oValoresFromFileJson?.DecimalesAdmitidos) 
                                     ? convertStringToNumber(oValoresFromFileJson.DecimalesAdmitidos)
                                     : 2;
-                    console.log(this.oValor);
-                    setTimeout(() => {
-                        CerrarBloqueo();
-                    }, 300);
+                    console.log(x.oValor);
+                    
+                    x.llenarDatosMaiz();
+
+                    setTimeout(() => { CerrarBloqueo() }, 300);
                 })
                 .catch(error => {
                     mostrarError(
@@ -104,6 +81,15 @@ const app = new Vue({
                 debugger;
                 console.error(`ObtenerCantidadesFile => ${error}`);
                 mostrarError("ALGO SALIO MAL", "No es posible obtener los valores iniciales.");
+            }
+        },
+        llenarDatosMaiz: async function(){
+            const x = this;
+            try {
+                const existePropiedad = 'MaizBlanco' in x.oValor;
+                if(!existePropiedad){throw 'No existe propiedad MaizBlanco'}
+            } catch (error) {
+                
             }
         },
         ValidarUnidadSemillaMaiz: function(){
@@ -125,69 +111,6 @@ const app = new Vue({
             } catch (error) {
                 console.error(`ValidarUnidadSemillaMaiz => ${error}`);
                 x.Maiz.Semilla.Unidad.Error = 'Error al validar.'
-            }
-        },
-        ValidarCostoFertilizanteMaiz: function(){
-            const x = this;
-            try {
-                x.Maiz.Fertilizante.Costo.Error = '';
-                let value = x.Maiz.Fertilizante.Costo.Valor;
-                if(value === ""){
-                    x.Maiz.Fertilizante.Costo.Valor = 0;
-                } else if(isNaN(value)){
-                    x.Maiz.Fertilizante.Costo.Error = 'Solo números.'
-                } else {
-                    if(!ValidarDecimales(value, x.decimales)){
-                        //Si hay mas decimales
-                        value = Number(value);
-                        x.Maiz.Fertilizante.Costo.Valor = value.toFixed(x.decimales);
-                    }
-                }
-            } catch (error) {
-                console.error(`ValidarCostoFertilizante => ${error}`);
-                x.Maiz.Fertilizante.Costo.Error = 'Error al validar.'
-            }
-        },
-        ValidarCostoSeguroAgricolaMaiz: function(){
-            const x = this;
-            try {
-                x.Maiz.SeguroAgricola.Costo.Error = '';
-                let value = x.Maiz.SeguroAgricola.Costo.Valor;
-                if(value === ""){
-                    x.Maiz.SeguroAgricola.Costo.Valor = 0;
-                } else if(isNaN(value)){
-                    x.Maiz.SeguroAgricola.Costo.Error = 'Solo números.'
-                } else {
-                    if(!ValidarDecimales(value, x.decimales)){
-                        //Si hay mas decimales
-                        value = Number(value);
-                        x.Maiz.SeguroAgricola.Costo.Valor = value.toFixed(x.decimales);
-                    }
-                }
-            } catch (error) {
-                console.error(`ValidarCostoFertilizante => ${error}`);
-                x.Maiz.SeguroAgricola.Costo.Error = 'Error al validar.'
-            }
-        },
-        ValidarCostoPagoAguaMaiz: function(){
-            const x = this;
-            try {
-                x.Maiz.PagoAgua.Costo.Error = '';
-                let value = x.Maiz.PagoAgua.Costo.Valor;
-                if(value === ""){
-                    x.Maiz.PagoAgua.Costo.Valor = 0;
-                } else if(isNaN(value)){
-                    x.Maiz.PagoAgua.Costo.Error = 'Solo números.'
-                } else {
-                    if(!ValidarDecimales(value, x.decimales)){
-                        //Si hay mas decimales
-                        value = Number(value);
-                        x.Maiz.PagoAgua.Costo.Valor = value.toFixed(x.decimales);
-                    }
-                }
-            } catch (error) {
-                console.error(`ValidarCostoPagoAguaMaiz => ${error}`);
-                x.Maiz.PagoAgua.Costo.Error = 'Error al validar.'
             }
         },
     },
