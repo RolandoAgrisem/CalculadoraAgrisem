@@ -1,12 +1,12 @@
-const app = new Vue({
-    el: '#app',
+const appMaiz = new Vue({
+    el: '#custom-tabs-maiz-blanco',
     data: {
-        decimales: 2,
-        tabSelected: 'Maíz Blanco',
+        decimales: 0,
+        TasaInteresAnual: 0,
         isMobil: IS_MOBILE(),
         oValor: null,
-        aMaiz: [],
-        Maiz:{
+        listaDetalles: [],
+        oCultivo:{
             CostoProduccion : 0,
             CostoFinanciero: 0,
             CostoPorHa: 0,
@@ -20,7 +20,7 @@ const app = new Vue({
         },
         FormatoNumero: function(NumberString = ''){
             try {
-                return formatoNumeroMiles(NumberString);                
+                return formatoNumeroMiles(NumberString);
             } catch (error) {
                 console.log(error);
                 return "0";
@@ -68,14 +68,24 @@ const app = new Vue({
                 .then(async data => {
                     const oValoresFromFileJson = data;
                     if(!oValoresFromFileJson || typeof(oValoresFromFileJson) !== 'object'){throw 'Los valores son incorrectos.'}
-                    x.oValor = $.extend(true, {}, oValoresFromFileJson);
+
+                    x.oValor = $.extend(true, {}, oValoresFromFileJson.MaizBlanco);
+
+                    if(esNumeroMayorQueCero(oValoresFromFileJson.TasaInteresAnual)){
+                        const tasaInteresAnualPorcentaje = Number(oValoresFromFileJson.TasaInteresAnual) / 100;
+                        x.TasaInteresAnual = tasaInteresAnualPorcentaje > 0 
+                                            ? convertStringToNumber(tasaInteresAnualPorcentaje.toFixed(2))
+                                            : 0;
+                    }
+
                     x.decimales = esNumeroMayorQueCero(oValoresFromFileJson?.DecimalesAdmitidos) 
                                     ? convertStringToNumber(oValoresFromFileJson.DecimalesAdmitidos)
                                     : 2;
+
                     console.log(x.oValor);
                     
-                    await x.llenarDatosMaiz();
-                    await x.CalculaIngresoPorHaMaiz();
+                    await x.llenarDatos();
+                    await x.CalculaIngresoPorHa();
 
                     setTimeout(() => { CerrarBloqueo() }, 300);
                 })
@@ -91,45 +101,40 @@ const app = new Vue({
                 mostrarError("ALGO SALIO MAL", "No es posible obtener los valores iniciales.");
             }
         },
-        llenarDatosMaiz: async function(){
+        llenarDatos: async function(){
             const x = this;
-            x.aMaiz = [];
+            x.listaDetalles = [];
             try {
-                const existePropiedad = 'MaizBlanco' in x.oValor;
-                if(!existePropiedad){throw 'No existe propiedad MaizBlanco'}
-
-                x.aMaiz = x.oValor.MaizBlanco.Lista.map(item => {
+                x.listaDetalles = x.oValor.Lista.map(item => {
                     item["Id"] = generaIdUnico();
                     return item
                 });
             } catch (error) {
-                console.log(`llenarDatosMaiz => ${error}`)
+                console.log(`llenarDatos => ${error}`)
             }
         },
-        CalculaIngresoPorHaMaiz: async function(){
+        CalculaIngresoPorHa: async function(){
             const x = this;
             try {
-                x.oValor.MaizBlanco.IngresoPorHectarea = 0;
-                if('MaizBlanco' in x.oValor){
-                    const PrecioTonMaiz = x.oValor?.MaizBlanco?.PrecioTonelada ? convertStringToNumber(x.oValor?.MaizBlanco?.PrecioTonelada) : 0;
-                    const RendimientoHaMaiz = x.oValor?.MaizBlanco?.RendimientoHectarea ? convertStringToNumber(x.oValor?.MaizBlanco?.RendimientoHectarea) : 0;
-                    const calculo = PrecioTonMaiz * RendimientoHaMaiz
-                    x.oValor.MaizBlanco.IngresoPorHectarea = Number(calculo.toFixed(x.decimales));
-                }
+                x.oValor.IngresoPorHectarea = 0;
+                const PrecioTonMaiz = x.oValor?.PrecioTonelada ? convertStringToNumber(x.oValor?.PrecioTonelada) : 0;
+                const RendimientoHa = x.oValor?.RendimientoHectarea ? convertStringToNumber(x.oValor?.RendimientoHectarea) : 0;
+                const calculo = PrecioTonMaiz * RendimientoHa;
+                x.oValor.IngresoPorHectarea = Number(calculo.toFixed(x.decimales));
             } catch (error) {
-                console.log(`CalculaIngresoPorHaMaiz => ${error}`);
+                console.log(`CalculaIngresoPorHa => ${error}`);
             }
         },
-        ValidarTxtUnidadMaiz: async function(idItemMaiz){
+        ValidarTxtUnidad: async function(idItemMaiz){
             const x = this;
             try {
                 if(!idItemMaiz){throw 'El Id del Item Maiz no exite.'}
-                const oData = x.aMaiz.find(l => l.Id === idItemMaiz);
+                const oData = x.listaDetalles.find(l => l.Id === idItemMaiz);
                 if(!oData){throw 'No se pudo encontrar el item por el id.'}
                 let costoCalculado = 0;
-                const txtUnidad = $(`#txt_Unidad_Maiz_${idItemMaiz}`);
+                const txtUnidad = $(`#txt_Unidad_${idItemMaiz}`);
                 if(txtUnidad.length !== 1){throw 'No hay ningun elemento unidad Maiz con el id:' + idItemMaiz}
-                const txtCostoMaiz = $(`#txtCosto_Maiz_${idItemMaiz}`);
+                const txtCostoMaiz = $(`#txtCosto_${idItemMaiz}`);
                 if(txtCostoMaiz.length !== 1){throw 'No hay ningun elemento Costo Maiz con el id:' + idItemMaiz}
 
                 if(!IsNullOrEmpty(oData.calcularCon)){
@@ -144,7 +149,7 @@ const app = new Vue({
                         }
                     } else {
                         const valorUnidad = esNumeroMayorQueCero(txtUnidad.val()) ? Number(txtUnidad.val()) : 0;
-                        const propiedad = esNumeroMayorQueCero(x.oValor.MaizBlanco[valor3]) ? Number(x.oValor.MaizBlanco[valor3]) : 0;
+                        const propiedad = esNumeroMayorQueCero(x.oValor[valor3]) ? Number(x.oValor[valor3]) : 0;
                         if(oData.unidad === "%"){
                             costoCalculado = (valorUnidad * Number(propiedad)) / 100;
                         } else {
@@ -155,18 +160,18 @@ const app = new Vue({
                 if(costoCalculado > 0){
                     txtCostoMaiz.val(costoCalculado.toFixed(x.decimales));
                 } else {
-                    txtCostoMaiz.val(0);
+                    txtCostoMaiz.val("");
                 }
-                await x.CalculaTotalesMaiz();
+                await x.CalculaTotales();
             } catch (error) {
-                console.error(`ValidarTxtUnidadMaiz => ${error}`);
+                console.error(`ValidarTxtUnidad => ${error}`);
             }
         },
-        CalculaTotalesMaiz: async function(){
+        CalculaTotales: async function(){
             const x = this;
             try {
-                x.Maiz.CostoProduccion = 0;
-                x.Maiz.CostoFinanciero = 0;
+                x.oCultivo.CostoProduccion = 0;
+                x.oCultivo.CostoFinanciero = 0;
 
                 $('.costoMaiz').each(function() {
                     // Obtener el valor del input y convertirlo a número
@@ -174,18 +179,21 @@ const app = new Vue({
           
                     // Sumar el valor si es un número válido
                     if (!isNaN(valor)) {
-                        x.Maiz.CostoProduccion += valor;
+                        x.oCultivo.CostoProduccion += valor;
                     }
                 });
 
-                if(x.Maiz.CostoProduccion > 0){
-                    x.Maiz.CostoFinanciero = (x.Maiz.CostoProduccion * 0.7) * 0.16;
+                if(x.oCultivo.CostoProduccion > 0){
+                    //x.oCultivo.CostoFinanciero = (x.oCultivo.CostoProduccion * 0.7) * 0.16;
+                    const calculo = (x.TasaInteresAnual / 365) * Number(x.oValor.DiasDeRiesgo);
+                    const calculoFixed = truncarADecimalesSinRedondear(calculo);
+                    x.oCultivo.CostoFinanciero = x.oCultivo.CostoProduccion * calculoFixed;
                 }
 
                 await x.RecalcularCostoPorHaMaiz();
-                x.RecalcularUtilidadPorHa('MaizBlanco');
+                x.RecalcularUtilidadPorHa();
             } catch (error) {
-                console.log(`CalculaTotalesMaiz => ${error}`);
+                console.log(`CalculaTotales => ${error}`);
             }
         },
         setFocusNextElement: function(nameElement, index){
@@ -233,22 +241,22 @@ const app = new Vue({
                         } else 
                         {
                             nuevoTotal = Number(nuevoTotal);
-                            x.oValor.MaizBlanco[nomPropiedad] = nuevoTotal.toFixed(x.decimales);
+                            x.oValor[nomPropiedad] = nuevoTotal.toFixed(x.decimales);
 
                             if(nomPropiedad === 'RendimientoHectarea'){
                                 //Recalcular el ingreso por hectarea
-                                const nuevoIngresoPorHa = Number(x.oValor.MaizBlanco.PrecioTonelada) * Number(x.oValor.MaizBlanco.RendimientoHectarea);
-                                x.oValor.MaizBlanco.IngresoPorHectarea = nuevoIngresoPorHa.toFixed(x.decimales);
-                                await x.validarDependenciasMaiz(x.oValor.MaizBlanco.IngresoPorHectarea, 'IngresoPorHectarea');
+                                const nuevoIngresoPorHa = Number(x.oValor.PrecioTonelada) * Number(x.oValor.RendimientoHectarea);
+                                x.oValor.IngresoPorHectarea = nuevoIngresoPorHa.toFixed(x.decimales);
+                                await x.validarDependenciasMaiz(x.oValor.IngresoPorHectarea, 'IngresoPorHectarea');
                             }
 
                             //Verificamos si hay actividades que dependen de dicho valor.
-                            const dependencia = x.oValor.MaizBlanco.Lista.filter(l => l.calcularCon.includes(nomPropiedad));
+                            const dependencia = x.oValor.Lista.filter(l => l.calcularCon.includes(nomPropiedad));
                             if(dependencia.length > 0){
                                 for (let i = 0; i < dependencia.length; i++) {
                                     const item = dependencia[i];
-                                    const txtUnidad = $(`#txt_Unidad_Maiz_${item.Id}`);
-                                    const txtCostoMaiz = $(`#txtCosto_Maiz_${item.Id}`);
+                                    const txtUnidad = $(`#txt_Unidad_${item.Id}`);
+                                    const txtCostoMaiz = $(`#txtCosto_${item.Id}`);
                                     if(txtUnidad.length !== 1 || txtCostoMaiz.length !== 1){
                                         console.warn("No se encontro el txtunidadMaiz o txtCostoMaiz con id=" + item.Id)
                                         continue;
@@ -256,15 +264,15 @@ const app = new Vue({
                                     const valorUnidadMaiz = esNumeroMayorQueCero(txtUnidad.val()) ? Number(txtUnidad.val()) : 0;
                                     let nuevoCostoCalculado = 0;
                                     if(item.unidad === "%"){
-                                        nuevoCostoCalculado = (Number(x.oValor.MaizBlanco[nomPropiedad]) * valorUnidadMaiz) / 100;
+                                        nuevoCostoCalculado = (Number(x.oValor[nomPropiedad]) * valorUnidadMaiz) / 100;
                                         } else {
-                                        nuevoCostoCalculado = Number(x.oValor.MaizBlanco[nomPropiedad]) * valorUnidadMaiz;
+                                        nuevoCostoCalculado = Number(x.oValor[nomPropiedad]) * valorUnidadMaiz;
                                     }
                                     txtCostoMaiz.val(nuevoCostoCalculado.toFixed(x.decimales));
-                                    await x.CalculaTotalesMaiz();
+                                    await x.CalculaTotales();
                                 }
                             }
-                            x.RecalcularUtilidadPorHa('MaizBlanco');
+                            x.RecalcularUtilidadPorHa();
                         }
                     }
                 });
@@ -276,12 +284,12 @@ const app = new Vue({
         validarDependenciasMaiz: async function(valor, nomPropiedad){
             const x = this;
             try {
-                const dependencia = x.oValor.MaizBlanco.Lista.filter(l => l.calcularCon.includes(nomPropiedad));
+                const dependencia = x.oValor.Lista.filter(l => l.calcularCon.includes(nomPropiedad));
                 if(dependencia.length > 0){
                     for (let i = 0; i < dependencia.length; i++) {
                         const item = dependencia[i];
-                        const txtUnidad = $(`#txt_Unidad_Maiz_${item.Id}`);
-                        const txtCostoMaiz = $(`#txtCosto_Maiz_${item.Id}`);
+                        const txtUnidad = $(`#txt_Unidad_${item.Id}`);
+                        const txtCostoMaiz = $(`#txtCosto_${item.Id}`);
                         if(txtUnidad.length !== 1 || txtCostoMaiz.length !== 1){
                             console.warn("No se encontro el txtunidadMaiz o txtCostoMaiz con id=" + item.Id)
                             continue;
@@ -294,10 +302,10 @@ const app = new Vue({
                             nuevoCostoCalculado = Number(valor) * valorUnidadMaiz;
                         }
                         txtCostoMaiz.val(nuevoCostoCalculado.toFixed(x.decimales));
-                        await x.CalculaTotalesMaiz();
+                        await x.CalculaTotales();
                     }
                 }
-                x.RecalcularUtilidadPorHa('MaizBlanco');
+                x.RecalcularUtilidadPorHa();
             } catch (error) {
                 console.error(`validarDependencias => ${error}`);
                 mostrarError("ALGO SALIO MAL", "Error al intentar validar.")
@@ -345,12 +353,12 @@ const app = new Vue({
                             x.oValor[nomPropiedadPadre].IngresoPorHectarea = nuevoIngresoPorHa.toFixed(x.decimales);
 
                             //Verificamos si hay actividades que dependen de IngresoPorHectarea.
-                            const dependencia = x.oValor.MaizBlanco.Lista.filter(l => l.calcularCon.includes('IngresoPorHectarea'));
+                            const dependencia = x.oValor.Lista.filter(l => l.calcularCon.includes('IngresoPorHectarea'));
                             if(dependencia.length > 0){
                                 for (let i = 0; i < dependencia.length; i++) {
                                     const item = dependencia[i];
-                                    const txtUnidad = $(`#txt_Unidad_Maiz_${item.Id}`);
-                                    const txtCostoMaiz = $(`#txtCosto_Maiz_${item.Id}`);
+                                    const txtUnidad = $(`#txt_Unidad_${item.Id}`);
+                                    const txtCostoMaiz = $(`#txtCosto_${item.Id}`);
                                     if(txtUnidad.length !== 1 || txtCostoMaiz.length !== 1){
                                         console.warn("No se encontro el txtunidadMaiz o txtCostoMaiz con id=" + item.Id)
                                         continue;
@@ -363,10 +371,10 @@ const app = new Vue({
                                         nuevoCostoCalculado = Number(x.oValor[nomPropiedadPadre].IngresoPorHectarea) * valorUnidadMaiz;
                                     }
                                     txtCostoMaiz.val(nuevoCostoCalculado.toFixed(x.decimales));
-                                    await x.CalculaTotalesMaiz();
+                                    await x.CalculaTotales();
                                 }
                             }
-                            x.RecalcularUtilidadPorHa('MaizBlanco');
+                            x.RecalcularUtilidadPorHa();
                         }
                     }
                 });
@@ -375,15 +383,15 @@ const app = new Vue({
                 mostrarError("ALGO SALIO MAL", "Error al intentar editar el valor.")
             }
         },
-        RecalcularUtilidadPorHa: function(nomPropiedadPadre){
+        RecalcularUtilidadPorHa: function(){
             try {
                 //IngresoPorHa - CostoPorHa  
-                this.Maiz.UtilidadPorHa = 0;
-                const IngresoPorHa = esNumero(this.oValor[nomPropiedadPadre].IngresoPorHectarea)
-                                    ? Number(this.oValor[nomPropiedadPadre].IngresoPorHectarea)
+                this.oCultivo.UtilidadPorHa = 0;
+                const IngresoPorHa = esNumero(this.oValor.IngresoPorHectarea)
+                                    ? Number(this.oValor.IngresoPorHectarea)
                                     : 0;
                 if(IngresoPorHa > 0){
-                    this.Maiz.UtilidadPorHa = IngresoPorHa - this.Maiz.CostoPorHa;
+                    this.oCultivo.UtilidadPorHa = IngresoPorHa - this.oCultivo.CostoPorHa;
                 }
             } catch (error) {
                 console.error(`RecalcularUtilidadPorHa => ${error}`);
@@ -393,7 +401,7 @@ const app = new Vue({
         RecalcularCostoPorHaMaiz: async function(){
             try {
                 //La suma de CostoProduccion y Costo Financiero
-                this.Maiz.CostoPorHa = this.Maiz.CostoProduccion + this.Maiz.CostoFinanciero
+                this.oCultivo.CostoPorHa = this.oCultivo.CostoProduccion + this.oCultivo.CostoFinanciero
             } catch (error) {
                 console.error(`RecalcularCostoPorHaMaiz => ${error}`);
                 mostrarError("ALGO SALIO MAL", "Error al recalcular la utilidad por Ha.")
@@ -401,10 +409,10 @@ const app = new Vue({
         }
     },
     computed: {
-        MaizSemillaCosto: function(){
+        /*MaizSemillaCosto: function(){
             try {
-                const unidad = convertStringToNumber(this.Maiz.Semilla.Unidad.Valor);
-                const PrecioSemilla = convertStringToNumber(this.oValor?.MaizBlanco?.PrecioSacoSemilla);
+                const unidad = convertStringToNumber(this.oCultivo.Semilla.Unidad.Valor);
+                const PrecioSemilla = convertStringToNumber(this.oValor?.PrecioSacoSemilla);
                 if(unidad > 0){
                     return unidad * PrecioSemilla
                 } else {
@@ -418,16 +426,16 @@ const app = new Vue({
         IngresoPorHectareaMaiz: function(){
             const x = this;
             try {
-                const PrecioTonMaiz = x.oValor?.MaizBlanco?.PrecioTonelada ? convertStringToNumber(x.oValor?.MaizBlanco?.PrecioTonelada) : 0;
-                const RendimientoHaMaiz = x.oValor?.MaizBlanco?.RendimientoHectarea ? convertStringToNumber(x.oValor?.MaizBlanco?.RendimientoHectarea) : 0;
+                const PrecioTonMaiz = x.oValor?.PrecioTonelada ? convertStringToNumber(x.oValor?.PrecioTonelada) : 0;
+                const RendimientoHaMaiz = x.oValor?.RendimientoHectarea ? convertStringToNumber(x.oValor?.RendimientoHectarea) : 0;
                 return PrecioTonMaiz * RendimientoHaMaiz;
             } catch (error) {
                 console.log(`IngresoPorHectareaMaiz => ${error}`)
                 return 0;
             }
-        },
-        RentabilidadMaiz: function(){
-            const calculo = this.Maiz.UtilidadPorHa / this.Maiz.CostoPorHa;
+        },*/
+        Rentabilidad: function(){
+            const calculo = this.oCultivo.UtilidadPorHa / this.oCultivo.CostoPorHa;
             if(!isNaN(calculo)){
                 // Convierte el calculo a porcentaje
                 const porcentaje = calculo * 100;
@@ -438,12 +446,12 @@ const app = new Vue({
                 return 0
             }
         },
-        CostoToneladaMaiz: function(){
-            const RendimientoHaMaiz = this.oValor?.MaizBlanco?.RendimientoHectarea 
-                ? convertStringToNumber(this.oValor?.MaizBlanco?.RendimientoHectarea) 
+        CostoTonelada: function(){
+            const RendimientoHaMaiz = this.oValor?.RendimientoHectarea 
+                ? convertStringToNumber(this.oValor?.RendimientoHectarea) 
                 : 0;
 
-            const calculo = this.Maiz.CostoPorHa / RendimientoHaMaiz;
+            const calculo = this.oCultivo.CostoPorHa / RendimientoHaMaiz;
             return !isNaN(calculo) ? calculo : 0
         }
     },

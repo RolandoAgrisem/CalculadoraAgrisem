@@ -1,11 +1,11 @@
 {
     "MaizBlanco" : {
-        "PrecioSacoSemilla" : "5200",
-        "PrecioTonelada" : "4500",
-        "CostoTrabajos" : "500",
-        "AplicacionAvion" : "600",
-        "RendimientoHectarea" : "11.5",
-        "DiasDeRiesgo" : "190",
+        "PrecioSacoSemilla"  : "5200",
+        "PrecioTonelada"     : "4500",
+        "CostoTrabajos"      : "500",
+        "AplicacionAvion"    : "600",
+        "RendimientoHectarea": "11.5",
+        "DiasDeRiesgo"       : "200",
         "IngresoPorHectarea" : "0",
         "Lista": [
             {"Actividad": "Semilla", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|PrecioSacoSemilla"},
@@ -27,29 +27,30 @@
         ]
     },
     "Sorgo" : {
-        "PrecioSacoSemilla" : "2200",
-        "PrecioTonelada" : "3700",
-        "CostoTrabajos" : "800",
-        "AplicacionAvion" : "450",
-        "RendimientoHectarea" : "8",
-        "DiasDeRiesgo" : "190",
+        "PrecioSacoSemilla"  : "2200",
+        "PrecioTonelada"     : "3700",
+        "CostoTrabajos"      : "800",
+        "AplicacionAvion"    : "450",
+        "RendimientoHectarea": "8",
+        "DiasDeRiesgo"       : "180",
+        "IngresoPorHectarea" : "0",
         "Lista": [
-            {"Actividad": "Semilla", "unidad": "", "costo": ""},
-            {"Actividad": "Fertilizante", "unidad": "", "costo": ""},
-            {"Actividad": "Seguro agricola", "unidad": "", "costo": ""},
-            {"Actividad": "Pago de agua", "unidad": "", "costo": ""},
-            {"Actividad": "Permiso de siembra", "unidad": "", "costo": ""},
-            {"Actividad": "Agroquimico gusano cogollero", "unidad": "", "costo": ""},
-            {"Actividad": "Agroquimico en elote", "unidad": "", "costo": ""},
-            {"Actividad": "Aplicación de avión", "unidad": "", "costo": ""},
-            {"Actividad": "Renta", "unidad": "", "costo": ""},
-            {"Actividad": "Riegos", "unidad": "", "costo": ""},
-            {"Actividad": "Trabajos", "unidad": "", "costo": ""},
-            {"Actividad": "Trilla", "unidad": "", "costo": ""},
-            {"Actividad": "Flete", "unidad": "", "costo": ""},
-            {"Actividad": "Predial", "unidad": "", "costo": ""},
-            {"Actividad": "Secado", "unidad": "", "costo": ""},
-            {"Actividad": "Costo de administración", "unidad": "", "costo": ""}
+            {"Actividad": "Semilla", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|PrecioSacoSemilla"},
+            {"Actividad": "Fertilizante", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Seguro agricola", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Pago de agua", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Permiso de siembra", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Agroquimico gusano cogollero", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Agroquimico en elote", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Aplicación de avión", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Renta", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Riegos", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|300"},
+            {"Actividad": "Trabajos", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Trilla", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Flete", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|RendimientoHectarea"},
+            {"Actividad": "Predial", "unidad": "%", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|IngresoPorHectarea"},
+            {"Actividad": "Secado", "unidad": "", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|RendimientoHectarea"},
+            {"Actividad": "Costo de administración", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""}
         ]
     },
     "Garbanzo" : {
@@ -58,7 +59,8 @@
         "CostoTrabajos" : "800",
         "AplicacionAvion" : "450",
         "RendimientoHectarea" : "2.5",
-        "DiasDeRiesgo" : "120",
+        "DiasDeRiesgo" : "150",
+        "IngresoPorHectarea" : "0",
         "Lista" : [
             {"Actividad" : "Semilla", "unidad" : "", "costo" : ""},
             {"Actividad" : "Fertilizante", "unidad" : "", "costo" : ""},
@@ -84,7 +86,8 @@
         "CostoTrabajos" : "800",
         "AplicacionAvion" : "450",
         "RendimientoHectarea" : "2.3",
-        "DiasDeRiesgo" : "120",
+        "DiasDeRiesgo" : "140",
+        "IngresoPorHectarea" : "0",
         "Lista": [
             {"Actividad": "Semilla", "unidad" : "", "costo" : ""},
             {"Actividad": "Fertilizante", "unidad" : "", "costo" : ""},
@@ -104,7 +107,7 @@
             {"Actividad": "Costo de administración", "unidad" : "", "costo" : ""}
         ]
     },
-    "DecimalesAdmitidos" : "2"
-
-    
+    "DecimalesAdmitidos" : "2",
+    "IVA" : "0.16",
+    "TasaInteresAnual" : "21"
 }

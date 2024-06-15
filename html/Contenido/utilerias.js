@@ -361,3 +361,13 @@ function generaIdUnico() {
         });
     return uuid;
 }
+
+/**
+ * Trunca un numero a los decimales que recibe en el parametro.
+ * @param {*} numero numero a truncar.
+ * @param {*} decimales decimales que va a retornar.
+ * @returns numero truncado.
+ */
+function truncarADecimalesSinRedondear(numero, decimales = 2) {
+    return Number((Math.floor(numero * 100) / 100).toFixed(decimales));
+}
