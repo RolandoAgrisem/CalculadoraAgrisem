@@ -1,6 +1,8 @@
 const appSorgo = new Vue({
     el: '#custom-tabs-sorgo',
     data: {
+        txtUnidad: 'txt_Unidad_Sorgo_',
+        txtCosto: 'txtCosto_Sorgo_',
         decimales: 0,
         TasaInteresAnual: 0,
         isMobil: IS_MOBILE(),
@@ -82,10 +84,10 @@ const appSorgo = new Vue({
                                     : 2;
 
                     console.log(x.oValor);
-                    
                     await x.llenarDatos();
                     await x.CalculaIngresoPorHa();
-
+                    await x.CalcularCostoPorRegistro();
+                    await x.CalculaTotales();
                     setTimeout(() => { CerrarBloqueo() }, 300);
                 })
                 .catch(error => {
@@ -130,25 +132,25 @@ const appSorgo = new Vue({
                 const oData = x.listaDetalles.find(l => l.Id === idItem);
                 if(!oData){throw 'No se pudo encontrar el item por el id.'}
                 let costoCalculado = 0;
-                const txtUnidad = $(`#txt_Unidad_Sorgo_${idItem}`);
+                const txtUnidad = $(`#${x.txtUnidad}${idItem}`);
                 if(txtUnidad.length !== 1){throw 'No hay ningun elemento unidad Sorgo con el id:' + idItem}
-                const txtCosto = $(`#txtCosto_Sorgo_${idItem}`);
+                const txtCosto = $(`#${x.txtCosto}${idItem}`);
                 if(txtCosto.length !== 1){throw 'No hay ningun elemento Costo Sorgo con el id:' + idItem}
 
                 if(!IsNullOrEmpty(oData.calcularCon)){
                     const Split = oData.calcularCon.split('|');
-                    const valor3 = Split[2];
-                    if(esNumero(valor3)){
+                    const ultimoValor = Split[Split.length - 1];
+                    if(esNumero(ultimoValor)){
                         const valorUnidad = esNumeroMayorQueCero(txtUnidad.val()) ? Number(txtUnidad.val()) : 0;
-                        if(oData.unidad === "%"){
-                            costoCalculado = (valorUnidad * Number(valor3)) / 100;
+                        if(oData.calcularCon.includes('%')){
+                            costoCalculado = (valorUnidad * Number(ultimoValor)) / 100;
                         } else {
-                            costoCalculado = valorUnidad * Number(valor3);
+                            costoCalculado = valorUnidad * Number(ultimoValor);
                         }
                     } else {
                         const valorUnidad = esNumeroMayorQueCero(txtUnidad.val()) ? Number(txtUnidad.val()) : 0;
-                        const propiedad = esNumeroMayorQueCero(x.oValor[valor3]) ? Number(x.oValor[valor3]) : 0;
-                        if(oData.unidad === "%"){
+                        const propiedad = esNumeroMayorQueCero(x.oValor[ultimoValor]) ? Number(x.oValor[ultimoValor]) : 0;
+                        if(oData.calcularCon.includes('%')){
                             costoCalculado = (valorUnidad * Number(propiedad)) / 100;
                         } else {
                             costoCalculado = valorUnidad * Number(propiedad);
@@ -252,15 +254,15 @@ const appSorgo = new Vue({
                             if(dependencia.length > 0){
                                 for (let i = 0; i < dependencia.length; i++) {
                                     const item = dependencia[i];
-                                    const txtUnidad = $(`#txt_Unidad_Sorgo_${item.Id}`);
-                                    const txtCosto = $(`#txtCosto_Sorgo_${item.Id}`);
+                                    const txtUnidad = $(`#${x.txtUnidad}${item.Id}`);
+                                    const txtCosto = $(`#${x.txtCosto}${item.Id}`);
                                     if(txtUnidad.length !== 1 || txtCosto.length !== 1){
                                         console.warn("No se encontro el txtunidad o txtCosto con id=" + item.Id)
                                         continue;
                                     }
                                     const valorUnidadMaiz = esNumeroMayorQueCero(txtUnidad.val()) ? Number(txtUnidad.val()) : 0;
                                     let nuevoCostoCalculado = 0;
-                                    if(item.unidad === "%"){
+                                    if(item.calcularCon.includes("%")){
                                         nuevoCostoCalculado = (Number(x.oValor[nomPropiedad]) * valorUnidadMaiz) / 100;
                                     } else {
                                         nuevoCostoCalculado = Number(x.oValor[nomPropiedad]) * valorUnidadMaiz;
@@ -279,6 +281,66 @@ const appSorgo = new Vue({
             }
         },
         /**
+         * Se dispara despues de llenar la lista de detalles.
+         * Verifica si unidad tienen valor por default desde el .json
+         * Si tiene valor hace la operacion para poner el valor el el costo.
+         * Al final calcula todos los los costos generales.
+         */
+        CalcularCostoPorRegistro: async function(){
+            const x = this;
+            try {
+
+                for (let index = 0; index < x.listaDetalles.length; index++) {
+                    const item = x.listaDetalles[index];
+                    const input = $(`#${x.txtUnidad}${item.Id}`);
+                    if(input.length === 0){
+                        console.warn(`El input con id (${item.Id}) no existe.`);
+                        continue;
+                    }
+
+                    const valorTxtUnidad = input.attr("data-value");
+                    const valorUnidad = parseFloat(valorTxtUnidad);
+        
+                    if (!isNaN(valorUnidad)) {
+                        const IdInput = input.attr("data-id");
+                        if(!IsNullOrEmpty(IdInput)){
+                            const oData = x.listaDetalles.find(l => l.Id === IdInput);                            
+                            const txtCosto = $(`#${x.txtCosto}${IdInput}`);
+                            if(txtCosto.length === 1){
+                                let costoCalculado = 0;
+                                const Split = oData.calcularCon.split('|');
+                                const ultimoValor = Split[Split.length - 1];
+                                if(esNumero(ultimoValor)){
+                                    if(oData.calcularCon.includes("%")){
+                                        costoCalculado = (valorUnidad * Number(ultimoValor)) / 100;
+                                    } else {
+                                        costoCalculado = valorUnidad * Number(ultimoValor);
+                                    }
+                                } else {
+                                    const propiedad = esNumeroMayorQueCero(x.oValor[ultimoValor]) ? Number(x.oValor[ultimoValor]) : 0;
+                                    if(oData.calcularCon.includes("%")){
+                                        costoCalculado = (valorUnidad * Number(propiedad)) / 100;
+                                    } else {
+                                        costoCalculado = valorUnidad * Number(propiedad);
+                                    }
+                                }
+
+                                if(esNumeroMayorQueCero(costoCalculado)){
+                                    txtCosto.val(costoCalculado.toFixed(x.decimales));
+                                } else {
+                                    txtCosto.val("");
+                                }
+
+                                $(`#${x.txtUnidad}${IdInput}`).val(valorTxtUnidad);
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error(`CalcularCostoPorRegistro => ${error}`)
+            }
+        },
+        /**
          * Comprueba si hay valores que dependen de otro, para realizar el calculo.
          * @param {*} valor 
          * @param {*} nomPropiedad 
@@ -290,8 +352,8 @@ const appSorgo = new Vue({
                 if(dependencia.length > 0){
                     for (let i = 0; i < dependencia.length; i++) {
                         const item = dependencia[i];
-                        const txtUnidad = $(`#txt_Unidad_Sorgo_${item.Id}`);
-                        const txtCosto = $(`#txtCosto_Sorgo_${item.Id}`);
+                        const txtUnidad = $(`#${x.txtUnidad}${item.Id}`);
+                        const txtCosto = $(`#${x.txtCosto}${item.Id}`);
                         if(txtUnidad.length !== 1 || txtCosto.length !== 1){
                             console.warn("No se encontro el txtunidad o txtCosto con id=" + item.Id)
                             continue;
@@ -359,8 +421,8 @@ const appSorgo = new Vue({
                             if(dependencia.length > 0){
                                 for (let i = 0; i < dependencia.length; i++) {
                                     const item = dependencia[i];
-                                    const txtUnidad = $(`#txt_Unidad_Sorgo_${item.Id}`);
-                                    const txtCosto = $(`#txtCosto_Sorgo_${item.Id}`);
+                                    const txtUnidad = $(`#${x.txtUnidad}${item.Id}`);
+                                    const txtCosto = $(`#${x.txtCosto}${item.Id}`);
                                     if(txtUnidad.length !== 1 || txtCosto.length !== 1){
                                         console.warn("No se encontro el txtunidad o txtCosto con id=" + item.Id)
                                         continue;

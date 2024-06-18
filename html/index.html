@@ -58,6 +58,7 @@
                 <div id="CardTabs" class="card card-tabs">
                     <div class="card-body p-0">
                       <div class="tab-content" id="custom-tabs-two-tabContent">
+
                         <!-- #region AppMaiz -->
                         <div id="custom-tabs-maiz-blanco" 
                         class="tab-pane fade show active" 
@@ -134,7 +135,7 @@
                                             <td>
                                                 <input 
                                                     :type="isMobil ? 'number' : 'text'" 
-                                                    :id="'txt_Unidad_'+ item.Id"
+                                                    :id="txtUnidad + item.Id"
                                                     class="form-control unidadMaiz"
                                                     :class="isMobil ? 'form-control-sm' : null"
                                                     placeholder="Unidad"
@@ -143,12 +144,14 @@
                                                     @blur="ValidarTxtUnidad(item.Id)"
                                                     autocomplete="off"
                                                     maxlength="10"
-                                                    :data-index="'unidadMaiz_' + index">
+                                                    :data-index="'unidadMaiz_' + index"
+                                                    :data-id="item.Id"
+                                                    :data-value="item.unidad">
                                             </td>
                                             <td>
                                                 <input 
                                                     :type="isMobil ? 'number' : 'text'" 
-                                                    :id="'txtCosto_'+ item.Id"
+                                                    :id="txtCosto + item.Id"
                                                     class="form-control costoMaiz"
                                                     :class="isMobil ? 'form-control-sm' : null"
                                                     placeholder="Costo"
@@ -158,7 +161,8 @@
                                                     autocomplete="off"
                                                     maxlength="10"
                                                     :disabled="item.readOnly === 'true'"
-                                                    :data-index="'costoMaiz_' + index">
+                                                    :data-index="'costoMaiz_' + index"
+                                                    :data-id="item.Id">
                                             </td>
                                         </tr>
                                         <tr>
@@ -180,7 +184,7 @@
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
-                                            <th class="text-olive">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
+                                            <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="text-muted">COSTO TONELADA</th>
@@ -286,7 +290,9 @@
                                                     @blur="ValidarTxtUnidad(item.Id)"
                                                     autocomplete="off"
                                                     maxlength="10"
-                                                    :data-index="'unidadSorgo_' + index">
+                                                    :data-index="'unidadSorgo_' + index"
+                                                    :data-id="item.Id"
+                                                    :data-value="item.unidad">
                                             </td>
                                             <td>
                                                 <input 
@@ -301,7 +307,8 @@
                                                     autocomplete="off"
                                                     maxlength="10"
                                                     :disabled="item.readOnly === 'true'"
-                                                    :data-index="'costoSorgo_' + index">
+                                                    :data-index="'costoSorgo_' + index"
+                                                    :data-id="item.Id">
                                             </td>
                                         </tr>
                                         <tr>
@@ -325,7 +332,7 @@
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
-                                            <th class="text-olive">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
+                                            <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="text-muted">COSTO TONELADA</th>
@@ -339,24 +346,311 @@
                                 </table>
                             </div>
                             <!-- #endregion -->
+
                         </div>    
                         <!-- #endregion -->
                        
-
+                        <!-- #region AppGarbanzo -->
                         <div 
                             class="tab-pane fade" 
                             id="custom-tabs-garbanzo" 
                             role="tabpanel" 
                             aria-labelledby="custom-tabs-garbanzo-tab">
-                          Garbanzo
-                        </div>
+                          
+                            <!-- #region DATOS GENERALES -->
+                            <div class="row">
+                                <div class="col-6 col-md-3">
+                                    <div class="callout callout-success">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
+                                            </h5>
+                                            <i class="fas fa-pencil-alt text-muted pinter"
+                                                @click="editarValorGeneral('PrecioSacoSemilla')"></i>
+                                        </div>
+                                        <p class="text-muted">Saco de Semilla</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="callout callout-success">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.PrecioTonelada)}}
+                                            </h5>
+                                            <i class="fas fa-pencil-alt text-muted pinter"
+                                                @click="editarPrecioTonelada()"></i>
+                                        </div>
+                                        <p class="text-muted">Precio Tonelada</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="callout callout-success">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">
+                                                {{FormatoNumero(oValor?.RendimientoHectarea)}}
+                                            </h5>
+                                            <i class="fas fa-pencil-alt text-muted pinter"
+                                                @click="editarValorGeneral('RendimientoHectarea')"></i>
+                                        </div>
+                                        <p class="text-muted">Rendimiento por Ha.</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="callout callout-success">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.IngresoPorHectarea)}}
+                                            </h5>
+                                            <i class="fas fa-pencil-alt text-muted pinter"
+                                                @click="editarValorGeneral('IngresoPorHectarea')"></i>
+                                        </div>
+                                        <p class="text-muted">Ingreso por Ha.</p>
+                                    </div>
+                                </div>
+                            </div>    
+                            <!-- #endregion -->
+                            
+                            <!-- #region TABLA DE CONTENIDO -->
+                            <div class="table-responsive shadow-sm" 
+                                :style="isMobil ? 'max-height: 350px; overflow: auto;' : null">
+                                <table class="table bg-light table-sm mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Actividad</th>
+                                        <th>Unidad</th>
+                                        <th>Costo</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>                                            
+                                        <tr v-for="(item, index) in listaDetalles">
+                                            <td>{{item.Actividad}}</td>
+                                            <td>
+                                                <input 
+                                                    :type="isMobil ? 'number' : 'text'" 
+                                                    :id="txtUnidad + item.Id"
+                                                    class="form-control unidadGarbanzo"
+                                                    :class="isMobil ? 'form-control-sm' : null"
+                                                    :value="item.unidad"
+                                                    placeholder="Unidad"
+                                                    @keypress="SoloDecimales($event, decimales)"
+                                                    @keyup.enter="setFocusNextElement('unidadGarbanzo', index)"
+                                                    @blur="ValidarTxtUnidad(item.Id)"
+                                                    autocomplete="off"
+                                                    maxlength="10"
+                                                    :data-index="'unidadGarbanzo_' + index"
+                                                    :data-id="item.Id"
+                                                    :data-value="item.unidad">
+                                            </td>
+                                            <td>
+                                                <input 
+                                                    :type="isMobil ? 'number' : 'text'" 
+                                                    :id="txtCosto + item.Id"
+                                                    class="form-control costoGarbanzo"
+                                                    :class="isMobil ? 'form-control-sm' : null"
+                                                    placeholder="Costo"
+                                                    @keypress="SoloDecimales($event, decimales)"
+                                                    @keyup.enter="setFocusNextElement('costoGarbanzo', index)"
+                                                    @blur="CalculaTotales()"
+                                                    autocomplete="off"
+                                                    maxlength="10"
+                                                    :disabled="item.readOnly === 'true'"
+                                                    :data-index="'costoGarbanzo_' + index"
+                                                    :data-id="item.Id">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
+                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">
+                                                COSTO FINANCIERO
+                                                <p class="mb-0 light-grey font-weight-normal font-italic">
+                                                    Díaz de Riesgo: {{oValor?.DiasDeRiesgo}}
+                                                </p>
+                                            </th>
+                                            <th class="text-indigo">
+                                                $ {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}                                                
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">COSTOS POR HA</th>
+                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
+                                            <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">COSTO TONELADA</th>
+                                            <th class="text-primary">$ {{FormatoNumero(CostoTonelada.toFixed(decimales))}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">RENTABILIDAD</th>
+                                            <th class="text-orange">{{Rentabilidad.toFixed(0)}}%</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- #endregion -->
+
+                        </div>    
+                        <!-- #endregion -->
+                        
+                        <!-- #region AppFrijol -->
                         <div 
                             class="tab-pane fade" 
                             id="custom-tabs-frijol" 
                             role="tabpanel" 
                             aria-labelledby="custom-tabs-frijol-tab">
-                          Frijol
+
+                             <!-- #region DATOS GENERALES -->
+                             <div class="row">
+                                <div class="col-6 col-md-3">
+                                    <div class="callout callout-success">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
+                                            </h5>
+                                            <i class="fas fa-pencil-alt text-muted pinter"
+                                                @click="editarValorGeneral('PrecioSacoSemilla')"></i>
+                                        </div>
+                                        <p class="text-muted">Saco de Semilla</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="callout callout-success">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.PrecioTonelada)}}
+                                            </h5>
+                                            <i class="fas fa-pencil-alt text-muted pinter"
+                                                @click="editarPrecioTonelada()"></i>
+                                        </div>
+                                        <p class="text-muted">Precio Tonelada</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="callout callout-success">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">
+                                                {{FormatoNumero(oValor?.RendimientoHectarea)}}
+                                            </h5>
+                                            <i class="fas fa-pencil-alt text-muted pinter"
+                                                @click="editarValorGeneral('RendimientoHectarea')"></i>
+                                        </div>
+                                        <p class="text-muted">Rendimiento por Ha.</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="callout callout-success">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.IngresoPorHectarea)}}
+                                            </h5>
+                                            <i class="fas fa-pencil-alt text-muted pinter"
+                                                @click="editarValorGeneral('IngresoPorHectarea')"></i>
+                                        </div>
+                                        <p class="text-muted">Ingreso por Ha.</p>
+                                    </div>
+                                </div>
+                            </div>    
+                            <!-- #endregion -->
+                            
+                            <!-- #region TABLA DE CONTENIDO -->
+                            <div class="table-responsive shadow-sm" 
+                                :style="isMobil ? 'max-height: 350px; overflow: auto;' : null">
+                                <table class="table bg-light table-sm mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Actividad</th>
+                                        <th>Unidad</th>
+                                        <th>Costo</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>                                            
+                                        <tr v-for="(item, index) in listaDetalles">
+                                            <td>{{item.Actividad}}</td>
+                                            <td>
+                                                <input 
+                                                    :type="isMobil ? 'number' : 'text'" 
+                                                    :id="txtUnidad + item.Id"
+                                                    class="form-control unidadFrijol"
+                                                    :class="isMobil ? 'form-control-sm' : null"
+                                                    :value="item.unidad"
+                                                    placeholder="Unidad"
+                                                    @keypress="SoloDecimales($event, decimales)"
+                                                    @keyup.enter="setFocusNextElement('unidadFrijol', index)"
+                                                    @blur="ValidarTxtUnidad(item.Id)"
+                                                    autocomplete="off"
+                                                    maxlength="10"
+                                                    :data-index="'unidadFrijol_' + index"
+                                                    :data-id="item.Id"
+                                                    :data-value="item.unidad">
+                                            </td>
+                                            <td>
+                                                <input 
+                                                    :type="isMobil ? 'number' : 'text'" 
+                                                    :id="txtCosto + item.Id"
+                                                    class="form-control costoFrijol"
+                                                    :class="isMobil ? 'form-control-sm' : null"
+                                                    placeholder="Costo"
+                                                    @keypress="SoloDecimales($event, decimales)"
+                                                    @keyup.enter="setFocusNextElement('costoFrijol', index)"
+                                                    @blur="CalculaTotales()"
+                                                    autocomplete="off"
+                                                    maxlength="10"
+                                                    :disabled="item.readOnly === 'true'"
+                                                    :data-index="'costoFrijol_' + index"
+                                                    :data-id="item.Id">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
+                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">
+                                                COSTO FINANCIERO
+                                                <p class="mb-0 light-grey font-weight-normal font-italic">
+                                                    Díaz de Riesgo: {{oValor?.DiasDeRiesgo}}
+                                                </p>
+                                            </th>
+                                            <th class="text-indigo">
+                                                $ {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}                                                
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">COSTOS POR HA</th>
+                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
+                                            <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">COSTO TONELADA</th>
+                                            <th class="text-primary">$ {{FormatoNumero(CostoTonelada.toFixed(decimales))}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-muted">RENTABILIDAD</th>
+                                            <th class="text-orange">{{Rentabilidad.toFixed(0)}}%</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- #endregion -->
+
+                            
                         </div>
+                        <!-- #endregion -->
+                        
                         <div 
                             class="tab-pane fade" 
                             id="resumen" 
@@ -364,6 +658,7 @@
                             aria-labelledby="resumen-tab">
                           Resumen
                         </div>
+
                       </div>
                     </div>
                     <div class="card-footer">
@@ -392,6 +687,30 @@
                                 Sorgo
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                id="custom-tabs-garbanzo-tab" 
+                                data-toggle="pill" 
+                                href="#custom-tabs-garbanzo" 
+                                role="tab" 
+                                aria-controls="custom-tabs-garbanzo" 
+                                aria-selected="true"
+                                onclick="CambiarNombreTitulo('Garbanzo')">
+                                Garbanzo
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                id="custom-tabs-frijol-tab" 
+                                data-toggle="pill" 
+                                href="#custom-tabs-frijol" 
+                                role="tab" 
+                                aria-controls="custom-tabs-frijol" 
+                                aria-selected="true"
+                                onclick="CambiarNombreTitulo('Frijol')">
+                                Frijol
+                            </a>
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -409,5 +728,7 @@
     <script src="./js/index.js"></script>
     <script src="./js/appMaiz.js"></script>
     <script src="./js/appSorgo.js"></script>
+    <script src="./js/appGarbanzo.js"></script>
+    <script src="./js/appFrijol.js"></script>
 </body>
 </html>
