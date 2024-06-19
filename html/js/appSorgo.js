@@ -217,7 +217,8 @@ const appSorgo = new Vue({
                                 : 0;
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'number',
+                    input: x.isMobil ? 'number' : 'text',
+                    position: x.isMobil ? 'top' : 'center',
                     inputAttributes: {
                         step: 'any' // Permite decimales
                     },
@@ -387,7 +388,8 @@ const appSorgo = new Vue({
 
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'number',
+                    input: x.isMobil ? 'number' : 'text',
+                    position: x.isMobil ? 'top' : 'center',
                     inputAttributes: {
                         step: 'any' // Permite decimales
                     },

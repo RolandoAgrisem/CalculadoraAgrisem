@@ -298,7 +298,8 @@ const appMaiz = new Vue({
                                 : 0;
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'number',
+                    input: x.isMobil ? 'number' : 'text',
+                    position: x.isMobil ? 'top' : 'center',
                     html: `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`,
                     inputPlaceholder: 'Ingresa el total.',
                     allowOutsideClick: false,
@@ -403,7 +404,8 @@ const appMaiz = new Vue({
 
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'number',
+                    input: x.isMobil ? 'number' : 'text',
+                    position: x.isMobil ? 'top' : 'center',
                     html: `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`,
                     inputPlaceholder: 'Ingresa el nuevo valor',
                     allowOutsideClick: false,

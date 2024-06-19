@@ -1,7 +1,7 @@
 $(document).ready(function(){
     if(IS_MOBILE()){
         $("#CardTabs").addClass('card-tabs-mobil');
-        $("#TabHeader").hide();
+        //$("#TabHeader").hide();
     } else {
         $("#TabFooter").hide();
     }

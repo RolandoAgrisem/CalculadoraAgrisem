@@ -277,7 +277,8 @@ const appGarbanzo = new Vue({
                                 : 0;
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'number',
+                    input: x.isMobil ? 'number' : 'text',
+                    position: x.isMobil ? 'top' : 'center',
                     inputAttributes: {
                         step: 'any' // Permite decimales
                     },
@@ -387,7 +388,8 @@ const appGarbanzo = new Vue({
 
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'number',
+                                        position: x.isMobil ? 'top' : 'center',
+                                        position: x.isMobil ? 'top' : 'center',
                     inputAttributes: {
                         step: 'any' // Permite decimales
                     },
