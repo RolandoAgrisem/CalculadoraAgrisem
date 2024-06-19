@@ -35,11 +35,25 @@
         .text-muted-gray{
             color: gainsboro;
         }
+        .info-box .info-box-icon {
+            width: 50px;
+        }
+        .nav-pills .nav-link.active,
+        .nav-pills .show > .nav-link {
+            background-color: #3d9970;
+        }
+        .nav-pills .nav-link:not(.active):hover {
+            color: #3d9970;
+        }
+        .row.totales .callout:hover{
+            transition: 0.2s all;
+            box-shadow: 0 8px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed text-sm">
     <div class="wrapper">
-        <nav class="navbar navbar-expand navbar-white navbar-light fixed-top">
+        <nav class="navbar navbar-expand navbar-olive fixed-top">
             <!-- Left navbar links -->
             <div class="container">
                 <ul class="navbar-nav">
@@ -52,7 +66,7 @@
                     <li class="nav-item">
                         <span 
                             id="Titulo"
-                            class="nav-link px-2 font-weight-bold" style="font-size: 1rem;">
+                            class="nav-link px-2 font-weight-bold text-white" style="font-size: 1rem;">
                             C&aacute;lculo de Utilidad
                         </span>
                     </li>
@@ -114,613 +128,826 @@
                         </div>
                     </div>
                     <div class="card-body p-0">
-                      <div class="tab-content" id="custom-tabs-two-tabContent">
+                        <div class="tab-content" id="custom-tabs-two-tabContent">
 
-                        <!-- #region AppMaiz -->
-                        <div id="custom-tabs-maiz-blanco" 
-                        class="tab-pane fade show active" 
-                        role="tabpanel" 
-                        aria-labelledby="custom-tabs-maiz-blanco-tab">
-                            <div class="row">
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
-                                            </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('PrecioSacoSemilla')"></i>
+                            <!-- #region AppMaiz -->
+                            <div id="custom-tabs-maiz-blanco" 
+                                class="tab-pane fade show active" 
+                                role="tabpanel" 
+                                aria-labelledby="custom-tabs-maiz-blanco-tab">
+
+                                    <div class="row totales">
+                                        <div class="col-6 col-md-3">
+                                            <div class="callout callout-success pointer"
+                                                @click="editarValorGeneral('PrecioSacoSemilla')">
+                                                <h5 class="mb-0">
+                                                    <i class="fas fa-dollar-sign mr-1"></i>
+                                                    {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
+                                                </h5>
+                                                <p class="text-muted">Saco de Semilla</p>
+                                            </div>
                                         </div>
-                                        <p class="text-muted">Saco de Semilla</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.PrecioTonelada)}}
-                                            </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarPrecioTonelada('MaizBlanco')"></i>
+                                        <div class="col-6 col-md-3">
+                                            <div class="callout callout-success pointer"
+                                                @click="editarPrecioTonelada('MaizBlanco')">
+                                                <h5 class="mb-0">
+                                                    <i class="fas fa-dollar-sign mr-1"></i>
+                                                    {{FormatoNumero(oValor?.PrecioTonelada)}}
+                                                </h5>
+                                                <p class="text-muted">Precio Tonelada</p>
+                                            </div>
                                         </div>
-                                        <p class="text-muted">Precio Tonelada</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">
-                                                {{FormatoNumero(oValor?.RendimientoHectarea)}}
-                                            </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('RendimientoHectarea')"></i>
+                                        <div class="col-6 col-md-3">
+                                            <div class="callout callout-success pointer"
+                                                    @click="editarValorGeneral('RendimientoHectarea')">
+                                                <h5 class="mb-0">
+                                                    {{FormatoNumero(oValor?.RendimientoHectarea)}}
+                                                </h5>
+                                                <p class="text-muted">Rendimiento por Ha.</p>
+                                            </div>
                                         </div>
-                                        <p class="text-muted">Rendimiento por Ha.</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.IngresoPorHectarea)}}
-                                            </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('IngresoPorHectarea')"></i>
+                                        <div class="col-6 col-md-3">
+                                            <div class="callout callout-success pointer"
+                                                    @click="editarValorGeneral('IngresoPorHectarea')">
+                                                <h5 class="mb-0">
+                                                    <i class="fas fa-dollar-sign mr-1"></i>
+                                                    {{FormatoNumero(oValor?.IngresoPorHectarea)}}
+                                                </h5>
+                                                <p class="text-muted">Ingreso por Ha.</p>
+                                            </div>
                                         </div>
-                                        <p class="text-muted">Ingreso por Ha.</p>
                                     </div>
-                                </div>
-                            </div>
-                        
-                            <!-- #region TABLA DE CONTENIDO -->
-                            <div class="table-responsive shadow-sm" 
-                                :style="isMobil ? 'max-height: 450px; overflow: auto;' : null">
-                                <table class="table bg-light table-sm mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Actividad</th>
-                                        <th>Unidad</th>
-                                        <th>Costo</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>                                            
-                                        <tr v-for="(item, index) in listaDetalles">
-                                            <td>{{item.Actividad}}</td>
-                                            <td>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    :id="txtUnidad + item.Id"
-                                                    class="form-control unidadMaiz"
-                                                    :class="isMobil ? 'form-control-sm' : null"
-                                                    placeholder="Unidad"
-                                                    @keypress="SoloDecimales($event, decimales)"
-                                                    @keyup.enter="setFocusNextElement('unidadMaiz', index)"
-                                                    @blur="ValidarTxtUnidad(item.Id)"
-                                                    autocomplete="off"
-                                                    maxlength="10"
-                                                    :data-index="'unidadMaiz_' + index"
-                                                    :data-id="item.Id"
-                                                    :data-value="item.unidad">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    :id="txtCosto + item.Id"
-                                                    class="form-control costoMaiz"
-                                                    :class="isMobil ? 'form-control-sm' : null"
-                                                    placeholder="Costo"
-                                                    @keypress="SoloDecimales($event, decimales)"
-                                                    @keyup.enter="setFocusNextElement('costoMaiz', index)"
-                                                    @blur="CalculaTotales()"
-                                                    autocomplete="off"
-                                                    maxlength="10"
-                                                    :disabled="item.readOnly === 'true'"
-                                                    :data-index="'costoMaiz_' + index"
-                                                    :data-id="item.Id">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
-                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">
-                                                COSTO FINANCIERO
-                                                <p class="mb-0 light-grey font-weight-normal font-italic">
-                                                    Díaz de Riesgo: {{oValor?.DiasDeRiesgo}}
-                                                </p>
-                                            </th>
-                                            <th class="text-indigo">$ {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTOS POR HA</th>
-                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
-                                            <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTO TONELADA</th>
-                                            <th class="text-primary">$ {{FormatoNumero(CostoTonelada.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">RENTABILIDAD</th>
-                                            <th class="text-orange">{{Rentabilidad.toFixed(0)}}%</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
+                                    <div class="row mb-3 justify-content-between">
+                                        <div class="col-4">
+                                            <span class="badge badge-dark badge-pill">
+                                                {{oValor?.DiasDeRiesgo}} d&iacute;as de riesgo
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <!-- #region TABLA DE CONTENIDO -->
+                                            <div class="table-responsive shadow-sm" 
+                                            :style="isMobil ? 'max-height: 350px; overflow: auto;' : null">
+                                            <table class="table bg-light table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>Actividad</th>
+                                                    <th>Unidad</th>
+                                                    <th>Costo</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>                                            
+                                                    <tr v-for="(item, index) in listaDetalles">
+                                                        <td>{{item.Actividad}}</td>
+                                                        <td>
+                                                            <input 
+                                                                :type="isMobil ? 'number' : 'text'" 
+                                                                :id="txtUnidad + item.Id"
+                                                                class="form-control unidadMaiz"
+                                                                :class="isMobil ? 'form-control-sm' : null"
+                                                                placeholder="Unidad"
+                                                                @keypress="SoloDecimales($event, decimales)"
+                                                                @keyup.enter="setFocusNextElement('unidadMaiz', index)"
+                                                                @blur="ValidarTxtUnidad(item.Id)"
+                                                                autocomplete="off"
+                                                                maxlength="10"
+                                                                :data-index="'unidadMaiz_' + index"
+                                                                :data-id="item.Id"
+                                                                :data-value="item.unidad">
+                                                        </td>
+                                                        <td>
+                                                            <input 
+                                                                :type="isMobil ? 'number' : 'text'" 
+                                                                :id="txtCosto + item.Id"
+                                                                class="form-control costoMaiz"
+                                                                :class="isMobil ? 'form-control-sm' : null"
+                                                                placeholder="Costo"
+                                                                @keypress="SoloDecimales($event, decimales)"
+                                                                @keyup.enter="setFocusNextElement('costoMaiz', index)"
+                                                                @blur="CalculaTotales()"
+                                                                autocomplete="off"
+                                                                maxlength="10"
+                                                                :disabled="item.readOnly === 'true'"
+                                                                :data-index="'costoMaiz_' + index"
+                                                                :data-id="item.Id">
+                                                        </td>
+                                                    </tr>
+                                                    <!--<tr>
+                                                        <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
+                                                        <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">
+                                                            COSTO FINANCIERO
+                                                            <p class="mb-0 light-grey font-weight-normal font-italic">
+                                                                Díaz de Riesgo: {{oValor?.DiasDeRiesgo}}
+                                                            </p>
+                                                        </th>
+                                                        <th class="text-indigo">$ {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">COSTOS POR HA</th>
+                                                        <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
+                                                        <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">COSTO TONELADA</th>
+                                                        <th class="text-primary">$ {{FormatoNumero(CostoTonelada.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">RENTABILIDAD</th>
+                                                        <th class="text-orange">{{Rentabilidad.toFixed(0)}}%</th>
+                                                    </tr>-->
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            <!-- #endregion -->
+                                        </div>
+                                        <div class="col-md-4">
+                                            <!-- #region TOTALES -->
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="info-box mb-3 bg-info">
+                                                        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                        <div class="info-box-content">
+                                                        <span class="info-box-text">Costo de producci&oacute;n</span>
+                                                        <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="info-box mb-3 bg-indigo">
+                                                        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                        <div class="info-box-content">
+                                                        <span class="info-box-text">Costo Financiero</span>
+                                                        <span class="info-box-number text-md">
+                                                            {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}
+                                                        </span>
+                                                        </div>                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="info-box mb-3 bg-info">
+                                                        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                        <div class="info-box-content">
+                                                        <span class="info-box-text">Costo por Hect&aacute;rea</span>
+                                                        <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</span>
+                                                        </div>                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="info-box mb-3" :class="oCultivo.UtilidadPorHa < 0 ? 'bg-danger' : 'bg-olive'">
+                                                        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                        <div class="info-box-content">
+                                                        <span class="info-box-text">Utilidad por Hect&aacute;rea</span>
+                                                        <span class="info-box-number text-md">{{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</span>
+                                                        </div>                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="info-box mb-3 bg-blue">
+                                                        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                        <div class="info-box-content">
+                                                        <span class="info-box-text">Costo por Tonelada</span>
+                                                        <span class="info-box-number text-md">{{FormatoNumero(CostoTonelada.toFixed(decimales))}}</span>
+                                                        </div>                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="info-box mb-3 bg-warning">
+                                                        <span class="info-box-icon"><i class="fas fa-percentage"></i></span>
+
+                                                        <div class="info-box-content">
+                                                        <span class="info-box-text">Rentabilidad</span>
+                                                        <span class="info-box-number text-md">{{Rentabilidad.toFixed(0)}}</span>
+                                                        </div>                                        
+                                                    </div>
+                                                </div>
+                                            </div>    
+                                            <!-- #endregion -->
+                                        </div>
+                                    </div>
                             </div>
                             <!-- #endregion -->
-                    </div>
-                        <!-- #endregion -->
-                        
-                        <!-- #region AppSorgo -->
-                        <div 
-                            class="tab-pane fade" 
-                            id="custom-tabs-sorgo" 
-                            role="tabpanel" 
-                            aria-labelledby="custom-tabs-sorgo-tab">
+                            
+                            <!-- #region AppSorgo -->
+                            <div 
+                                class="tab-pane fade" 
+                                id="custom-tabs-sorgo" 
+                                role="tabpanel" 
+                                aria-labelledby="custom-tabs-sorgo-tab">
 
-                            <!-- #region DATOS GENERALES -->
-                            <div class="row">
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
+                                <!-- #region DATOS GENERALES -->
+
+                                <div class="row totales">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                            @click="editarValorGeneral('PrecioSacoSemilla')">
                                             <h5 class="mb-0">
                                                 <i class="fas fa-dollar-sign mr-1"></i>
                                                 {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
                                             </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('PrecioSacoSemilla')"></i>
+                                            <p class="text-muted">Saco de Semilla</p>
                                         </div>
-                                        <p class="text-muted">Saco de Semilla</p>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                            @click="editarPrecioTonelada('MaizBlanco')">
                                             <h5 class="mb-0">
                                                 <i class="fas fa-dollar-sign mr-1"></i>
                                                 {{FormatoNumero(oValor?.PrecioTonelada)}}
                                             </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarPrecioTonelada()"></i>
+                                            <p class="text-muted">Precio Tonelada</p>
                                         </div>
-                                        <p class="text-muted">Precio Tonelada</p>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                                @click="editarValorGeneral('RendimientoHectarea')">
                                             <h5 class="mb-0">
                                                 {{FormatoNumero(oValor?.RendimientoHectarea)}}
                                             </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('RendimientoHectarea')"></i>
+                                            <p class="text-muted">Rendimiento por Ha.</p>
                                         </div>
-                                        <p class="text-muted">Rendimiento por Ha.</p>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                                @click="editarValorGeneral('IngresoPorHectarea')">
                                             <h5 class="mb-0">
                                                 <i class="fas fa-dollar-sign mr-1"></i>
                                                 {{FormatoNumero(oValor?.IngresoPorHectarea)}}
                                             </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('IngresoPorHectarea')"></i>
+                                            <p class="text-muted">Ingreso por Ha.</p>
                                         </div>
-                                        <p class="text-muted">Ingreso por Ha.</p>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3 justify-content-between">
+                                    <div class="col-4">
+                                        <span class="badge badge-dark badge-pill">
+                                            {{oValor?.DiasDeRiesgo}} d&iacute;as de riesgo
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- #endregion -->
+                                
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <!-- #region TABLA DE CONTENIDO -->
+                                        <div class="table-responsive shadow-sm" 
+                                            :style="isMobil ? 'max-height: 350px; overflow: auto;' : null">
+                                            <table class="table bg-light table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>Actividad</th>
+                                                    <th>Unidad</th>
+                                                    <th>Costo</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>                                            
+                                                    <tr v-for="(item, index) in listaDetalles">
+                                                        <td>{{item.Actividad}}</td>
+                                                        <td>
+                                                            <input 
+                                                                :type="isMobil ? 'number' : 'text'" 
+                                                                :id="'txt_Unidad_Sorgo_'+ item.Id"
+                                                                class="form-control unidadSorgo"
+                                                                :class="isMobil ? 'form-control-sm' : null"
+                                                                placeholder="Unidad"
+                                                                @keypress="SoloDecimales($event, decimales)"
+                                                                @keyup.enter="setFocusNextElement('unidadSorgo', index)"
+                                                                @blur="ValidarTxtUnidad(item.Id)"
+                                                                autocomplete="off"
+                                                                maxlength="10"
+                                                                :data-index="'unidadSorgo_' + index"
+                                                                :data-id="item.Id"
+                                                                :data-value="item.unidad">
+                                                        </td>
+                                                        <td>
+                                                            <input 
+                                                                :type="isMobil ? 'number' : 'text'" 
+                                                                :id="'txtCosto_Sorgo_'+ item.Id"
+                                                                class="form-control costoSorgo"
+                                                                :class="isMobil ? 'form-control-sm' : null"
+                                                                placeholder="Costo"
+                                                                @keypress="SoloDecimales($event, decimales)"
+                                                                @keyup.enter="setFocusNextElement('costoSorgo', index)"
+                                                                @blur="CalculaTotales()"
+                                                                autocomplete="off"
+                                                                maxlength="10"
+                                                                :disabled="item.readOnly === 'true'"
+                                                                :data-index="'costoSorgo_' + index"
+                                                                :data-id="item.Id">
+                                                        </td>
+                                                    </tr>
+                                                    <!--<tr>
+                                                        <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
+                                                        <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">
+                                                            COSTO FINANCIERO
+                                                            <p class="mb-0 light-grey font-weight-normal font-italic">
+                                                                Díaz de Riesgo: {{oValor?.DiasDeRiesgo}}
+                                                            </p>
+                                                        </th>
+                                                        <th class="text-indigo">
+                                                            $ {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}                                                
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">COSTOS POR HA</th>
+                                                        <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
+                                                        <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">COSTO TONELADA</th>
+                                                        <th class="text-primary">$ {{FormatoNumero(CostoTonelada.toFixed(decimales))}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-muted">RENTABILIDAD</th>
+                                                        <th class="text-orange">{{Rentabilidad.toFixed(0)}}%</th>
+                                                    </tr>-->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- #endregion -->
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- #region TOTALES -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-info">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo de producci&oacute;n</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-indigo">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo Financiero</span>
+                                                    <span class="info-box-number text-md">
+                                                        {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}
+                                                    </span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-info">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo por Hect&aacute;rea</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3" :class="oCultivo.UtilidadPorHa < 0 ? 'bg-danger' : 'bg-olive'">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Utilidad por Hect&aacute;rea</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-blue">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo por Tonelada</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(CostoTonelada.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-warning">
+                                                    <span class="info-box-icon"><i class="fas fa-percentage"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Rentabilidad</span>
+                                                    <span class="info-box-number text-md">{{Rentabilidad.toFixed(0)}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                        </div>    
+                                        <!-- #endregion -->
+                                    </div>
+                                </div>
+                                
+                            </div>    
+                            <!-- #endregion -->
+                        
+                            <!-- #region AppGarbanzo -->
+                            <div 
+                                class="tab-pane fade" 
+                                id="custom-tabs-garbanzo" 
+                                role="tabpanel" 
+                                aria-labelledby="custom-tabs-garbanzo-tab">
+                            
+                                <!-- #region DATOS GENERALES -->
+                                
+                                <div class="row totales">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                            @click="editarValorGeneral('PrecioSacoSemilla')">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
+                                            </h5>
+                                            <p class="text-muted">Saco de Semilla</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                            @click="editarPrecioTonelada('MaizBlanco')">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.PrecioTonelada)}}
+                                            </h5>
+                                            <p class="text-muted">Precio Tonelada</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                                @click="editarValorGeneral('RendimientoHectarea')">
+                                            <h5 class="mb-0">
+                                                {{FormatoNumero(oValor?.RendimientoHectarea)}}
+                                            </h5>
+                                            <p class="text-muted">Rendimiento por Ha.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                                @click="editarValorGeneral('IngresoPorHectarea')">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-dollar-sign mr-1"></i>
+                                                {{FormatoNumero(oValor?.IngresoPorHectarea)}}
+                                            </h5>
+                                            <p class="text-muted">Ingreso por Ha.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3 justify-content-between">
+                                    <div class="col-4">
+                                        <span class="badge badge-dark badge-pill">
+                                            {{oValor?.DiasDeRiesgo}} d&iacute;as de riesgo
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- #endregion -->
+                                
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <!-- #region TABLA DE CONTENIDO -->
+                                        <div class="table-responsive shadow-sm" 
+                                            :style="isMobil ? 'max-height: 350px; overflow: auto;' : null">
+                                            <table class="table bg-light table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>Actividad</th>
+                                                    <th>Unidad</th>
+                                                    <th>Costo</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>                                            
+                                                    <tr v-for="(item, index) in listaDetalles">
+                                                        <td>{{item.Actividad}}</td>
+                                                        <td>
+                                                            <input 
+                                                                :type="isMobil ? 'number' : 'text'" 
+                                                                :id="txtUnidad + item.Id"
+                                                                class="form-control unidadGarbanzo"
+                                                                :class="isMobil ? 'form-control-sm' : null"
+                                                                :value="item.unidad"
+                                                                placeholder="Unidad"
+                                                                @keypress="SoloDecimales($event, decimales)"
+                                                                @keyup.enter="setFocusNextElement('unidadGarbanzo', index)"
+                                                                @blur="ValidarTxtUnidad(item.Id)"
+                                                                autocomplete="off"
+                                                                maxlength="10"
+                                                                :data-index="'unidadGarbanzo_' + index"
+                                                                :data-id="item.Id"
+                                                                :data-value="item.unidad">
+                                                        </td>
+                                                        <td>
+                                                            <input 
+                                                                :type="isMobil ? 'number' : 'text'" 
+                                                                :id="txtCosto + item.Id"
+                                                                class="form-control costoGarbanzo"
+                                                                :class="isMobil ? 'form-control-sm' : null"
+                                                                placeholder="Costo"
+                                                                @keypress="SoloDecimales($event, decimales)"
+                                                                @keyup.enter="setFocusNextElement('costoGarbanzo', index)"
+                                                                @blur="CalculaTotales()"
+                                                                autocomplete="off"
+                                                                maxlength="10"
+                                                                :disabled="item.readOnly === 'true'"
+                                                                :data-index="'costoGarbanzo_' + index"
+                                                                :data-id="item.Id">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- #endregion -->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- #region TOTALES -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-info">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo de producci&oacute;n</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-indigo">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo Financiero</span>
+                                                    <span class="info-box-number text-md">
+                                                        {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}
+                                                    </span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-info">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo por Hect&aacute;rea</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3" :class="oCultivo.UtilidadPorHa < 0 ? 'bg-danger' : 'bg-olive'">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Utilidad por Hect&aacute;rea</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-blue">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo por Tonelada</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(CostoTonelada.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-warning">
+                                                    <span class="info-box-icon"><i class="fas fa-percentage"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Rentabilidad</span>
+                                                    <span class="info-box-number text-md">{{Rentabilidad.toFixed(0)}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                        </div>    
+                                        <!-- #endregion -->
                                     </div>
                                 </div>
                             </div>    
                             <!-- #endregion -->
                             
-                            <!-- #region TABLA DE CONTENIDO -->
-                            <div class="table-responsive shadow-sm" 
-                                :style="isMobil ? 'max-height: 450px; overflow: auto;' : null">
-                                <table class="table bg-light table-sm mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Actividad</th>
-                                        <th>Unidad</th>
-                                        <th>Costo</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>                                            
-                                        <tr v-for="(item, index) in listaDetalles">
-                                            <td>{{item.Actividad}}</td>
-                                            <td>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    :id="'txt_Unidad_Sorgo_'+ item.Id"
-                                                    class="form-control unidadSorgo"
-                                                    :class="isMobil ? 'form-control-sm' : null"
-                                                    placeholder="Unidad"
-                                                    @keypress="SoloDecimales($event, decimales)"
-                                                    @keyup.enter="setFocusNextElement('unidadSorgo', index)"
-                                                    @blur="ValidarTxtUnidad(item.Id)"
-                                                    autocomplete="off"
-                                                    maxlength="10"
-                                                    :data-index="'unidadSorgo_' + index"
-                                                    :data-id="item.Id"
-                                                    :data-value="item.unidad">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    :id="'txtCosto_Sorgo_'+ item.Id"
-                                                    class="form-control costoSorgo"
-                                                    :class="isMobil ? 'form-control-sm' : null"
-                                                    placeholder="Costo"
-                                                    @keypress="SoloDecimales($event, decimales)"
-                                                    @keyup.enter="setFocusNextElement('costoSorgo', index)"
-                                                    @blur="CalculaTotales()"
-                                                    autocomplete="off"
-                                                    maxlength="10"
-                                                    :disabled="item.readOnly === 'true'"
-                                                    :data-index="'costoSorgo_' + index"
-                                                    :data-id="item.Id">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
-                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">
-                                                COSTO FINANCIERO
-                                                <p class="mb-0 light-grey font-weight-normal font-italic">
-                                                    Díaz de Riesgo: {{oValor?.DiasDeRiesgo}}
-                                                </p>
-                                            </th>
-                                            <th class="text-indigo">
-                                                $ {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}                                                
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTOS POR HA</th>
-                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
-                                            <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTO TONELADA</th>
-                                            <th class="text-primary">$ {{FormatoNumero(CostoTonelada.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">RENTABILIDAD</th>
-                                            <th class="text-orange">{{Rentabilidad.toFixed(0)}}%</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- #endregion -->
+                            <!-- #region AppFrijol -->
+                            <div 
+                                class="tab-pane fade" 
+                                id="custom-tabs-frijol" 
+                                role="tabpanel" 
+                                aria-labelledby="custom-tabs-frijol-tab">
 
-                        </div>    
-                        <!-- #endregion -->
-                       
-                        <!-- #region AppGarbanzo -->
-                        <div 
-                            class="tab-pane fade" 
-                            id="custom-tabs-garbanzo" 
-                            role="tabpanel" 
-                            aria-labelledby="custom-tabs-garbanzo-tab">
-                          
-                            <!-- #region DATOS GENERALES -->
-                            <div class="row">
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
+                                <!-- #region DATOS GENERALES -->
+                                
+                                <div class="row totales">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                            @click="editarValorGeneral('PrecioSacoSemilla')">
                                             <h5 class="mb-0">
                                                 <i class="fas fa-dollar-sign mr-1"></i>
                                                 {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
                                             </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('PrecioSacoSemilla')"></i>
+                                            <p class="text-muted">Saco de Semilla</p>
                                         </div>
-                                        <p class="text-muted">Saco de Semilla</p>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                            @click="editarPrecioTonelada('MaizBlanco')">
                                             <h5 class="mb-0">
                                                 <i class="fas fa-dollar-sign mr-1"></i>
                                                 {{FormatoNumero(oValor?.PrecioTonelada)}}
                                             </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarPrecioTonelada()"></i>
+                                            <p class="text-muted">Precio Tonelada</p>
                                         </div>
-                                        <p class="text-muted">Precio Tonelada</p>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                                @click="editarValorGeneral('RendimientoHectarea')">
                                             <h5 class="mb-0">
                                                 {{FormatoNumero(oValor?.RendimientoHectarea)}}
                                             </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('RendimientoHectarea')"></i>
+                                            <p class="text-muted">Rendimiento por Ha.</p>
                                         </div>
-                                        <p class="text-muted">Rendimiento por Ha.</p>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
+                                    <div class="col-6 col-md-3">
+                                        <div class="callout callout-success pointer"
+                                                @click="editarValorGeneral('IngresoPorHectarea')">
                                             <h5 class="mb-0">
                                                 <i class="fas fa-dollar-sign mr-1"></i>
                                                 {{FormatoNumero(oValor?.IngresoPorHectarea)}}
                                             </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pinter"
-                                                @click="editarValorGeneral('IngresoPorHectarea')"></i>
+                                            <p class="text-muted">Ingreso por Ha.</p>
                                         </div>
-                                        <p class="text-muted">Ingreso por Ha.</p>
                                     </div>
                                 </div>
-                            </div>    
+
+                                <div class="row mb-3 justify-content-between">
+                                    <div class="col-4">
+                                        <span class="badge badge-dark badge-pill">
+                                            {{oValor?.DiasDeRiesgo}} d&iacute;as de riesgo
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- #endregion -->
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <!-- #region TABLA DE CONTENIDO -->
+                                            <div class="table-responsive shadow-sm" 
+                                            :style="isMobil ? 'max-height: 350px; overflow: auto;' : null">
+                                            <table class="table bg-light table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>Actividad</th>
+                                                    <th>Unidad</th>
+                                                    <th>Costo</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>                                            
+                                                    <tr v-for="(item, index) in listaDetalles">
+                                                        <td>{{item.Actividad}}</td>
+                                                        <td>
+                                                            <input 
+                                                                :type="isMobil ? 'number' : 'text'" 
+                                                                :id="txtUnidad + item.Id"
+                                                                class="form-control unidadFrijol"
+                                                                :class="isMobil ? 'form-control-sm' : null"
+                                                                :value="item.unidad"
+                                                                placeholder="Unidad"
+                                                                @keypress="SoloDecimales($event, decimales)"
+                                                                @keyup.enter="setFocusNextElement('unidadFrijol', index)"
+                                                                @blur="ValidarTxtUnidad(item.Id)"
+                                                                autocomplete="off"
+                                                                maxlength="10"
+                                                                :data-index="'unidadFrijol_' + index"
+                                                                :data-id="item.Id"
+                                                                :data-value="item.unidad">
+                                                        </td>
+                                                        <td>
+                                                            <input 
+                                                                :type="isMobil ? 'number' : 'text'" 
+                                                                :id="txtCosto + item.Id"
+                                                                class="form-control costoFrijol"
+                                                                :class="isMobil ? 'form-control-sm' : null"
+                                                                placeholder="Costo"
+                                                                @keypress="SoloDecimales($event, decimales)"
+                                                                @keyup.enter="setFocusNextElement('costoFrijol', index)"
+                                                                @blur="CalculaTotales()"
+                                                                autocomplete="off"
+                                                                maxlength="10"
+                                                                :disabled="item.readOnly === 'true'"
+                                                                :data-index="'costoFrijol_' + index"
+                                                                :data-id="item.Id">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- #endregion -->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- #region TOTALES -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-info">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo de producci&oacute;n</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-indigo">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo Financiero</span>
+                                                    <span class="info-box-number text-md">
+                                                        {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}
+                                                    </span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-info">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo por Hect&aacute;rea</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3" :class="oCultivo.UtilidadPorHa < 0 ? 'bg-danger' : 'bg-olive'">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Utilidad por Hect&aacute;rea</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-blue">
+                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Costo por Tonelada</span>
+                                                    <span class="info-box-number text-md">{{FormatoNumero(CostoTonelada.toFixed(decimales))}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="info-box mb-3 bg-warning">
+                                                    <span class="info-box-icon"><i class="fas fa-percentage"></i></span>
+
+                                                    <div class="info-box-content">
+                                                    <span class="info-box-text">Rentabilidad</span>
+                                                    <span class="info-box-number text-md">{{Rentabilidad.toFixed(0)}}</span>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                        </div>    
+                                        <!-- #endregion -->
+                                    </div>
+                                </div>
+                                
+                            </div>
                             <!-- #endregion -->
                             
-                            <!-- #region TABLA DE CONTENIDO -->
-                            <div class="table-responsive shadow-sm" 
-                                :style="isMobil ? 'max-height: 450px; overflow: auto;' : null">
-                                <table class="table bg-light table-sm mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Actividad</th>
-                                        <th>Unidad</th>
-                                        <th>Costo</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>                                            
-                                        <tr v-for="(item, index) in listaDetalles">
-                                            <td>{{item.Actividad}}</td>
-                                            <td>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    :id="txtUnidad + item.Id"
-                                                    class="form-control unidadGarbanzo"
-                                                    :class="isMobil ? 'form-control-sm' : null"
-                                                    :value="item.unidad"
-                                                    placeholder="Unidad"
-                                                    @keypress="SoloDecimales($event, decimales)"
-                                                    @keyup.enter="setFocusNextElement('unidadGarbanzo', index)"
-                                                    @blur="ValidarTxtUnidad(item.Id)"
-                                                    autocomplete="off"
-                                                    maxlength="10"
-                                                    :data-index="'unidadGarbanzo_' + index"
-                                                    :data-id="item.Id"
-                                                    :data-value="item.unidad">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    :id="txtCosto + item.Id"
-                                                    class="form-control costoGarbanzo"
-                                                    :class="isMobil ? 'form-control-sm' : null"
-                                                    placeholder="Costo"
-                                                    @keypress="SoloDecimales($event, decimales)"
-                                                    @keyup.enter="setFocusNextElement('costoGarbanzo', index)"
-                                                    @blur="CalculaTotales()"
-                                                    autocomplete="off"
-                                                    maxlength="10"
-                                                    :disabled="item.readOnly === 'true'"
-                                                    :data-index="'costoGarbanzo_' + index"
-                                                    :data-id="item.Id">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
-                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">
-                                                COSTO FINANCIERO
-                                                <p class="mb-0 light-grey font-weight-normal font-italic">
-                                                    Díaz de Riesgo: {{oValor?.DiasDeRiesgo}}
-                                                </p>
-                                            </th>
-                                            <th class="text-indigo">
-                                                $ {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}                                                
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTOS POR HA</th>
-                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
-                                            <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTO TONELADA</th>
-                                            <th class="text-primary">$ {{FormatoNumero(CostoTonelada.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">RENTABILIDAD</th>
-                                            <th class="text-orange">{{Rentabilidad.toFixed(0)}}%</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <!-- #region RESUMEN -->
+                            <div 
+                                class="tab-pane fade" 
+                                id="resumen" 
+                                role="tabpanel" 
+                                aria-labelledby="resumen-tab">
+                                <div class="row" id="rowTabResumen" style="max-height: calc(85vh - 100px);overflow: auto;">
+
+                                </div>
                             </div>
                             <!-- #endregion -->
 
-                        </div>    
-                        <!-- #endregion -->
-                        
-                        <!-- #region AppFrijol -->
-                        <div 
-                            class="tab-pane fade" 
-                            id="custom-tabs-frijol" 
-                            role="tabpanel" 
-                            aria-labelledby="custom-tabs-frijol-tab">
-
-                             <!-- #region DATOS GENERALES -->
-                             <div class="row">
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
-                                            </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pointer"
-                                                @click="editarValorGeneral('PrecioSacoSemilla')"></i>
-                                        </div>
-                                        <p class="text-muted">Saco de Semilla</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.PrecioTonelada)}}
-                                            </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pointer"
-                                                @click="editarPrecioTonelada()"></i>
-                                        </div>
-                                        <p class="text-muted">Precio Tonelada</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">
-                                                {{FormatoNumero(oValor?.RendimientoHectarea)}}
-                                            </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pointer"
-                                                @click="editarValorGeneral('RendimientoHectarea')"></i>
-                                        </div>
-                                        <p class="text-muted">Rendimiento por Ha.</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="callout callout-success">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">
-                                                <i class="fas fa-dollar-sign mr-1"></i>
-                                                {{FormatoNumero(oValor?.IngresoPorHectarea)}}
-                                            </h5>
-                                            <i class="fas fa-ellipsis-v text-muted-gray pointer"
-                                                @click="editarValorGeneral('IngresoPorHectarea')"></i>
-                                        </div>
-                                        <p class="text-muted">Ingreso por Ha.</p>
-                                    </div>
-                                </div>
-                            </div>    
-                            <!-- #endregion -->
-                            
-                            <!-- #region TABLA DE CONTENIDO -->
-                            <div class="table-responsive shadow-sm" 
-                                :style="isMobil ? 'max-height: 450px; overflow: auto;' : null">
-                                <table class="table bg-light table-sm mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Actividad</th>
-                                        <th>Unidad</th>
-                                        <th>Costo</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>                                            
-                                        <tr v-for="(item, index) in listaDetalles">
-                                            <td>{{item.Actividad}}</td>
-                                            <td>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    :id="txtUnidad + item.Id"
-                                                    class="form-control unidadFrijol"
-                                                    :class="isMobil ? 'form-control-sm' : null"
-                                                    :value="item.unidad"
-                                                    placeholder="Unidad"
-                                                    @keypress="SoloDecimales($event, decimales)"
-                                                    @keyup.enter="setFocusNextElement('unidadFrijol', index)"
-                                                    @blur="ValidarTxtUnidad(item.Id)"
-                                                    autocomplete="off"
-                                                    maxlength="10"
-                                                    :data-index="'unidadFrijol_' + index"
-                                                    :data-id="item.Id"
-                                                    :data-value="item.unidad">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    :type="isMobil ? 'number' : 'text'" 
-                                                    :id="txtCosto + item.Id"
-                                                    class="form-control costoFrijol"
-                                                    :class="isMobil ? 'form-control-sm' : null"
-                                                    placeholder="Costo"
-                                                    @keypress="SoloDecimales($event, decimales)"
-                                                    @keyup.enter="setFocusNextElement('costoFrijol', index)"
-                                                    @blur="CalculaTotales()"
-                                                    autocomplete="off"
-                                                    maxlength="10"
-                                                    :disabled="item.readOnly === 'true'"
-                                                    :data-index="'costoFrijol_' + index"
-                                                    :data-id="item.Id">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTOS DE PRODUCCION</th>
-                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">
-                                                COSTO FINANCIERO
-                                                <p class="mb-0 light-grey font-weight-normal font-italic">
-                                                    Díaz de Riesgo: {{oValor?.DiasDeRiesgo}}
-                                                </p>
-                                            </th>
-                                            <th class="text-indigo">
-                                                $ {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}                                                
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTOS POR HA</th>
-                                            <th class="text-primary">$ {{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">UTILIDAD POR HA</th>
-                                            <th :class="oCultivo.UtilidadPorHa < 0 ? 'text-danger' : 'text-olive'">$ {{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">COSTO TONELADA</th>
-                                            <th class="text-primary">$ {{FormatoNumero(CostoTonelada.toFixed(decimales))}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" class="text-muted">RENTABILIDAD</th>
-                                            <th class="text-orange">{{Rentabilidad.toFixed(0)}}%</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- #endregion -->
-
-                            
                         </div>
-                        <!-- #endregion -->
-                        
-                        <!-- #region RESUMEN -->
-                        <div 
-                            class="tab-pane fade" 
-                            id="resumen" 
-                            role="tabpanel" 
-                            aria-labelledby="resumen-tab">
-                            <div class="row" id="rowTabResumen" style="max-height: calc(85vh - 100px);overflow: auto;">
-
-                            </div>
-                        </div>
-                        <!-- #endregion -->
-
-                      </div>
                     </div>
                     <div class="card-footer" id="TabFooter">
                         <div class="d-flex">

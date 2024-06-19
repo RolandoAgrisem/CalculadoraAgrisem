@@ -217,7 +217,10 @@ const appSorgo = new Vue({
                                 : 0;
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'text',
+                    input: 'number',
+                    inputAttributes: {
+                        step: 'any' // Permite decimales
+                    },
                     html: `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`,
                     inputPlaceholder: 'Ingresa el total.',
                     allowOutsideClick: false,
@@ -384,7 +387,10 @@ const appSorgo = new Vue({
 
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'text',
+                    input: 'number',
+                    inputAttributes: {
+                        step: 'any' // Permite decimales
+                    },
                     html: `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`,
                     inputPlaceholder: 'Ingresa el nuevo valor',
                     allowOutsideClick: false,

@@ -298,7 +298,7 @@ const appMaiz = new Vue({
                                 : 0;
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'text',
+                    input: 'number',
                     html: `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`,
                     inputPlaceholder: 'Ingresa el total.',
                     allowOutsideClick: false,
@@ -311,6 +311,9 @@ const appMaiz = new Vue({
                     reverseButtons: true,
                     focusConfirm: false,
                     showLoaderOnConfirm: true,
+                    inputAttributes: {
+                        step: 'any' // Permite decimales
+                    },
                     preConfirm: async (nuevoTotal) => {
                         if(IsNullOrEmpty(nuevoTotal)){
                             Swal.showValidationMessage("Ingresa el valor.");
@@ -400,7 +403,7 @@ const appMaiz = new Vue({
 
                 Swal.fire({
                     title: `NUEVO VALOR`,
-                    input: 'text',
+                    input: 'number',
                     html: `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`,
                     inputPlaceholder: 'Ingresa el nuevo valor',
                     allowOutsideClick: false,
@@ -413,6 +416,9 @@ const appMaiz = new Vue({
                     reverseButtons: true,
                     focusConfirm: false,
                     showLoaderOnConfirm: true,
+                    inputAttributes: {
+                        step: 'any' // Permite decimales
+                    },
                     preConfirm: async (nuevoTotal) => {
                         if(IsNullOrEmpty(nuevoTotal)){
                             Swal.showValidationMessage("Ingresa el valor.");
