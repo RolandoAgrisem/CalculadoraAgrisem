@@ -360,7 +360,7 @@ const appGarbanzo = new Vue({
                         }
                         const valorUnidadMaiz = esNumeroMayorQueCero(txtUnidad.val()) ? Number(txtUnidad.val()) : 0;
                         let nuevoCostoCalculado = 0;
-                        if(item.unidad === "%"){
+                        if(item.calcularCon.includes('%')){
                             nuevoCostoCalculado = (Number(valor) * valorUnidadMaiz) / 100;
                             } else {
                             nuevoCostoCalculado = Number(valor) * valorUnidadMaiz;
