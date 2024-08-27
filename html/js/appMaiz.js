@@ -397,7 +397,6 @@ const appMaiz = new Vue({
         },
         ObtenerTipoDeCambio: async function(){
             try {
-                debugger;
                 const urlAPIBanxico = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718/datos/oportuno?token=d69e1f799d361bba0d721d9d40d85256c563762de87c8daa1a98f6b4c87234dd";
                 const response = await fetch(urlAPIBanxico);
                 if (response.ok){
@@ -410,7 +409,6 @@ const appMaiz = new Vue({
                             return 0
                         }
                     }
-                    console.log(data)
                 }
             } catch (error) {
                 console.error(error)
@@ -422,26 +420,36 @@ const appMaiz = new Vue({
             try {
                 debugger;
                 let oDataLocalStorage;
-                try {
-                    const fechaActual = new Date();
-                    const valorActual = esNumeroMayorQueCero(x.oValor.PrecioTonelada)
+                const valorActual = esNumeroMayorQueCero(x.oValor.PrecioTonelada)
                                     ? Number(x.oValor.PrecioTonelada)
                                     : 0;
+
+                const FECHA_ACTUAL = fechaActual_yyyy_mm_dd();
+                try {
+
+                    localStorage.removeItem("priceFutureCorn");
+
                     const priceFutureLocal = localStorage.getItem("priceFutureCorn");
 
-                    if(!priceFutureLocal)
+                    if(priceFutureLocal)
                     {
-                        if(!IsNullOrEmpty(x.oValor.UrlPriceFutute) && !IsNullOrEmpty(x.oValor.BaseDolares) && !isNaN(x.oValor.BaseDolares))
+                        oDataLocalStorage = JSON.parse(localStorage.getItem("priceFutureCorn"));
+                        //VALIDAR EL FechaRegistro SI ES IGUAL ALA ACTUAL O YA CAMBIO DE DIA
+                        //SI YA CAMBIO DE DIA TENGO QIUR OBTENER LOS VALORES DESDE LA API NUEVAMENTE
+                    } else {
+                        if(!IsNullOrEmpty(x.oValor.UrlPriceFututeeeeeeeeeeeeeee) && !IsNullOrEmpty(x.oValor.BaseDolares) && !isNaN(x.oValor.BaseDolares))
                         {
                             const response = await fetch(x.oValor.UrlPriceFutute);
                             if (response.ok)
                             {
                                 const data = await response.json();
-                                const anioFuture = fechaActual.getFullYear() + 1 + "";
+                                const nDate = new Date();
+                                const anioFuture = nDate.getFullYear() + 1 + "";
                                 //obtener los ultimos 2 digitos de anioFuture
                                 const numYearOnly = anioFuture.slice(-2);
-                                const julAnioFuture = "JUL " + numYearOnly;
-                                const quotes = data.quotes.find(l => l.expirationMonth === julAnioFuture);
+                                const julAnioFutureMonth = "JUL " + numYearOnly;
+                                const julAnioFuture = `${anioFuture}0701`
+                                const quotes = data.quotes.find(l => l.expirationDate == julAnioFuture);
                                 if(quotes){
                                     const bushelCornFutures = quotes.last.includes("'") ? Number(quotes.last.replace("'", ".")) : Number(quotes.last);
                                     if(!isNaN(bushelCornFutures)){
@@ -452,44 +460,72 @@ const appMaiz = new Vue({
                                         if(!oTipoCambio || oTipoCambio == 0){
                                             throw 'No fue posible obtener el tipo de cambio.'
                                         }
-                                        if(!isNaN(oTipoCambio.dato)){
+                                        if(IsNullOrEmpty(oTipoCambio.dato)){
                                             throw 'No hay valor numerico para el tipo de cambio.'
                                         }
                                         const PrecioEnPesos = precioEnDolares * Number(oTipoCambio.dato)
-                                        const PrecioEnPesosFix = !isNaN(PrecioEnPesos) ? PrecioEnPesos.toFixed(2) : 0;
+                                        const PrecioEnPesosFix = !isNaN(PrecioEnPesos) ? Number(PrecioEnPesos.toFixed(2)) : 0;
 
                                         oDataLocalStorage = {
                                             "Bushel" : bushelCornFutures,
+                                            "DateBushel" : julAnioFutureMonth,
                                             "Base" : x.oValor.BaseDolares,
                                             "PrecioToneladaMXP": PrecioEnPesosFix,
                                             "TipoCambio": {
                                                 "dato": oTipoCambio.dato,
                                                 "fecha" : oTipoCambio.fecha
-                                            }
+                                            },
+                                            "FechaRegistro" : FECHA_ACTUAL
                                         };
+
                                         localStorage.setItem("priceFutureCorn", JSON.stringify(oDataLocalStorage));
                                     }
                                 } else {
                                     localStorage.removeItem("priceFutureCorn")
                                 }
                             }
-                            console.log(await response.json())
                         }
                     }
                 } catch (error) {
                     console.error(error)
                 }
 
+                let inputValue = "",
+                    titulo = "PRECIO TONELADA",
+                    shtml = `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`;
                 if(oDataLocalStorage){
                     //existe bushel
-                    
+                    inputValue = oDataLocalStorage.PrecioToneladaMXP;
+                    titulo += " FUTURO";
+                    shtml = 
+                        `<div class="row mx-1">
+                            <div class="col-sm-4 border-right">
+                                <div class="description-block my-2">
+                                    <h5 class="description-header mb-1">${oDataLocalStorage.Bushel}</h5>
+                                    <span class="text-sm text-muted">Bushel ${oDataLocalStorage.DateBushel}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 border-right">
+                                <div class="description-block my-2">
+                                    <h5 class="description-header mb-1">${oDataLocalStorage.Base}</h5>
+                                    <span class="text-sm text-muted">Base</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="description-block my-2">
+                                    <h5 class="description-header mb-1">${oDataLocalStorage.TipoCambio.dato}</h5>
+                                    <span class="text-sm text-muted">Tipo Cambio</span>
+                                </div>
+                            </div>
+                        </div>`
                 }
 
                 Swal.fire({
-                    title: `NUEVO VALOR`,
+                    title: titulo,
                     input: x.isMobil ? 'number' : 'text',
+                    inputValue,
                     position: x.isMobil ? 'top' : 'center',
-                    html: `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`,
+                    html: shtml,
                     inputPlaceholder: 'Ingresa el nuevo valor',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
