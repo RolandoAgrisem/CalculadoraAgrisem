@@ -395,45 +395,94 @@ const appMaiz = new Vue({
                 mostrarError("ALGO SALIO MAL", "Error al intentar validar.")
             }
         },
+        ObtenerTipoDeCambio: async function(){
+            try {
+                debugger;
+                const urlAPIBanxico = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718/datos/oportuno?token=d69e1f799d361bba0d721d9d40d85256c563762de87c8daa1a98f6b4c87234dd";
+                const response = await fetch(urlAPIBanxico);
+                if (response.ok){
+                    const data = await response.json();
+                    if(data){
+                        const oTipoCambio = data.bmx.series[0].datos[0];
+                        if(oTipoCambio){
+                            return oTipoCambio
+                        } else {
+                            return 0
+                        }
+                    }
+                    console.log(data)
+                }
+            } catch (error) {
+                console.error(error)
+                return 0;
+            }
+        },
         editarPrecioTonelada: async function(nomPropiedadPadre){
             const x = this;
             try {
                 debugger;
-                const data = await response.json();
-                const fechaActual = new Date();
+                let oDataLocalStorage;
+                try {
+                    const fechaActual = new Date();
+                    const valorActual = esNumeroMayorQueCero(x.oValor.PrecioTonelada)
+                                    ? Number(x.oValor.PrecioTonelada)
+                                    : 0;
+                    const priceFutureLocal = localStorage.getItem("priceFutureCorn");
 
-                const valorActual = esNumeroMayorQueCero(x.oValor.PrecioTonelada)
-                                ? Number(x.oValor.PrecioTonelada)
-                                : 0;
-                const priceFutureLocal = localStorage.getItem("priceFutureCorn");
-
-                if(!priceFutureLocal)
-                {
-                    if(!IsNullOrEmpty(x.oValor.UrlPriceFutute))
+                    if(!priceFutureLocal)
                     {
-                        const response = await fetch(x.oValor.UrlPriceFutute);
-                        if (response.ok)
+                        if(!IsNullOrEmpty(x.oValor.UrlPriceFutute) && !IsNullOrEmpty(x.oValor.BaseDolares) && !isNaN(x.oValor.BaseDolares))
                         {
-                            const anioFuture = fechaActual.getFullYear() + 1 + "";
-                            //obtener los ultimos 2 digitos de anioFuture
-                            const numYearOnly = anioFuture.slice(-2);
-                            const julAnioFuture = "JUL " + numYearOnly;
-                            const quotes = data.quotes.find(l => l.expirationMonth === julAnioFuture);
-                            if(quotes){
-                                const bushel = quotes.last.includes("'") ? Number(quotes.last.replace("'", ".")) : Number(quotes.last);
-                                if(!isNaN(bushel)){
-                                    const formula = bushel * 0.3936825;
-                                    
+                            const response = await fetch(x.oValor.UrlPriceFutute);
+                            if (response.ok)
+                            {
+                                const data = await response.json();
+                                const anioFuture = fechaActual.getFullYear() + 1 + "";
+                                //obtener los ultimos 2 digitos de anioFuture
+                                const numYearOnly = anioFuture.slice(-2);
+                                const julAnioFuture = "JUL " + numYearOnly;
+                                const quotes = data.quotes.find(l => l.expirationMonth === julAnioFuture);
+                                if(quotes){
+                                    const bushelCornFutures = quotes.last.includes("'") ? Number(quotes.last.replace("'", ".")) : Number(quotes.last);
+                                    if(!isNaN(bushelCornFutures)){
+                                        const formula = bushelCornFutures * 0.3936825;
+                                        const Base = Number(x.oValor.BaseDolares);
+                                        const precioEnDolares = formula + Base;
+                                        const oTipoCambio = await x.ObtenerTipoDeCambio();
+                                        if(!oTipoCambio || oTipoCambio == 0){
+                                            throw 'No fue posible obtener el tipo de cambio.'
+                                        }
+                                        if(!isNaN(oTipoCambio.dato)){
+                                            throw 'No hay valor numerico para el tipo de cambio.'
+                                        }
+                                        const PrecioEnPesos = precioEnDolares * Number(oTipoCambio.dato)
+                                        const PrecioEnPesosFix = !isNaN(PrecioEnPesos) ? PrecioEnPesos.toFixed(2) : 0;
+
+                                        oDataLocalStorage = {
+                                            "Bushel" : bushelCornFutures,
+                                            "Base" : x.oValor.BaseDolares,
+                                            "PrecioToneladaMXP": PrecioEnPesosFix,
+                                            "TipoCambio": {
+                                                "dato": oTipoCambio.dato,
+                                                "fecha" : oTipoCambio.fecha
+                                            }
+                                        };
+                                        localStorage.setItem("priceFutureCorn", JSON.stringify(oDataLocalStorage));
+                                    }
+                                } else {
+                                    localStorage.removeItem("priceFutureCorn")
                                 }
-                            } else {
-                                localStorage.removeItem("priceFutureCorn")
                             }
-                          return Swal.showValidationMessage(`
-                            ${JSON.stringify(await response.json())}
-                          `);
+                            console.log(await response.json())
                         }
-                        console.log(await response.json())
                     }
+                } catch (error) {
+                    console.error(error)
+                }
+
+                if(oDataLocalStorage){
+                    //existe bushel
+                    
                 }
 
                 Swal.fire({
