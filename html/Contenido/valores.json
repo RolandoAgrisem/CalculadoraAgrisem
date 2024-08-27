@@ -7,6 +7,8 @@
         "RendimientoHectarea": "11.5",
         "DiasDeRiesgo"       : "200",
         "IngresoPorHectarea" : "0",
+        "UrlPriceFutute" : "https://www.cmegroup.com/CmeWS/mvc/quotes/v2/300?isProtected&_t=1724428615000",
+        "BaseDolares" : "80",
         "Lista": [
             {"Actividad": "Semilla", "unidad": "1.85", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|PrecioSacoSemilla"},
             {"Actividad": "Fertilizante", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},

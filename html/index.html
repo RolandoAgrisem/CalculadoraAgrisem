@@ -139,7 +139,10 @@
                                     <div class="row totales">
                                         <div class="col-6 col-md-3">
                                             <div class="callout callout-success pointer"
-                                                @click="editarValorGeneral('PrecioSacoSemilla')">
+                                                    @click="editarValorGeneral('PrecioSacoSemilla')"
+                                                    data-toggle="tooltip" 
+                                                    data-placement="bottom" 
+                                                    title="Cambiar precio">
                                                 <h5 class="mb-0">
                                                     <i class="fas fa-dollar-sign mr-1"></i>
                                                     {{FormatoNumero(oValor?.PrecioSacoSemilla)}}
@@ -149,7 +152,10 @@
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <div class="callout callout-success pointer"
-                                                @click="editarPrecioTonelada('MaizBlanco')">
+                                                    @click="editarPrecioTonelada('MaizBlanco')"
+                                                    data-toggle="tooltip" 
+                                                    data-placement="bottom" 
+                                                    title="Cambiar precio">
                                                 <h5 class="mb-0">
                                                     <i class="fas fa-dollar-sign mr-1"></i>
                                                     {{FormatoNumero(oValor?.PrecioTonelada)}}
@@ -159,7 +165,10 @@
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <div class="callout callout-success pointer"
-                                                    @click="editarValorGeneral('RendimientoHectarea')">
+                                                    @click="editarValorGeneral('RendimientoHectarea')"
+                                                    data-toggle="tooltip" 
+                                                    data-placement="bottom" 
+                                                    title="Cambiar rendimiento">
                                                 <h5 class="mb-0">
                                                     {{FormatoNumero(oValor?.RendimientoHectarea)}}
                                                 </h5>
@@ -168,7 +177,10 @@
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <div class="callout callout-success pointer"
-                                                    @click="editarValorGeneral('IngresoPorHectarea')">
+                                                    @click="editarValorGeneral('IngresoPorHectarea')"
+                                                    data-toggle="tooltip" 
+                                                    data-placement="bottom" 
+                                                    title="Cambiar ingreso">
                                                 <h5 class="mb-0">
                                                     <i class="fas fa-dollar-sign mr-1"></i>
                                                     {{FormatoNumero(oValor?.IngresoPorHectarea)}}

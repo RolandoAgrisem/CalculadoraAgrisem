@@ -398,9 +398,43 @@ const appMaiz = new Vue({
         editarPrecioTonelada: async function(nomPropiedadPadre){
             const x = this;
             try {
+                debugger;
+                const data = await response.json();
+                const fechaActual = new Date();
+
                 const valorActual = esNumeroMayorQueCero(x.oValor.PrecioTonelada)
                                 ? Number(x.oValor.PrecioTonelada)
                                 : 0;
+                const priceFutureLocal = localStorage.getItem("priceFutureCorn");
+
+                if(!priceFutureLocal)
+                {
+                    if(!IsNullOrEmpty(x.oValor.UrlPriceFutute))
+                    {
+                        const response = await fetch(x.oValor.UrlPriceFutute);
+                        if (response.ok)
+                        {
+                            const anioFuture = fechaActual.getFullYear() + 1 + "";
+                            //obtener los ultimos 2 digitos de anioFuture
+                            const numYearOnly = anioFuture.slice(-2);
+                            const julAnioFuture = "JUL " + numYearOnly;
+                            const quotes = data.quotes.find(l => l.expirationMonth === julAnioFuture);
+                            if(quotes){
+                                const bushel = quotes.last.includes("'") ? Number(quotes.last.replace("'", ".")) : Number(quotes.last);
+                                if(!isNaN(bushel)){
+                                    const formula = bushel * 0.3936825;
+                                    
+                                }
+                            } else {
+                                localStorage.removeItem("priceFutureCorn")
+                            }
+                          return Swal.showValidationMessage(`
+                            ${JSON.stringify(await response.json())}
+                          `);
+                        }
+                        console.log(await response.json())
+                    }
+                }
 
                 Swal.fire({
                     title: `NUEVO VALOR`,
