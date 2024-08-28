@@ -371,3 +371,12 @@ function generaIdUnico() {
 function truncarADecimalesSinRedondear(numero, decimales = 2) {
     return Number((Math.floor(numero * 100) / 100).toFixed(decimales));
 }
+
+const fechaActual_yyyy_mm_dd = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    return `${yyyy}-${mm}-${dd}`;
+}

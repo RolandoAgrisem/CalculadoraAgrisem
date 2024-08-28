@@ -6,6 +6,11 @@ $(document).ready(function(){
         $("#TabFooter").hide();
     }
     CambiarNombreTitulo('Maíz Blanco');
+    setTimeout(() => {
+        $('[data-toggle="tooltip"]').tooltip().click(function (e) {
+            $(this).blur();
+        });
+    }, 300);
 });
 
 async function CambiarNombreTitulo (nombre){
