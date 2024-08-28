@@ -401,7 +401,8 @@ const appMaiz = new Vue({
                 const response = await fetch(urlAPIBanxico);
                 if (response.ok){
                     const data = await response.json();
-                    if(data){
+                    if(data)
+                    {
                         const oTipoCambio = data.bmx.series[0].datos[0];
                         if(oTipoCambio){
                             return oTipoCambio
@@ -440,6 +441,7 @@ const appMaiz = new Vue({
                     {
                         if(!IsNullOrEmpty(x.oValor.UrlPriceFuture) && !IsNullOrEmpty(x.oValor.BaseDolares) && !isNaN(x.oValor.BaseDolares))
                         {
+                            MostrarBLoqueo('Un momento...', 'Obteniendo precio futuro y tipo de cambio.');
                             const response = await fetch(x.oValor.UrlPriceFuture);
                             if (response.ok)
                             {
@@ -491,6 +493,8 @@ const appMaiz = new Vue({
                 } catch (error) {
                     console.error(error)
                 }
+
+                CerrarBloqueo();
 
                 let inputValue = "",
                     titulo = "PRECIO TONELADA",
