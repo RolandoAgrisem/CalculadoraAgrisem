@@ -307,7 +307,7 @@ const appMaiz = new Vue({
                     showCancelButton: true,
                     cancelButtonText: 'Cancelar',
                     confirmButtonText: 'Aceptar',
-                    confirmButtonColor: '#4088a6',
+                    confirmButtonColor: '#144D2A',
                     cancelButtonColor: '#b0b6bb',
                     reverseButtons: true,
                     focusConfirm: false,
@@ -418,7 +418,6 @@ const appMaiz = new Vue({
         editarPrecioTonelada: async function(nomPropiedadPadre){
             const x = this;
             try {
-                debugger;
                 let oDataLocalStorage;
                 const valorActual = esNumeroMayorQueCero(x.oValor.PrecioTonelada)
                                     ? Number(x.oValor.PrecioTonelada)
@@ -427,19 +426,21 @@ const appMaiz = new Vue({
                 const FECHA_ACTUAL = fechaActual_yyyy_mm_dd();
                 try {
 
-                    localStorage.removeItem("priceFutureCorn");
+                    //localStorage.removeItem("priceFutureCorn");
 
-                    const priceFutureLocal = localStorage.getItem("priceFutureCorn");
+                    const oPriceFutureLocal = localStorage.getItem("priceFutureCorn");
 
-                    if(priceFutureLocal)
+                    if(oPriceFutureLocal)
                     {
-                        oDataLocalStorage = JSON.parse(localStorage.getItem("priceFutureCorn"));
-                        //VALIDAR EL FechaRegistro SI ES IGUAL ALA ACTUAL O YA CAMBIO DE DIA
-                        //SI YA CAMBIO DE DIA TENGO QIUR OBTENER LOS VALORES DESDE LA API NUEVAMENTE
-                    } else {
-                        if(!IsNullOrEmpty(x.oValor.UrlPriceFututeeeeeeeeeeeeeee) && !IsNullOrEmpty(x.oValor.BaseDolares) && !isNaN(x.oValor.BaseDolares))
+                        oDataLocalStorage = JSON.parse(oPriceFutureLocal);
+                    } 
+                    
+                    //Validamos que la fecha del registro sea diferente a la actual para obtener de nuevo los datos desde la API.
+                    if(!oDataLocalStorage || oDataLocalStorage?.FechaRegistro !== FECHA_ACTUAL)
+                    {
+                        if(!IsNullOrEmpty(x.oValor.UrlPriceFuture) && !IsNullOrEmpty(x.oValor.BaseDolares) && !isNaN(x.oValor.BaseDolares))
                         {
-                            const response = await fetch(x.oValor.UrlPriceFutute);
+                            const response = await fetch(x.oValor.UrlPriceFuture);
                             if (response.ok)
                             {
                                 const data = await response.json();
@@ -452,7 +453,8 @@ const appMaiz = new Vue({
                                 const quotes = data.quotes.find(l => l.expirationDate == julAnioFuture);
                                 if(quotes){
                                     const bushelCornFutures = quotes.last.includes("'") ? Number(quotes.last.replace("'", ".")) : Number(quotes.last);
-                                    if(!isNaN(bushelCornFutures)){
+                                    if(!isNaN(bushelCornFutures))
+                                    {
                                         const formula = bushelCornFutures * 0.3936825;
                                         const Base = Number(x.oValor.BaseDolares);
                                         const precioEnDolares = formula + Base;
@@ -492,7 +494,13 @@ const appMaiz = new Vue({
 
                 let inputValue = "",
                     titulo = "PRECIO TONELADA",
-                    shtml = `<span class="text-muted">El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}</span>`;
+                    shtml = 
+                        `<p class="text-muted">
+                            El valor actual es ${x.FormatoNumero(valorActual.toFixed(x.decimales))}
+                        </p>
+                        <span class="text-orange text-sm">
+                            <i class="fas fa-exclamation-triangle mr-1"></i>No fue posible obtener el precio futuro.
+                        </span>`;
                 if(oDataLocalStorage){
                     //existe bushel
                     inputValue = oDataLocalStorage.PrecioToneladaMXP;
@@ -526,13 +534,13 @@ const appMaiz = new Vue({
                     inputValue,
                     position: x.isMobil ? 'top' : 'center',
                     html: shtml,
-                    inputPlaceholder: 'Ingresa el nuevo valor',
+                    inputPlaceholder: 'Ingresa el precio por tonelada',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                     showCancelButton: true,
                     cancelButtonText: 'Cancelar',
                     confirmButtonText: 'Aceptar',
-                    confirmButtonColor: '#4088a6',
+                    confirmButtonColor: '#144D2A',
                     cancelButtonColor: '#b0b6bb',
                     reverseButtons: true,
                     focusConfirm: false,
