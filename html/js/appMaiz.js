@@ -244,7 +244,6 @@ const appMaiz = new Vue({
                         console.warn(`El input con id (${item.Id}) no existe.`);
                         continue;
                     }
-                    //debugger;
                     const valorTxtCosto = input.val();
                     const valorLimpio = valorTxtCosto.replace(/[^\d.-]/g, "");//sin comas | 1,343.34 -> 1343.34
                     const totalCosto = parseFloat(valorLimpio);
@@ -252,16 +251,6 @@ const appMaiz = new Vue({
                         x.oCultivo.CostoProduccion += totalCosto;
                     }                    
                 }
-
-                /*$('.costoMaiz').each(function() {
-                    // Obtener el valor del input y convertirlo a número
-                    const valor = parseFloat($(this).val());
-          
-                    // Sumar el valor si es un número válido
-                    if (!isNaN(valor)) {
-                        x.oCultivo.CostoProduccion += valor;
-                    }
-                });*/
 
                 if(x.oCultivo.CostoProduccion > 0){
                     const calculo = (x.TasaInteresAnual / 365) * Number(x.oValor.DiasDeRiesgo);
@@ -434,7 +423,7 @@ const appMaiz = new Vue({
                     if(oPriceFutureLocal)
                     {
                         oDataLocalStorage = JSON.parse(oPriceFutureLocal);
-                    } 
+                    }
                     
                     //Validamos que la fecha del registro sea diferente a la actual para obtener de nuevo los datos desde la API.
                     if(!oDataLocalStorage || oDataLocalStorage?.FechaRegistro !== FECHA_ACTUAL)
@@ -454,8 +443,12 @@ const appMaiz = new Vue({
                                 const julAnioFuture = `${anioFuture}0701`
                                 const quotes = data.quotes.find(l => l.expirationDate == julAnioFuture);
                                 if(quotes){
-                                    const bushelCornFutures = quotes.last.includes("'") ? Number(quotes.last.replace("'", ".")) : Number(quotes.last);
-                                    if(!isNaN(bushelCornFutures))
+                                    //const bushelCornFutures = quotes.last.includes("'") ? Number(quotes.last.replace("'", ".")) : Number(quotes.last);
+                                    const PRICE_LAST = quotes.last.includes("'") ? Number(quotes.last.replace("'", ".")) : Number(quotes.last);
+                                    const PRICE_PRIOR_SETTLE = quotes.priorSettle.includes("'") ? Number(quotes.priorSettle.replace("'", ".")) : Number(quotes.priorSettle);
+                                    const bushelCornFutures = !isNaN(PRICE_LAST) ? PRICE_LAST : !isNaN(PRICE_PRIOR_SETTLE) ? PRICE_PRIOR_SETTLE : null;
+
+                                    if(bushelCornFutures)
                                     {
                                         const formula = bushelCornFutures * 0.3936825;
                                         const Base = Number(x.oValor.BaseDolares);
@@ -471,9 +464,9 @@ const appMaiz = new Vue({
                                         const PrecioEnPesosFix = !isNaN(PrecioEnPesos) ? Number(PrecioEnPesos.toFixed(2)) : 0;
 
                                         oDataLocalStorage = {
-                                            "Bushel" : bushelCornFutures,
-                                            "DateBushel" : julAnioFutureMonth,
-                                            "Base" : x.oValor.BaseDolares,
+                                            "Bushel"           : bushelCornFutures,
+                                            "DateBushel"       : julAnioFutureMonth,
+                                            "Base"             : x.oValor.BaseDolares,
                                             "PrecioToneladaMXP": PrecioEnPesosFix,
                                             "TipoCambio": {
                                                 "dato": oTipoCambio.dato,
