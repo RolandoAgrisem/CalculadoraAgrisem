@@ -109,6 +109,33 @@
             {"Actividad": "Costo de administración", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""}
         ]
     },
+     "Trigo" : {
+    "PrecioSacoSemilla": "2400",
+    "PrecioTonelada": "5000",
+    "CostoTrabajos": "900",
+    "AplicacionAvion": "500",
+    "RendimientoHectarea": "6.5",
+    "DiasDeRiesgo": "165",
+    "IngresoPorHectarea": "0",
+        "Lista": [
+            {"Actividad": "Semilla", "unidad": "0.8", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|PrecioSacoSemilla"},
+            {"Actividad": "Fertilizante", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Seguro agricola", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Pago de agua", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Permiso de siembra", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Agroquimico gusano cogollero", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Agroquimico en elote", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Aplicación de avión", "unidad": "1", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Renta", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Riegos", "unidad": "3", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|300"},
+            {"Actividad": "Trabajos", "unidad": "10", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Trilla", "unidad": "1", "costo": "", "readOnly": "false", "calcularCon": ""},
+            {"Actividad": "Flete", "unidad": "150", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|RendimientoHectarea"},
+            {"Actividad": "Predial", "unidad": "1.6", "costo": "", "readOnly": "true", "calcularCon": "Unidad|%|*|IngresoPorHectarea"},
+            {"Actividad": "Secado", "unidad": "50", "costo": "", "readOnly": "true", "calcularCon": "Unidad|*|RendimientoHectarea"},
+            {"Actividad": "Costo de administración", "unidad": "", "costo": "", "readOnly": "false", "calcularCon": ""}
+        ]
+    },
     "DecimalesAdmitidos" : "2",
     "IVA" : "0.16",
     "TasaInteresAnual" : "21"

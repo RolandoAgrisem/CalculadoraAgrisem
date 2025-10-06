@@ -1,8 +1,8 @@
-const appGarbanzo = new Vue({
-    el: '#custom-tabs-garbanzo',
+const appTrigo = new Vue({
+    el: '#custom-tabs-Trigo',
     data: {
-        txtUnidad: 'txt_Unidad_Garbanzo_',
-        txtCosto: 'txtCosto_Garbanzo_',
+        txtUnidad: 'txt_Unidad_Trigo_',
+        txtCosto: 'txtCosto_Trigo_',
         decimales: 0,
         TasaInteresAnual: 0,
         isMobil: IS_MOBILE(),
@@ -70,7 +70,7 @@ const appGarbanzo = new Vue({
                 .then(async data => {
                     const oValoresFromFileJson = data;
                     if(!oValoresFromFileJson || typeof(oValoresFromFileJson) !== 'object'){throw 'Los valores son incorrectos.'}
-                    x.oValor = $.extend(true, {}, oValoresFromFileJson.Garbanzo);
+                    x.oValor = $.extend(true, {}, oValoresFromFileJson.Trigo);
 
                     if(esNumeroMayorQueCero(oValoresFromFileJson.TasaInteresAnual)){
                         const tasaInteresAnualPorcentaje = Number(oValoresFromFileJson.TasaInteresAnual) / 100;
@@ -128,14 +128,14 @@ const appGarbanzo = new Vue({
         ValidarTxtUnidad: async function(idItem){
             const x = this;
             try {
-                if(!idItem){throw 'El Id del Item Sorgo no exite.'}
+                if(!idItem){throw 'El Id del Item Trigo no exite.'}
                 const oData = x.listaDetalles.find(l => l.Id === idItem);
                 if(!oData){throw 'No se pudo encontrar el item por el id.'}
                 let costoCalculado = 0;
                 const txtUnidad = $(`#${x.txtUnidad}${idItem}`);
-                if(txtUnidad.length !== 1){throw 'No hay ningun elemento unidad Sorgo con el id:' + idItem}
+                if(txtUnidad.length !== 1){throw 'No hay ningun elemento unidad Trigo con el id:' + idItem}
                 const txtCosto = $(`#${x.txtCosto}${idItem}`);
-                if(txtCosto.length !== 1){throw 'No hay ningun elemento Costo Sorgo con el id:' + idItem}
+                if(txtCosto.length !== 1){throw 'No hay ningun elemento Costo Trigo con el id:' + idItem}
 
                 if(!IsNullOrEmpty(oData.calcularCon)){
                     const Split = oData.calcularCon.split('|');
@@ -232,7 +232,7 @@ const appGarbanzo = new Vue({
                 x.oCultivo.CostoProduccion = 0;
                 x.oCultivo.CostoFinanciero = 0;
 
-                $('.costoGarbanzo').each(function() {
+                $('.costoTrigo').each(function() {
                     // Obtener el valor del input y convertirlo a número
                     const valor = parseFloat($(this).val());
           

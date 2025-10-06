@@ -1662,8 +1662,7 @@ pre code {
 }
 
 .table-hover .table-info:hover {
-  background-color: #a
-  e5;
+  background-color: #ae5;
 }
 
 .table-hover .table-info:hover > td,
@@ -18546,6 +18545,10 @@ html.maximized-card {
 
 .callout.callout-success {
   border-left-color: #1e7e34;
+}
+
+.callout.callout-primary {
+  border-left-color: #007bff;
 }
 
 .alert .icon {

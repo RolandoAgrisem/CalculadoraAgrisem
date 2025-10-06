@@ -29,7 +29,7 @@ async function MostrarResumen(){
         const tabResumen = $("#rowTabResumen");
         tabResumen.html("");
 
-        const Cultivos = ['MaizBlanco', 'Sorgo', 'Garbanzo', 'Frijol'];
+        const Cultivos = ['MaizBlanco', 'Sorgo', 'Garbanzo', 'Frijol', 'Trigo'];
 
         let html = "";
         for (let i = 0; i < Cultivos.length; i++) {
@@ -38,10 +38,10 @@ async function MostrarResumen(){
                         : item === 'Sorgo' ? appSorgo
                         : item === 'Garbanzo' ? appGarbanzo
                         : item === 'Frijol' ? appFrijol
+                        : item === 'Trigo' ? appTrigo
                         : null;
 
             if(app){
-
                 let tipColor = "success";
                 switch (item) {
                     case 'MaizBlanco':
@@ -56,6 +56,9 @@ async function MostrarResumen(){
                     case 'Frijol':
                         tipColor = "danger"
                         break;
+                    case 'Trigo':
+                        tipColor = "primary"
+                        break;     
                 }
 
                 const CostoTonelada = esNumero(app.CostoTonelada) 
