@@ -1,6 +1,10 @@
 const appTrigo = new Vue({
     el: '#custom-tabs-Trigo',
     data: {
+        decimales: 2,
+        listaDetalles: [],
+        subtotalSemilla: 0,
+        totalGeneral: 0,
         txtUnidad: 'txt_Unidad_Trigo_',
         txtCosto: 'txtCosto_Trigo_',
         decimales: 0,
@@ -14,9 +18,93 @@ const appTrigo = new Vue({
             CostoPorHa: 0,
             UtilidadPorHa: 0,
             Rentabilidad: 0,
-        }
+        },
+        unidadAlias: {
+            "Semilla de Trigo": "Kgs",
+            "Enrraizador": "Mil",
+            "Yara Mila Star (21-17-03-12)": "Kgs",
+            "Urea (46-00-00)": "Kgs",
+            "Amoniaco": "Kgs",
+            "Potacio KTS (K25%-S17%)": "Garrafa",
+            "Bestargo": "Mls",
+            "Bestagro": "Mls",
+            "Terminal": "Mls",
+            "Bayfolan (N11.4-K6-P8+ Micros)": "Lts",
+            "Citofruit (Bioestimulante)": "Kgs",
+            "Lanate": "Grs",
+            "Potacio Plus": "Lts",
+            "Consist Max": "Mls",
+            "Pagos de Agua": "Ha",
+            "Seguro agricola": "Ha"
+        },
     },
     methods: {
+       FormatoNumero(num) {
+      if (isNaN(num)) return "0.00";
+      return Number(num).toLocaleString("en-US", {
+        minimumFractionDigits: this.decimales,
+        maximumFractionDigits: this.decimales,
+      });
+    },
+
+    // Cargar datos desde el archivo JSON
+    async ObtenerCantidadesFile() {
+      try {
+        const pathFileJson = "./Contenido/valores.json";
+        const response = await fetch(pathFileJson);
+        const data = await response.json();
+        const lista = data.Trigo.Lista;
+
+        this.listaDetalles = lista.map((i, idx) => ({
+          Id: idx + 1,
+          Actividad: i.Actividad,
+          unidad: Number(i.unidad) || 0,
+          costo: Number(i.costo) || 0,
+          readOnly: i.readOnly === "true",
+          calcularCon: i.calcularCon,
+          total: 0,
+        }));
+
+        this.recalcularTotales();
+      } catch (error) {
+        console.error("Error cargando Trigo:", error);
+      }
+    },
+
+    // Calcular el total de cada fila
+    calcularFila(item) {
+      if (item.Actividad !== "Sub Total" && item.Actividad !== "Labores") {
+        item.total = (Number(item.unidad) || 0) * (Number(item.costo) || 0);
+      } else if (item.Actividad === "Labores") {
+        item.total = Number(item.costo) || 0;
+      }
+      this.recalcularTotales();
+    },
+
+    // Recalcular todos los subtotales y el total general
+    recalcularTotales() {
+      let acumulador = 0;
+      let totalGeneral = 0;
+
+      this.listaDetalles.forEach((i) => {
+        if (i.Actividad === "Sub Total") {
+          i.total = acumulador; // subtotal solo del bloque anterior
+          acumulador = 0; // reiniciar acumulador
+        } else if (i.Actividad === "Labores") {
+          // Labores solo tiene costo
+          i.total = Number(i.costo) || 0;
+          acumulador += i.total;
+          totalGeneral += i.total;
+        } else {
+          i.total = (Number(i.unidad) || 0) * (Number(i.costo) || 0);
+          acumulador += i.total;
+          totalGeneral += i.total;
+        }
+      });
+
+      this.totalGeneral = totalGeneral; 
+    },
+    
         focusElement: function(element){
             $(element).focus();
         },
@@ -503,6 +591,7 @@ const appTrigo = new Vue({
     },
     mounted: async function (){
         try{
+            await this.ObtenerCantidadesFile();
             await this.ObtenerCantidadesFile();
         } catch (error) {
             mostrarError('ERROR AL INICIAR', 'No es posible cargar la aplicación, contacte al administrador del sistema.');

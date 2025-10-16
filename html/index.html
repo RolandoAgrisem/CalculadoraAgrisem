@@ -954,63 +954,82 @@
                                 </div>
                                 <!-- #endregion -->
                                 
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <!-- #region TABLA DE CONTENIDO -->
-                                        <div class="table-responsive shadow-sm" 
-                                            :style="isMobil ? 'max-height: 350px; overflow: auto;' : null">
-                                            <table class="table bg-light table-sm">
-                                                <thead>
-                                                <tr>
-                                                    <th class="bg-dark">Actividad</th>
-                                                    <th class="bg-dark">Unidad</th>
-                                                    <th class="bg-dark">Costo</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>                                            
-                                                    <tr v-for="(item, index) in listaDetalles">
-                                                        <td>{{item.Actividad}}</td>
-                                                        <td>
-                                                            <input 
-                                                                :type="isMobil ? 'number' : 'text'" 
-                                                                :id="'txt_Unidad_Trigo_'+ item.Id"
-                                                                class="form-control unidadTrigo"
-                                                                :class="isMobil ? 'form-control-sm' : null"
-                                                                placeholder="Unidad"
-                                                                @keypress="SoloDecimales($event, decimales)"
-                                                                @keyup.enter="setFocusNextElement('unidadTrigo', index)"
-                                                                @blur="ValidarTxtUnidad(item.Id)"
-                                                                autocomplete="off"
-                                                                maxlength="10"
-                                                                :data-index="'unidadTrigo_' + index"
-                                                                :data-id="item.Id"
-                                                                :data-value="item.unidad">
-                                                        </td>
-                                                        <td>
-                                                            <input 
-                                                                :type="isMobil ? 'number' : 'text'" 
-                                                                :id="'txtCosto_Trigo_'+ item.Id"
-                                                                class="form-control costoTrigo"
-                                                                :class="isMobil ? 'form-control-sm' : null"
-                                                                placeholder="Costo"
-                                                                @keypress="SoloDecimales($event, decimales)"
-                                                                @keyup.enter="setFocusNextElement('costoTrigo', index)"
-                                                                @blur="CalculaTotales()"
-                                                                autocomplete="off"
-                                                                maxlength="10"
-                                                                :disabled="item.readOnly === 'true'"
-                                                                :data-index="'costoTrigo_' + index"
-                                                                :data-id="item.Id">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <!-- #endregion -->
+                                <div id="custom-tabs-Trigo" class="tab-pane fade show active" role="tabpanel">
+                                  <div class="table-responsive shadow-sm">
+                                    <table class="table bg-light table-sm table-striped">
+                                      <thead>
+                                        <tr class="bg-dark text-white">
+                                        <th>Actividad</th>
+                                        <th>Unidad</th>
+                                        <th>Costo</th>
+                                        <th>Total</th>
+                                        </tr>
+                                      </thead>
+                                        <tbody>
+                                    <tr
+                                    v-for="(item, index) in listaDetalles"
+                                    :key="item.Id"
+                                    :class="{'table-subtotal font-weight-bold': item.Actividad === 'Sub Total'}"
+                                    >
+                                    <!-- Actividad -->
+                                    <td>{{ item.Actividad }}</td>
 
+                                    <!-- Unidad (oculta si es Sub Total o Labores) -->
+                                    <td v-if="item.Actividad !== 'Sub Total' && item.Actividad !== 'Labores'">
+                                    <div class="input-group input-group-sm">
+                                        <input
+                                        type="number"
+                                        v-model.number="item.unidad"
+                                        class="form-control form-control-sm text-right"
+                                        @input="calcularFila(item)"
+                                        />
+                                        <!-- Icono / alias de unidad -->
+                                        <div class="input-group-append">
+                                        <span class="input-group-text alias-tag">
+                                            {{ unidadAlias[item.Actividad] || '' }}
+                                        </span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <!-- #region TOTALES -->
+                                    </td>
+                                    <td v-else></td>
+
+                                    <!-- Costo con símbolo $ -->
+                                    <td v-if="item.Actividad !== 'Sub Total'">
+                                        <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input
+                                            type="number"
+                                            v-model.number="item.costo"
+                                            class="form-control form-control-sm text-right"
+                                            @input="calcularFila(item)"
+                                        />
+                                        </div>
+                                    </td>
+                                    <td v-else></td>
+
+                                    <!-- Total -->
+                                    <td
+                                        class="text-right font-weight-bold"
+                                        :class="{'text-primary subtotal-number': item.Actividad === 'Sub Total'}"
+                                    >
+                                        ${{ FormatoNumero(item.total?.toFixed(decimales)) }}
+                                    </td>
+                                    </tr>
+
+                                    <!-- TOTAL GENERAL -->
+                                    <tr class="bg-info text-white font-weight-bold">
+                                    <td colspan="3" class="text-right">TOTAL GENERAL</td>
+                                    <td class="text-right">
+                                        ${{ FormatoNumero(totalGeneral.toFixed(decimales)) }}
+                                    </td>
+                                    </tr>
+                                        </tbody>
+                                </table>
+                              </div>
+                             </div>
+                             <!-- <div class="col-md-4">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="info-box mb-3 bg-info">
@@ -1075,10 +1094,7 @@
                                                 </div>
                                             </div>
                                         </div>    
-                                        <!-- #endregion -->
-                                    </div>
-                                </div>
-                                
+                                    </div> -->
                             </div>    
                             <!-- #endregion -->
                             <!-- #region RESUMEN -->
@@ -1088,7 +1104,6 @@
                                 role="tabpanel" 
                                 aria-labelledby="resumen-tab">
                                 <div class="row" id="rowTabResumen" style="max-height: calc(85vh - 100px);overflow: auto;">
-
                                 </div>
                             </div>
                             <!-- #endregion -->
