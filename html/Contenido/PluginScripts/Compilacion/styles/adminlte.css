@@ -30711,3 +30711,184 @@ a.text-muted:hover {
   color: #ffffff;
 }
 /*# sourceMappingURL=adminlte.css.map */
+
+/* ==========================================================
+   🔹 Ajustes personalizados para tablas en móviles (Jalil)
+   ========================================================== */
+@media (max-width: 768px) {
+  /* Filas más cómodas al tacto */
+  .table-sm td, .table-sm th {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  /* Inputs más grandes para escribir fácil con el dedo */
+  .table-sm input.form-control-sm {
+    height: 36px !important;
+    font-size: 1rem !important;
+    padding-right: 8px !important;
+  }
+
+  /* Texto centrado y más legible */
+  .table-sm td {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  /* Placeholder ($, Kgs, etc.) más visible */
+  .table-sm input::placeholder {
+    font-size: 0.9rem;
+    color: #888;
+    opacity: 0.9;
+  }
+}
+
+/* ==========================================================
+   🔹 Evitar que las filas se encojan cuando los totales crecen
+   ========================================================== */
+.table-sm td, .table-sm th {
+  vertical-align: middle !important;
+  height: 36px !important; /* altura mínima uniforme */
+}
+
+/* Inputs siempre mantienen su tamaño */
+.table-sm input.form-control-sm {
+  min-height: 30px !important;
+  line-height: 1.3 !important;
+}
+
+/* Los números grandes no encogen las filas */
+.table-sm td.text-right {
+  white-space: nowrap !important; /* no saltar línea */
+  overflow: hidden;
+  text-overflow: ellipsis; /* si el número es muy largo, se corta con “...” */
+  max-width: 120px; /* evita que la columna se expanda */
+}
+
+/* Opcional: si quieres que el total se vea completo en hover */
+.table-sm td.text-right:hover {
+  overflow: visible;
+  white-space: normal;
+}
+
+/* ==========================================================
+   🔹 Ajuste visual para que la tabla de Trigo se vea igual
+      que las de Sorgo o Granizo (proporciones, altura, total)
+   ========================================================== */
+#custom-tabs-Trigo .table {
+  table-layout: fixed !important;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* --- Asegura altura uniforme y aspecto completo --- */
+#custom-tabs-Trigo .table-sm td,
+#custom-tabs-Trigo .table-sm th {
+  vertical-align: middle !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  height: 38px !important;
+  font-size: 0.9rem !important;
+}
+
+/* --- Inputs cómodos y proporcionados --- */
+#custom-tabs-Trigo .table-sm input.form-control-sm {
+  height: 32px !important;
+  font-size: 0.9rem !important;
+  text-align: right;
+  padding-right: 6px !important;
+}
+
+/* --- Columna TOTAL más a la derecha (alineada con otras tablas) --- */
+#custom-tabs-Trigo td.text-right,
+#custom-tabs-Trigo th.text-right {
+  text-align: right !important;
+  padding-right: 18px !important; /* empuja un poco más hacia la derecha */
+}
+
+/* --- Evita que el total grande deforme las filas --- */
+#custom-tabs-Trigo td.text-right {
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px !important; /* mantiene la celda con buen ancho */
+}
+
+/* --- Responsive especial para pantallas pequeñas --- */
+@media (max-width: 480px) {
+  #custom-tabs-Trigo .table-sm {
+    font-size: 0.85rem !important;
+  }
+
+  #custom-tabs-Trigo .table-sm td,
+  #custom-tabs-Trigo .table-sm th {
+    height: 42px !important;
+    padding: 6px 4px !important;
+  }
+
+  #custom-tabs-Trigo .table-sm input.form-control-sm {
+    height: 34px !important;
+    font-size: 0.95rem !important;
+    padding-right: 4px !important;
+  }
+
+  #custom-tabs-Trigo td.text-right {
+    max-width: 100px !important;
+    padding-right: 16px !important;
+  }
+}
+/* ==========================================================
+   🔹 Hacer que la columna de TOTAL quede más a la derecha
+      y visible solo al deslizar (ideal para móviles)
+   ========================================================== */
+#custom-tabs-Trigo .table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Mantiene ancho fijo de tabla para que el total quede fuera de vista inicial */
+#custom-tabs-Trigo .table {
+  width: 130%; /* <--- esto crea espacio extra a la derecha */
+  min-width: 0px; /* asegura que no se encoja en pantallas anchas */
+  table-layout: fixed;
+}
+
+/* Estilo de scroll suave */
+#custom-tabs-Trigo .table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+#custom-tabs-Trigo .table-responsive::-webkit-scrollbar-thumb {
+  background: #bcbcbc;
+  border-radius: 4px;
+}
+
+/* Columna TOTAL: más separada a la derecha */
+#custom-tabs-Trigo td.text-right,
+#custom-tabs-Trigo th.text-right {
+  padding-right: 0px !important;
+  text-align: right !important;
+}
+
+/* --- Ajuste especial para móvil --- */
+@media (max-width: 480px) {
+  #custom-tabs-Trigo .table {
+    width: 115%; /* más desplazable aún en pantallas pequeñas */
+  }
+
+  #custom-tabs-Trigo .table-sm td,
+  #custom-tabs-Trigo .table-sm th {
+    height: 42px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Que la primera vista muestre Unidad y Costo */
+  #custom-tabs-Trigo .table-responsive {
+    scroll-snap-type: x proximity;
+  }
+
+  #custom-tabs-Trigo .table-sm td.text-right {
+    scroll-snap-align: end;
+  }
+}
+

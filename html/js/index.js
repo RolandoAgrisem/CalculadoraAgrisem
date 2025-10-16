@@ -38,7 +38,7 @@ async function MostrarResumen(){
                         : item === 'Sorgo' ? appSorgo
                         : item === 'Garbanzo' ? appGarbanzo
                         : item === 'Frijol' ? appFrijol
-                        : item === 'Trigo' ? appTrigo
+                        //: item === 'Trigo' ? appTrigo
                         : null;
 
             if(app){
@@ -56,9 +56,9 @@ async function MostrarResumen(){
                     case 'Frijol':
                         tipColor = "danger"
                         break;
-                    case 'Trigo':
-                        tipColor = "primary"
-                        break;     
+                    // case 'Trigo':
+                    //     tipColor = "primary"
+                    //     break;     
                 }
 
                 const CostoTonelada = esNumero(app.CostoTonelada) 

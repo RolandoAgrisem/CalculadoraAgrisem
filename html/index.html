@@ -974,22 +974,15 @@
                                     <!-- Actividad -->
                                     <td>{{ item.Actividad }}</td>
 
-                                    <!-- Unidad (oculta si es Sub Total o Labores) -->
+                                   <!-- Unidad (oculta si es Sub Total o Labores) -->
                                     <td v-if="item.Actividad !== 'Sub Total' && item.Actividad !== 'Labores'">
-                                    <div class="input-group input-group-sm">
-                                        <input
+                                    <input
                                         type="number"
                                         v-model.number="item.unidad"
-                                        class="form-control form-control-sm text-right"
+                                        class="form-control form-control-sm text-left input-unidad"
+                                        :placeholder="unidadAlias[item.Actividad] || ''"
                                         @input="calcularFila(item)"
-                                        />
-                                        <!-- Icono / alias de unidad -->
-                                        <div class="input-group-append">
-                                        <span class="input-group-text alias-tag">
-                                            {{ unidadAlias[item.Actividad] || '' }}
-                                        </span>
-                                        </div>
-                                    </div>
+                                    />
                                     </td>
                                     <td v-else></td>
 
@@ -1002,7 +995,7 @@
                                         <input
                                             type="number"
                                             v-model.number="item.costo"
-                                            class="form-control form-control-sm text-right"
+                                            class="form-control form-control-sm text-right input-costo"
                                             @input="calcularFila(item)"
                                         />
                                         </div>
@@ -1011,7 +1004,7 @@
 
                                     <!-- Total -->
                                     <td
-                                        class="text-right font-weight-bold"
+                                        class="text-left font-weight-bold"
                                         :class="{'text-primary subtotal-number': item.Actividad === 'Sub Total'}"
                                     >
                                         ${{ FormatoNumero(item.total?.toFixed(decimales)) }}
@@ -1020,8 +1013,8 @@
 
                                     <!-- TOTAL GENERAL -->
                                     <tr class="bg-info text-white font-weight-bold">
-                                    <td colspan="3" class="text-right">TOTAL GENERAL</td>
-                                    <td class="text-right">
+                                    <td colspan="3" class="text-left">TOTAL GENERAL</td>
+                                    <td class="text-left">
                                         ${{ FormatoNumero(totalGeneral.toFixed(decimales)) }}
                                     </td>
                                     </tr>
