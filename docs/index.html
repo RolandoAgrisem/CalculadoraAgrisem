@@ -1022,72 +1022,58 @@
                                 </table>
                               </div>
                              </div>
-                             <!-- <div class="col-md-4">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="info-box mb-3 bg-info">
-                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+                             <!-- 📊 Cuadros de resultados -->
+<div class="col-md-4 info-box-wrapper">
+  <div class="info-grid">
+    <div class="info-box mb-3 bg-info">
+      <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Costo de Semilla</span>
+        <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoSemilla.toFixed(decimales))}}</span>
+      </div>
+    </div>
 
-                                                    <div class="info-box-content">
-                                                    <span class="info-box-text">Costo de producci&oacute;n</span>
-                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoProduccion.toFixed(decimales))}}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-box mb-3 bg-indigo">
-                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+    <div class="info-box mb-3 bg-indigo">
+      <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Costo Fertilizante</span>
+        <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoFertilizante.toFixed(decimales))}}</span>
+      </div>
+    </div>
 
-                                                    <div class="info-box-content">
-                                                    <span class="info-box-text">Costo Financiero</span>
-                                                    <span class="info-box-number text-md">
-                                                        {{FormatoNumero(oCultivo.CostoFinanciero.toFixed(decimales))}}
-                                                    </span>
-                                                    </div>                                        
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-box mb-3 bg-info">
-                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+    <div class="info-box mb-3 bg-info">
+      <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">inceticidad, agua, folear (primera aplicacion)</span>
+        <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoIncentidad1.toFixed(decimales))}}</span>
+      </div>
+    </div>
 
-                                                    <div class="info-box-content">
-                                                    <span class="info-box-text">Costo por Hect&aacute;rea</span>
-                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoPorHa.toFixed(decimales))}}</span>
-                                                    </div>                                        
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-box mb-3" :class="oCultivo.UtilidadPorHa < 0 ? 'bg-danger' : 'bg-olive'">
-                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+    <div class="info-box mb-3" :class="oCultivo.UtilidadPorHa < 0 ? 'bg-danger' : 'bg-olive'">
+      <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">inceticidad, agua, folear (segunda aplicacion)</span>
+        <span class="info-box-number text-md">{{FormatoNumero(oCultivo.CostoIncentidad2.toFixed(decimales))}}</span>
+      </div>
+    </div>
 
-                                                    <div class="info-box-content">
-                                                    <span class="info-box-text">Utilidad por Hect&aacute;rea</span>
-                                                    <span class="info-box-number text-md">{{FormatoNumero(oCultivo.UtilidadPorHa.toFixed(decimales))}}</span>
-                                                    </div>                                        
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-box mb-3 bg-blue">
-                                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+    <div class="info-box mb-3 bg-blue">
+      <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Diversos (agua y seguro)</span>
+        <span class="info-box-number text-md">{{FormatoNumero(CostoDiversos.toFixed(decimales))}}</span>
+      </div>
+    </div>
 
-                                                    <div class="info-box-content">
-                                                    <span class="info-box-text">Costo por Tonelada</span>
-                                                    <span class="info-box-number text-md">{{FormatoNumero(CostoTonelada.toFixed(decimales))}}</span>
-                                                    </div>                                        
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="info-box mb-3 bg-warning">
-                                                    <span class="info-box-icon"><i class="fas fa-percentage"></i></span>
-
-                                                    <div class="info-box-content">
-                                                    <span class="info-box-text">Rentabilidad</span>
-                                                    <span class="info-box-number text-md">{{Rentabilidad.toFixed(0)}}</span>
-                                                    </div>                                        
-                                                </div>
-                                            </div>
-                                        </div>    
-                                    </div> -->
+    <div class="info-box mb-3 bg-warning">
+      <span class="info-box-icon"><i class="fas fa-percentage"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Rentabilidad</span>
+        <span class="info-box-number text-md">{{Rentabilidad.toFixed(0)}}%</span>
+      </div>
+    </div>
+  </div>
+</div>
                             </div>    
                             <!-- #endregion -->
                             <!-- #region RESUMEN -->
