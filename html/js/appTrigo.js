@@ -13,10 +13,11 @@ const appTrigo = new Vue({
         oValor: null,
         listaDetalles: [],
         oCultivo:{
-            CostoProduccion : 0,
-            CostoFinanciero: 0,
-            CostoPorHa: 0,
-            UtilidadPorHa: 0,
+            CostoSemilla : 0,
+            CostoFertilizante: 0,
+            CostoIncentidad1: 0,
+            CostoIncentidad2: 0,
+            CostoDiversos: 0,
             Rentabilidad: 0,
         },
         unidadAlias: {
@@ -78,7 +79,7 @@ const appTrigo = new Vue({
       } else if (item.Actividad === "Labores") {
         item.total = Number(item.costo) || 0;
       }
-      this.recalcularTotales();
+      this.CalculaTotales();
     },
 
     // Recalcular todos los subtotales y el total general
@@ -314,34 +315,47 @@ const appTrigo = new Vue({
                 console.error(`CalcularCostoPorRegistro => ${error}`)
             }
         },
-        CalculaTotales: async function(){
-            const x = this;
-            try {
-                x.oCultivo.CostoProduccion = 0;
-                x.oCultivo.CostoFinanciero = 0;
+                    CalculaTotales: async function() {
+                const x = this;
+                try {
+                    let acumulador = 0;
+                    let totalGeneral = 0;
+                    let subtotales = [];
 
-                $('.costoTrigo').each(function() {
-                    // Obtener el valor del input y convertirlo a número
-                    const valor = parseFloat($(this).val());
-          
-                    // Sumar el valor si es un número válido
-                    if (!isNaN(valor)) {
-                        x.oCultivo.CostoProduccion += valor;
+                    x.listaDetalles.forEach((item) => {
+                    if (item.Actividad === "Sub Total") {
+                        item.total = acumulador;
+                        subtotales.push(acumulador);
+                        acumulador = 0;
+                    } else if (item.Actividad === "Labores") {
+                        item.total = Number(item.costo) || 0;
+                        acumulador += item.total;
+                        totalGeneral += item.total;
+                    } else {
+                        item.total = (Number(item.unidad) || 0) * (Number(item.costo) || 0);
+                        acumulador += item.total;
+                        totalGeneral += item.total;
                     }
-                });
+                    });
 
-                if(x.oCultivo.CostoProduccion > 0){
-                    const calculo = (x.TasaInteresAnual / 365) * Number(x.oValor.DiasDeRiesgo);
-                    const calculoFixed = truncarADecimalesSinRedondear(calculo);
-                    x.oCultivo.CostoFinanciero = x.oCultivo.CostoProduccion * calculoFixed;
+                    x.totalGeneral = totalGeneral;
+
+                    // 🔹 Asignar subtotales a los nuevos cuadros
+                    x.oCultivo.CostoSemilla       = subtotales[0] || 0;  // 🟦 Costo de Semilla
+                    x.oCultivo.CostoFertilizante  = subtotales[1] || 0;  // 🟪 Fertilizante
+                    x.oCultivo.CostoIncentidad1   = subtotales[2] || 0;  // 🟦 1ra aplicación
+                    x.oCultivo.CostoIncentidad2   = subtotales[3] || 0;  // 🟩 2da aplicación
+                    x.CostoDiversos               = subtotales[4] || 0;  // 🟦 Diversos (agua, seguro)
+
+                    // Si quieres mantener los cálculos adicionales, déjalos aquí
+                    // pero ya no deben reemplazar tus subtotales:
+                    // await x.RecalcularCostoPorHa();
+                    // x.RecalcularUtilidadPorHa();
+
+                } catch (error) {
+                    console.log(`CalculaTotales => ${error}`);
                 }
-
-                await x.RecalcularCostoPorHa();
-                x.RecalcularUtilidadPorHa();
-            } catch (error) {
-                console.log(`CalculaTotales => ${error}`);
-            }
-        },
+                },
         setFocusNextElement: function(nameElement, index){
             try {
                 //const elemento = $('[data-index="unidad_1"]');
@@ -545,12 +559,12 @@ const appTrigo = new Vue({
         RecalcularUtilidadPorHa: function(){
             try {
                 //IngresoPorHa - CostoPorHa  
-                this.oCultivo.UtilidadPorHa = 0;
+                this.oCultivo.CostoIncentidad2 = 0;
                 const IngresoPorHa = esNumero(this.oValor.IngresoPorHectarea)
                                     ? Number(this.oValor.IngresoPorHectarea)
                                     : 0;
                 if(IngresoPorHa > 0){
-                    this.oCultivo.UtilidadPorHa = IngresoPorHa - this.oCultivo.CostoPorHa;
+                    this.oCultivo.CostoIncentidad2 = IngresoPorHa - this.oCultivo.CostoIncentidad1;
                 }
             } catch (error) {
                 console.error(`RecalcularUtilidadPorHa => ${error}`);
@@ -560,7 +574,7 @@ const appTrigo = new Vue({
         RecalcularCostoPorHa: async function(){
             try {
                 //La suma de CostoProduccion y Costo Financiero
-                this.oCultivo.CostoPorHa = this.oCultivo.CostoProduccion + this.oCultivo.CostoFinanciero
+                this.oCultivo.CostoIncentidad1= this.oCultivo.CostoSemilla + this.oCultivo.CostoFertilizante
             } catch (error) {
                 console.error(`RecalcularCostoPorHa => ${error}`);
                 mostrarError("ALGO SALIO MAL", "Error al recalcular la utilidad por Ha.")
@@ -569,7 +583,7 @@ const appTrigo = new Vue({
     },
     computed: {
         Rentabilidad: function(){
-            const calculo = this.oCultivo.UtilidadPorHa / this.oCultivo.CostoPorHa;
+            const calculo = this.oCultivo.CostoIncentidad2 / this.oCultivo.CostoIncentidad1;
             if(!isNaN(calculo)){
                 // Convierte el calculo a porcentaje
                 const porcentaje = calculo * 100;
@@ -585,7 +599,7 @@ const appTrigo = new Vue({
                 ? convertStringToNumber(this.oValor?.RendimientoHectarea) 
                 : 0;
 
-            const calculo = Number(this.oCultivo.CostoPorHa) / RendimientoPorHa;
+            const calculo = Number(this.oCultivo.CostoIncentidad1) / RendimientoPorHa;
             return !isNaN(calculo) ? calculo : 0
         }
     },

@@ -24,7 +24,7 @@ async function CambiarNombreTitulo (nombre){
 /**
  * Consulta y muestra los datos del resumen de cada cultivo.
  */
-async function MostrarResumen(){
+async function MostrarResumen() {
     try {
         const tabResumen = $("#rowTabResumen");
         tabResumen.html("");
@@ -38,36 +38,36 @@ async function MostrarResumen(){
                         : item === 'Sorgo' ? appSorgo
                         : item === 'Garbanzo' ? appGarbanzo
                         : item === 'Frijol' ? appFrijol
-                        //: item === 'Trigo' ? appTrigo
+                        : item === 'Trigo' ? appTrigo
                         : null;
 
-            if(app){
+            if (app) {
                 let tipColor = "success";
                 switch (item) {
                     case 'MaizBlanco':
-                        tipColor = "success"
+                        tipColor = "success";
                         break;
                     case 'Sorgo':
-                        tipColor = "info"
+                        tipColor = "info";
                         break;
                     case 'Garbanzo':
-                        tipColor = "warning"
+                        tipColor = "warning";
                         break;
                     case 'Frijol':
-                        tipColor = "danger"
+                        tipColor = "danger";
                         break;
-                    // case 'Trigo':
-                    //     tipColor = "primary"
-                    //     break;     
+                    case 'Trigo':
+                        tipColor = "primary";
+                        break;
                 }
 
-                const CostoTonelada = esNumero(app.CostoTonelada) 
-                                    ? app.FormatoNumero(app.CostoTonelada.toFixed(app.decimales))
-                                    : 0;
+                const CostoTonelada = esNumero(app.CostoTonelada)
+                    ? app.FormatoNumero(app.CostoTonelada.toFixed(app.decimales))
+                    : 0;
 
                 html += "<div class='col-12 col-sm-12 col-md-6'>";
-                
-                html += 
+
+                html +=
                     `<div class="card card-outline card-${tipColor}">
                         <div class="card-header py-1 px-2">
                             <h3 class="card-title font-weight-bold text-${tipColor}">${item}</h3>
@@ -112,57 +112,103 @@ async function MostrarResumen(){
                                 </div>
                             </div>
 
-                            <ul class="list-group list-group-unbordered mb-3">
-                                <li class="list-group-item py-2">
-                                    <span class="text-muted">Costo Producci&oacute;n</span> 
-                                    <a class="float-right">
-                                        <b class="text-primary">$ ${app.FormatoNumero(app.oCultivo.CostoProduccion.toFixed(app.decimales))} </b>
-                                    </a>
-                                </li>
-                                <li class="list-group-item py-2">
-                                    <span class="text-muted">Costo Financiero</span> 
-                                    <a class="float-right">
-                                        <b class="text-indigo">$ ${app.FormatoNumero(app.oCultivo.CostoFinanciero.toFixed(app.decimales))} </b>
-                                    </a>
-                                </li>
-                                <li class="list-group-item py-2">
-                                    <span class="text-muted">Costo por Ha.</span> 
-                                    <a class="float-right">
-                                        <b class="text-primary">$ ${app.FormatoNumero(app.oCultivo.CostoPorHa.toFixed(app.decimales))} </b>
-                                    </a>
-                                </li>
-                                <li class="list-group-item py-2">
-                                    <span class="text-muted">Utilidad por Ha.</span> 
-                                    <a class="float-right">
-                                        <b class="text-olive">$ ${app.FormatoNumero(app.oCultivo.UtilidadPorHa.toFixed(app.decimales))} </b>
-                                    </a>
-                                </li>
-                                <li class="list-group-item py-2">
-                                    <span class="text-muted">Costo Tonelada</span> 
-                                    <a class="float-right">
-                                        <b class="text-primary">$ ${CostoTonelada} </b>
-                                    </a>
-                                </li>
-                                <li class="list-group-item py-2">
-                                    <span class="text-muted">Rentabilidad</span> 
-                                    <a class="float-right">
-                                        <b class="text-orange">${app.FormatoNumero(app.Rentabilidad.toFixed(0))}%</b>
-                                    </a>
-                                </li>
-                            </ul>
+                            <ul class="list-group list-group-unbordered mb-3">`;
 
+                // 🌾 Solo Trigo usa sus propios subtotales
+                if (item === 'Trigo') {
+                    html += `
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Costo Semilla</span>
+                            <a class="float-right">
+                                <b class="text-primary">$ ${app.FormatoNumero(app.oCultivo.CostoSemilla?.toFixed(app.decimales) || 0)}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Costo Fertilizante</span>
+                            <a class="float-right">
+                                <b class="text-indigo">$ ${app.FormatoNumero(app.oCultivo.CostoFertilizante?.toFixed(app.decimales) || 0)}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Insecticida / Agua (1ª Aplicación)</span>
+                            <a class="float-right">
+                                <b class="text-info">$ ${app.FormatoNumero(app.oCultivo.CostoIncentidad1?.toFixed(app.decimales) || 0)}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Insecticida / Agua (2ª Aplicación)</span>
+                            <a class="float-right">
+                                <b class="text-olive">$ ${app.FormatoNumero(app.oCultivo.CostoIncentidad2?.toFixed(app.decimales) || 0)}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Diversos (Agua y Seguro)</span>
+                            <a class="float-right">
+                                <b class="text-blue">$ ${app.FormatoNumero(app.CostoDiversos?.toFixed(app.decimales) || 0)}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Rentabilidad</span>
+                            <a class="float-right">
+                                <b class="text-orange">${app.FormatoNumero(app.Rentabilidad.toFixed(0))}%</b>
+                            </a>
+                        </li>`;
+                } else {
+                    // 🌽 Los demás cultivos se quedan igual
+                    html += `
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Costo Producci&oacute;n</span> 
+                            <a class="float-right">
+                                <b class="text-primary">$ ${app.FormatoNumero(app.oCultivo.CostoProduccion.toFixed(app.decimales))}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Costo Financiero</span> 
+                            <a class="float-right">
+                                <b class="text-indigo">$ ${app.FormatoNumero(app.oCultivo.CostoFinanciero.toFixed(app.decimales))}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Costo por Ha.</span> 
+                            <a class="float-right">
+                                <b class="text-primary">$ ${app.FormatoNumero(app.oCultivo.CostoPorHa.toFixed(app.decimales))}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Utilidad por Ha.</span> 
+                            <a class="float-right">
+                                <b class="text-olive">$ ${app.FormatoNumero(app.oCultivo.UtilidadPorHa.toFixed(app.decimales))}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Costo Tonelada</span> 
+                            <a class="float-right">
+                                <b class="text-primary">$ ${CostoTonelada}</b>
+                            </a>
+                        </li>
+                        <li class="list-group-item py-2">
+                            <span class="text-muted">Rentabilidad</span> 
+                            <a class="float-right">
+                                <b class="text-orange">${app.FormatoNumero(app.Rentabilidad.toFixed(0))}%</b>
+                            </a>
+                        </li>`;
+                }
+
+                html += `
+                            </ul>
                         </div>
                     </div>`;
-                
+
                 html += "</div>";
             }
         }
 
         tabResumen.html(html);
     } catch (error) {
-        console.error(`error => ${error}`)
+        console.error(`error => ${error}`);
     }
 }
+
 
 /*
 
