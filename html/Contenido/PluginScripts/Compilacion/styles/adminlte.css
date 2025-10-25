@@ -30896,18 +30896,17 @@ a.text-muted:hover {
    🔹 Configuración exclusiva para TABLET (481px – 991px)
    ========================================================== */
 @media (min-width: 481px) and (max-width: 991px) {
-
   /* Inputs de Unidad y Costo un poco más angostos */
   #custom-tabs-Trigo .table-sm td:nth-child(2) > input.form-control-sm,
   #custom-tabs-Trigo .table-sm td:nth-child(3) > input.form-control-sm {
-    width: 85% !important;        /* ligeramente más angostos */
+    width: 80% !important;        /* ligeramente más angostos */
     margin: 0 auto !important;    /* centrados visualmente */
     display: block !important;    /* asegura el ancho */
   }
 
   /* Tabla general más compacta */
   #custom-tabs-Trigo .table {
-    width: 75% !important;        /* tabla más angosta */
+    width: 82% !important;        /* tabla más angosta */
     min-width: auto !important;
     table-layout: auto !important;
     margin: 0 auto;               /* centrada */
@@ -30918,14 +30917,14 @@ a.text-muted:hover {
   #custom-tabs-Trigo .table-sm th {
     height: 38px !important;
     font-size: 1rem !important;
-    padding: 6px 8px !important;
+    padding: 6px 6px !important;
   }
 
   /* Inputs (altura y espaciado) */
   #custom-tabs-Trigo .table-sm input.form-control-sm {
-    height: 32px !important;
+    height: 0px !important;
     font-size: 0.9rem !important;
-    padding-right: 6px !important;
+    padding-right: 0px !important;
   }
 
   /* Alineación de Totales */

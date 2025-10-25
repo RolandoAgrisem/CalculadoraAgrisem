@@ -1069,3 +1069,258 @@ ate {
   font-size: 0.89em; }
 
 /*# sourceMappingURL=personalizados.css.map */
+
+/* ==========================================================
+   💻📱 Ajuste para TRIGO — Tablet (vista vertical ordenada)
+   Los cuadros aparecen centrados y uno debajo del otro.
+   ========================================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+  #custom-tabs-Trigo .info-box-wrapper {
+    display: flex !important;
+    flex-direction: column !important; /* los alinea en columna */
+    align-items: center !important; /* centrados */
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 20px auto !important;
+    gap: 12px !important;
+  }
+
+  #custom-tabs-Trigo .info-box {
+    width: 80% !important; /* ancho centrado y equilibrado */
+    max-width: 600px !important; /* evita que crezca demasiado */
+    min-height: 90px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 8px 12px !important;
+  }
+
+  #custom-tabs-Trigo .info-box-icon {
+    width: 50px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 0px !important;
+    font-size: 1.3rem !important;
+  }
+
+  #custom-tabs-Trigo .info-box-content {
+    flex: 1;
+    padding-left: 8px !important;
+  }
+
+  #custom-tabs-Trigo .info-box-text {
+    font-size: 0.95rem !important;
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+    color: #fff !important;
+    white-space: normal !important;
+  }
+
+  #custom-tabs-Trigo .info-box-number {
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+  }
+}
+
+/* ==========================================================
+   💻 TRIGO — Tablet VERTICAL
+   Cuadros 3x2 centrados debajo de la tabla
+   ========================================================== */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  #custom-tabs-Trigo .info-grid,
+  #custom-tabs-Trigo .info-box-wrapper {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-auto-rows: minmax(110px, auto) !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    width: 80% !important;
+    margin: 10px auto !important;
+    max-width: 1000px !important;
+    position: relative !important;
+    transform: translateX(3%) !important;
+  }
+
+  #custom-tabs-Trigo .info-box-wrapper .info-box {
+    min-height: 115px !important;
+    border-radius: 10px !important;
+    padding: 15px 50px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  #custom-tabs-Trigo .info-box-icon {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 2.5rem !important;
+    margin-bottom: 6px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  #custom-tabs-Trigo .info-box-text {
+    font-size: 1.2rem !important;
+    line-height: 1.5 !important;
+    color: #fff !important;
+    margin-bottom: 4px !important;
+    white-space: normal !important;
+  }
+
+  #custom-tabs-Trigo .info-box-number {
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+  }
+
+  /* Orden de los cuadros */
+  #custom-tabs-Trigo .info-box-wrapper .info-box:nth-child(4) { grid-column: 1; grid-row: 1; }
+  #custom-tabs-Trigo .info-box-wrapper .info-box:nth-child(5) { grid-column: 2; grid-row: 1; }
+  #custom-tabs-Trigo .info-box-wrapper .info-box:nth-child(6) { grid-column: 3; grid-row: 1; }
+  #custom-tabs-Trigo .info-box-wrapper .info-box:nth-child(1) { grid-column: 1; grid-row: 2; }
+  #custom-tabs-Trigo .info-box-wrapper .info-box:nth-child(2) { grid-column: 2; grid-row: 2; }
+  #custom-tabs-Trigo .info-box-wrapper .info-box:nth-child(3) { grid-column: 3; grid-row: 2; }
+}
+
+/* ==========================================================
+   💻 TRIGO — Tablet HORIZONTAL (forzado a ganar prioridad)
+   ========================================================== */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  #custom-tabs-Trigo .table {
+    width: 65% !important;
+    margin: 1 auto !important;
+  }
+
+  #custom-tabs-Trigo .col-md-4.info-box-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    top: -1112px !important;
+    left: 20% !important;
+    transform: translateX(40%) !important;
+    width: 32% !important;
+    max-width: 380px !important;
+    gap: 10px !important;
+    z-index: 5 !important; /* 🔹 asegura que quede sobre el espacio en blanco */
+  }
+
+  #custom-tabs-Trigo #TabFooter {
+    position: relative !important;
+    top: -100px !important; /* 🔹 elimina el espacio inferior */
+    margin-bottom: 0 !important;
+  }
+}
+
+/* ==========================================================
+   🖥️ TRIGO — VISTA EN PC (MISMA ESTRUCTURA QUE TABLET HORIZONTAL)
+   ========================================================== */
+@media only screen and (min-width: 1025px) {
+  /* Tabla */
+  #custom-tabs-Trigo .table {
+    width: 65% !important;
+    margin: 1 auto !important;
+  }
+
+  /* Cuadros alineados a la derecha */
+  #custom-tabs-Trigo .col-md-4.info-box-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    top: -1112px !important; /* 🔹 mismo ajuste vertical que en tablet horizontal */
+    left: 20% !important;     /* 🔹 posición horizontal igual */
+    transform: translateX(145%) !important;
+    width: 32% !important;
+    max-width: 380px !important;
+    gap: 18px !important;
+    z-index: 5 !important;
+  }
+
+  /* Cuadros individuales */
+  #custom-tabs-Trigo .col-md-4.info-box-wrapper .info-box {
+    width: 94% !important;
+    min-height: 82px !important;
+    border-radius: 10px !important;
+    padding: 10px 18px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+
+  /* Ícono */
+  #custom-tabs-Trigo .info-box-icon {
+    margin-right: 1px !important;
+    font-size: 2rem !important;
+  }
+
+  /* Texto */
+  #custom-tabs-Trigo .info-box-text {
+    font-size: 0.8rem !important;
+    color: #fff !important;
+    margin-bottom: 2px !important;
+  }
+
+  /* Números */
+  #custom-tabs-Trigo .info-box-number {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+  }
+
+  /* Footer */
+  #custom-tabs-Trigo #TabFooter {
+    position: relative !important;
+    top: -100px !important;
+    margin-bottom: 0 !important;
+  }
+}
+/* ==========================================================
+   🔹 TRIGO — Ajuste solo para pantallas horizontales (tablet o móvil)
+   ========================================================== */
+@media only screen and (max-width: 1024px) and (orientation: landscape) {
+  #custom-tabs-Trigo .table {
+    width: 68% !important;   /* ancho igual que en horizontal de tablet */
+    margin: 0 !important;
+  }
+  /* Cuadros alineados a la derecha */
+  #custom-tabs-Trigo .col-md-4.info-box-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    top: -1112px !important; /* 🔹 mismo ajuste vertical que en tablet horizontal */
+    left: 20% !important;     /* 🔹 posición horizontal igual */
+    transform: translateX(48%) !important;
+    width: 33% !important;
+    max-width: 380px !important;
+    gap: 10px !important;
+    z-index: 5 !important;
+  }
+
+  /* Cuadros individuales */
+  #custom-tabs-Trigo .col-md-4.info-box-wrapper .info-box {
+    width: 092% !important;
+    min-height: 85px !important;
+    border-radius: 10px !important;
+    padding: 18px 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+
+}
